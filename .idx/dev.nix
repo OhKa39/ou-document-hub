@@ -9,6 +9,7 @@
     pkgs.maven
     pkgs.awscli2
     pkgs.fira-code-symbols
+    pkgs.gitlab-runner
   ];
   env = {};
   services.docker.enable = true;
@@ -34,5 +35,8 @@
       "vscjava.vscode-spring-boot-dashboard"
       "vscjava.vscode-spring-initializr"
     ];
+  };
+  idx.workspace.onStart = {
+    gitlab-runner = "gitlab-runner run";
   };
 }

@@ -1,16 +1,13 @@
 stages:
   - build
   - test
-  - deploy
 
 include:
-  - base-line.yml
+  - gitlab-templates/base-line.yml
 
 .backend:
   extends: 
     - .base-line
-  variables:
-    RULES_CHANGES_PATH: /../backend/**/*
 
 build-job:
   stage: build
@@ -20,7 +17,7 @@ build-job:
     - echo "build phase"
 
 test-job:
-  stage: build
+  stage: test
   extends: 
     - .backend
   script:
