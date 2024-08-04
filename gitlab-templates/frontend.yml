@@ -3,16 +3,19 @@ stages:
   - test
   - deploy
 
-.backend:
+include:
+  - base-line.yml
+
+.frontend:
   extends: 
-    - base-line.yml
+    - .base-line
   variables:
     RULES_CHANGES_PATH: /../frontend/**/*
 
 build-job:
   stage: build
   extends: 
-    - base-line.yml
+    - .frontend
   script:
     - echo "build phase"
 

@@ -3,22 +3,25 @@ stages:
   - test
   - deploy
 
+include:
+  - base-line.yml
+
 .backend:
   extends: 
-    - base-line.yml
+    - .base-line
   variables:
     RULES_CHANGES_PATH: /../backend/**/*
 
 build-job:
   stage: build
   extends: 
-    - base-line.yml
+    - .backend
   script:
     - echo "build phase"
 
 test-job:
   stage: build
   extends: 
-    - base-line.yml
+    - .backend
   script:
     - echo "test phase"
