@@ -1,29 +1,38 @@
-stages:          # List of stages for jobs, and their order of execution
-  - trigger
+stages:          
+  - triggers
 
 backend-trigger:
-  stage: trigger
+  stage: triggers
   trigger:
     include:
       - gitlab-templates/backend.yml
+    strategy: depend
   rules:
     - changes:
       - "backend/**/*"
+    - if: "$CI_COMMIT_REF_NAME == 'dev'"  
+    - if: "$CI_COMMIT_REF_NAME == 'main'"
 
 frontend-trigger:
-  stage : trigger
+  stage : triggers
   trigger:
     include:
       - gitlab-templates/frontend.yml
+    strategy: depend
   rules:
     - changes:
       - "frontend/**/*"
+    - if: "$CI_COMMIT_REF_NAME == 'dev'"  
+    - if: "$CI_COMMIT_REF_NAME == 'main'"
 
 dev-trigger:
-  stage : trigger
+  stage : triggers
   trigger:
     include:
       - gitlab-templates/dev.yml
+    strategy: depend
+  needs: [backend-trigger, frontend-trigger]
   rules:
-    - changes:
-      - "/**/*"
+    - if: "$CI_COMMIT_REF_NAME == 'dev'" 
+      changes:
+        - "/**/*"
