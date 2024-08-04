@@ -7,7 +7,7 @@ stages:
   extends: 
     - base-line.yml
   variables:
-    RULES_CHANGES_PATH: /../backend/**/*
+    RULES_CHANGES_PATH: /../frontend/**/*
 
 build-job:
   stage: build
