@@ -18,3 +18,12 @@ frontend-trigger:
   rules:
     - changes:
       - "frontend/**/*"
+
+dev-trigger:
+  stage : trigger
+  trigger:
+    include:
+      - gitlab-templates/dev.yml
+  rules:
+    - changes:
+      - "/**/*"
