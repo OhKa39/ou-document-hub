@@ -1,0 +1,6 @@
+version: '2.29.1'
+services:
+  web:
+    build: frontend/
+    ports:
+      - "8000:3000"
