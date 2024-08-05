@@ -1,3 +1,5 @@
 .base-line:
   tags:
   - projectidx
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "parent_pipeline"

@@ -12,6 +12,9 @@ backend-trigger:
       - "backend/**/*"
     - if: "$CI_COMMIT_REF_NAME == 'dev'"  
     - if: "$CI_COMMIT_REF_NAME == 'main'"
+    - if: $CI_COMMIT_BEFORE_SHA == "0000000000000000000000000000000000000000"
+      when: never
+
 
 frontend-trigger:
   stage : triggers
@@ -20,10 +23,13 @@ frontend-trigger:
       - gitlab-templates/frontend.yml
     strategy: depend
   rules:
-    - changes:
+    - changes: 
       - "frontend/**/*"
     - if: "$CI_COMMIT_REF_NAME == 'dev'"  
     - if: "$CI_COMMIT_REF_NAME == 'main'"
+    - if: $CI_COMMIT_BEFORE_SHA == "0000000000000000000000000000000000000000"
+      when: never
+
 
 dev-trigger:
   stage : triggers
@@ -32,7 +38,5 @@ dev-trigger:
       - gitlab-templates/dev.yml
     strategy: depend
   needs: [backend-trigger, frontend-trigger]
-  rules:
-    - if: "$CI_COMMIT_REF_NAME == 'dev'" 
-      changes:
-        - "/**/*"
+  rules: 
+    - if: "$CI_COMMIT_REF_NAME == 'dev'"
