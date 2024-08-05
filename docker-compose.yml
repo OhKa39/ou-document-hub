@@ -1,6 +1,6 @@
 version: '2.29.1'
 services:
   web:
-    build: frontend/
+    image: registry.gitlab.com/ou-kb/oudocumenthub:frontend-latest
     ports:
       - "8000:3000"
