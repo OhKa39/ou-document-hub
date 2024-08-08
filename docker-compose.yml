@@ -2,5 +2,7 @@ version: '2.29.1'
 services:
   web:
     image: registry.gitlab.com/ou-kb/oudocumenthub:frontend-latest
+    #local build
+    # build: /frontend 
     ports:
       - "8000:3000"

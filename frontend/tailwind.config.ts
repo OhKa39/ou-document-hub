@@ -1,3 +1,4 @@
+import { Inter, Poppins, Space_Grotesk } from "next/font/google";
 import type { Config } from "tailwindcss";
 
 const config: Config = {
@@ -8,11 +9,29 @@ const config: Config = {
   ],
   theme: {
     extend: {
-      backgroundImage: {
-        "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
-        "gradient-conic":
-          "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
-      },
+    },
+    fontFamily:{
+      Poppins: ["Poppins", "sans-serif"],
+      Inter: ["Inter", "sans-serif"],
+      Space_Grotesk: ["Space Grotesk", "sans-serif"],
+    },
+    colors:{
+      "primary": "#000000",
+      "secondary-blue": "#377DFF",
+      "secondary-red": "#FF5630",
+      "secondary-green": "#38CB89",
+      "secondary-orange": "#FFAB00",
+      "neutral-01": "#FEFEFE",
+      "neutral-02": "#F3F5F7",
+      "neutral-03": "#E8ECEF",
+      "neutral-04": "#6C7275",
+      "neutral-05": "#343839",
+      "neutral-06": "#232627",
+      "neutral-07": "#141718",
+    },
+    container: {
+      center: true,
+      padding: "2rem",
     },
   },
   plugins: [],
