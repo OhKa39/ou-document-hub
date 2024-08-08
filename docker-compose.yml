@@ -1,8 +1,11 @@
-version: '2.29.1'
 services:
-  web:
-    image: registry.gitlab.com/ou-kb/oudocumenthub:frontend-latest
+  client:
+    # image: registry.gitlab.com/ou-kb/oudocumenthub:frontend-latest
     #local build
-    # build: /frontend 
+    build: frontend/
     ports:
-      - "8000:3000"
+      - "3005:3005"
+    restart: unless-stopped
+    volumes: 
+      - ./coverage:/app/coverage
+      - ./html-report:/app/test-report.html

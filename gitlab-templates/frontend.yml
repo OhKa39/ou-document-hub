@@ -20,7 +20,7 @@ include:
   extends: 
     - .base-line
 
-build-job:
+build:
   stage: build
   extends: 
     - .frontend
@@ -30,9 +30,16 @@ build-job:
     - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
     - docker push $CI_REGISTRY_IMAGE:frontend-latest
 
-test-job:
+unit-test:
   stage: test
   extends: 
     - .frontend
   script:
-    - echo "test phase"
+    - docker compose up -d
+    - sleep 15
+    - docker compose exec -T client npm run test
+  coverage: /All files[^|]*\|[^|]*\s+([\d\.]+)/
+  artifacts: 
+    paths:
+    - coverage/
+    - html-report/
