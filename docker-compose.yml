@@ -8,4 +8,4 @@ services:
     restart: unless-stopped
     volumes: 
       - ./coverage:/app/coverage
-      - ./html-report:/app/test-report.html
+      - ./test-report:/app/test-report
