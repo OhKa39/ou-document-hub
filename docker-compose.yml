@@ -5,7 +5,7 @@ services:
     # build: frontend/
     ports:
       - "3005:3005"
-    restart: unless-stopped
     volumes: 
       - ./coverage:/app/coverage
       - ./test-report:/app/test-report
+    user: 1000:1000

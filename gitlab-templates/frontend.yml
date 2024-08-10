@@ -12,6 +12,7 @@ variables:
 stages:
   - build
   - test
+  - review
 
 include: 
   - gitlab-templates/base-line.yml
@@ -52,3 +53,16 @@ lint-test:
     - docker compose up -d
     - sleep 15
     - docker compose exec -T client npm run lint
+
+quality-review:
+  stage: review
+  extends: 
+    - .frontend
+  image: sonarsource/sonar-scanner-cli
+  cache:
+    key: "${CI_JOB_NAME}"
+    paths:
+      - .sonar/cache
+  script:
+    - docker run --rm -e SONAR_HOST_URL=$SONAR_HOST_URL -e SONAR_TOKEN=$SONAR_LOGIN -it -v ./frontend:/usr/src sonarsource/sonar-scanner-cli
+

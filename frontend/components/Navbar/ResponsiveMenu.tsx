@@ -11,7 +11,7 @@ type menuItemType = {
 };
 
 const ResponsiveMenu = () => {
-  const [isOpen, setOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
   const menuItems = [
     {
@@ -57,7 +57,7 @@ const ResponsiveMenu = () => {
         size="28"
         data-testid="MenuResponsive"
         className="cursor-pointer md:hidden"
-        onClick={() => setOpen(!isOpen)}
+        onClick={() => setIsOpen(!isOpen)}
       />
       <div
         className={`z-[999] ${isOpen ? 'flex' : 'hidden'} bg-neutral-01/50 absolute left-0 top-0 h-screen w-screen flex-col overflow-hidden backdrop-blur-sm md:hidden`}
@@ -66,7 +66,7 @@ const ResponsiveMenu = () => {
           size="28"
           data-testid="MenuClose"
           className="absolute right-4 top-4 cursor-pointer"
-          onClick={() => setOpen(!isOpen)}
+          onClick={() => setIsOpen(!isOpen)}
         />
         <ul className="flex h-full flex-col items-center justify-center gap-4">
           {menuItems.map((item: menuItemType, index: number) => (
