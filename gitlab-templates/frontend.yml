@@ -38,6 +38,7 @@ unit-test:
   script:
     - docker compose up -d
     - sleep 15
+    - chmod 777 coverage && chmod 777 test-report
     - docker compose exec -T client npm run test:coverage
   coverage: /All files[^|]*\|[^|]*\s+([\d\.]+)/
   artifacts: 
@@ -54,7 +55,7 @@ lint-test:
     - sleep 15
     - docker compose exec -T client npm run lint
 
-quality-review:
+code-quality:
   stage: review
   extends: 
     - .frontend
@@ -64,5 +65,5 @@ quality-review:
     paths:
       - .sonar/cache
   script:
-    - docker run --rm -e SONAR_HOST_URL=$SONAR_HOST_URL -e SONAR_TOKEN=$SONAR_LOGIN -it -v ./frontend:/usr/src sonarsource/sonar-scanner-cli
-
+    - cd /frontend
+    - sonar-scanner -Dsonar.login=$SONAR_LOGIN -Dsonar.host.url=https://sonarcloud.io/ -Dsonar.sources=.
