@@ -37,9 +37,18 @@ unit-test:
   script:
     - docker compose up -d
     - sleep 15
-    - docker compose exec -T client npm run test
+    - docker compose exec -T client npm run test:coverage
   coverage: /All files[^|]*\|[^|]*\s+([\d\.]+)/
   artifacts: 
     paths:
     - coverage/
     - test-report/
+
+lint-test:
+  stage: test
+  extends: 
+    - .frontend
+  script:
+    - docker compose up -d
+    - sleep 15
+    - docker compose exec -T client npm run lint

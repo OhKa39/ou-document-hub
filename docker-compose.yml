@@ -1,8 +1,8 @@
 services:
   client:
-    # image: registry.gitlab.com/ou-kb/oudocumenthub:frontend-latest
+    image: registry.gitlab.com/ou-kb/oudocumenthub:frontend-latest
     #local build
-    build: frontend/
+    # build: frontend/
     ports:
       - "3005:3005"
     restart: unless-stopped
