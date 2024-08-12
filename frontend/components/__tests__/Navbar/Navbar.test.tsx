@@ -16,8 +16,8 @@ describe('NavBar component', () => {
     render(<Navbar/>);
  
     const menuItems = screen.getAllByTestId('MenuItemDesktop')
+    const expected = ["Trang Chủ", "Kho Tài Liệu", "Kênh Người Bán"]
 
-    const expected = ["Trang chủ", "Kho Tài liệu", "Kênh người bán"]
     expect(menuItems.map(ele => ele.textContent)).toEqual(expected)
     for(let menuItem of menuItems){
       expect(menuItem).toBeInTheDocument()
@@ -31,7 +31,6 @@ describe('NavBar component', () => {
     const notification = screen.getByTestId('Notification')
     const user = screen.getByTestId('User')
     const cart = screen.getByTestId('Cart')
-
 
     expect(search).toBeInTheDocument()
     expect(notification).toBeInTheDocument()

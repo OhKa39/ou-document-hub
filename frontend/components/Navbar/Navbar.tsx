@@ -14,17 +14,17 @@ type menuElementType = {
 const menuElement: menuElementType[] = [
   {
     id: 1,
-    name: 'Trang chủ',
+    name: 'Trang Chủ',
     link: '/',
   },
   {
     id: 2,
-    name: 'Kho Tài liệu',
+    name: 'Kho Tài Liệu',
     link: '/documents',
   },
   {
     id: 3,
-    name: 'Kênh người bán',
+    name: 'Kênh Người Bán',
     link: '/seller-channel',
   },
 
@@ -48,7 +48,7 @@ const Navbar = () => {
           <li
             key={ele.id}
             data-testid='MenuItemDesktop'
-            className="inline-block cursor-pointer font-Space_Grotesk font-semibold text-neutral-07 transition-colors duration-500 hover:border-b-2 hover:border-[#0c8ca3] hover:text-[#0c8ca3]"
+            className="inline-block cursor-pointer font-Space_Grotesk font-semibold text-neutral-07 transition-colors duration-500 hover:border-b-2 hover:pb-5 hover:border-[#0c8ca3] hover:text-[#0c8ca3]"
           >
             <Link href={`${ele.link}`}>{ele.name}</Link>
           </li>

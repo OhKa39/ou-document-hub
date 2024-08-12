@@ -14,37 +14,37 @@ const menuItems = [
   {
     id: 1,
     link: '#',
-    name: 'Kho tài liệu',
+    name: 'Kho Tài Liệu',
   },
   {
     id: 2,
     link: '#',
-    name: 'Kênh người bán',
+    name: 'Kênh Người Bán',
   },
   {
     id: 3,
     link: '#',
-    name: 'Tìm kiếm',
+    name: 'Tìm Kiếm',
   },
   {
     id: 4,
     link: '#',
-    name: 'Thông tin cá nhân',
+    name: 'Thông Tin Cá Nhân',
   },
   {
     id: 5,
     link: '#',
-    name: 'Tin nhắn',
+    name: 'Tin Nhắn',
   },
   {
     id: 6,
     link: '#',
-    name: 'Hòm thư phản hồi',
+    name: 'Hòm Thư Phản Hồi',
   },
   {
     id: 7,
     link: '#',
-    name: 'Thống kê',
+    name: 'Thống Kê',
   },
 ];
 
@@ -60,7 +60,7 @@ const ResponsiveMenu = () => {
         onClick={() => setIsOpen(!isOpen)}
       />
       <div
-        className={`z-[999] ${isOpen ? 'flex' : 'hidden'} bg-neutral-01/50 left-0 top-0 h-screen w-screen flex-col overflow-hidden fixed backdrop-blur-lg md:hidden`}
+        className={`z-[999] ${isOpen ? 'flex' : 'hidden'} bg-[var(--neutral-01)]/50 left-0 top-0 h-screen w-screen flex-col overflow-hidden fixed backdrop-blur-lg md:hidden`}
       >
         <IoClose
           size="36"

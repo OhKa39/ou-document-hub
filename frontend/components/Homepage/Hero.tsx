@@ -90,14 +90,14 @@ const Hero = () => {
               </div>
             </div>
             {/* Image section */}
-            <div className="relative order-1 flex min-h-[550px] items-center justify-center sm:order-2 sm:min-h-[450px]">
-              <div className="flex h-[350px] items-center justify-center overflow-hidden sm:h-[450px]">
+            <div className="relative order-1 flex min-h-[450px] items-center justify-center sm:order-2 sm:min-h-[450px]">
+              <div className="flex h-[300px] items-center justify-center overflow-hidden sm:h-[450px]">
                 <Image
                   data-aos="zoom-in"
                   data-aos-once="true"
                   src={imageId}
                   alt="biryani img"
-                  className="mx-auto h-[350px] w-[300px] object-contain sm:h-[450px] sm:w-[450px] sm:scale-100"
+                  className="mx-auto h-[300px] w-[300px] object-contain sm:h-[450px] sm:w-[450px] sm:scale-100"
                   data-testid="MainBook"
                 />
               </div>
@@ -115,7 +115,7 @@ const Hero = () => {
                       setBy(item.by)
                     }}
                     alt="biryani img"
-                    className="inline-block h-[100px] max-w-[100px] object-contain duration-200 hover:scale-110"
+                    className="inline-block h-[100px] max-w-[100px] object-contain duration-200 hover:scale-110 cursor-pointer"
                     data-testid="Books"
                   />
                 ))}
