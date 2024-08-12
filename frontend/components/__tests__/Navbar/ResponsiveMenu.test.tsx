@@ -13,8 +13,11 @@ describe('Responsive Menu component', () => {
 
   it('Should render menu item correct', () => {
     render(<Navbar/>)
-    const menu = screen.getAllByTestId('MenuResponsiveItem').map(ele => ele.textContent)
-    const expected = ["Kho tài liệu", "Kênh người bán", "Tìm kiếm", "Thông tin cá nhân", "Tin nhắn", "Hòm thư phản hồi", "Thông kê"]
-    expect(menu).toEqual(expected)
+    const menu = screen.getAllByTestId('MenuResponsiveItem')
+    const expected = ["Kho tài liệu", "Kênh người bán", "Tìm kiếm", "Thông tin cá nhân", "Tin nhắn", "Hòm thư phản hồi", "Thống kê"]
+    expect(menu.map(ele => ele.textContent)).toEqual(expected)
+    for(let item of menu){
+      expect(item).toBeInTheDocument()
+    }
   })
 })

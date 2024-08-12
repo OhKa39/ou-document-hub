@@ -10,46 +10,46 @@ type menuItemType = {
   name: string;
 };
 
+const menuItems = [
+  {
+    id: 1,
+    link: '#',
+    name: 'Kho tài liệu',
+  },
+  {
+    id: 2,
+    link: '#',
+    name: 'Kênh người bán',
+  },
+  {
+    id: 3,
+    link: '#',
+    name: 'Tìm kiếm',
+  },
+  {
+    id: 4,
+    link: '#',
+    name: 'Thông tin cá nhân',
+  },
+  {
+    id: 5,
+    link: '#',
+    name: 'Tin nhắn',
+  },
+  {
+    id: 6,
+    link: '#',
+    name: 'Hòm thư phản hồi',
+  },
+  {
+    id: 7,
+    link: '#',
+    name: 'Thống kê',
+  },
+];
+
 const ResponsiveMenu = () => {
   const [isOpen, setIsOpen] = useState(false);
-
-  const menuItems = [
-    {
-      id: 1,
-      link: '#',
-      name: 'Kho tài liệu',
-    },
-    {
-      id: 2,
-      link: '#',
-      name: 'Kênh người bán',
-    },
-    {
-      id: 3,
-      link: '#',
-      name: 'Tìm kiếm',
-    },
-    {
-      id: 4,
-      link: '#',
-      name: 'Thông tin cá nhân',
-    },
-    {
-      id: 5,
-      link: '#',
-      name: 'Tin nhắn',
-    },
-    {
-      id: 6,
-      link: '#',
-      name: 'Hòm thư phản hồi',
-    },
-    {
-      id: 7,
-      link: '#',
-      name: 'Thông kê',
-    },
-  ];
 
   return (
     <div>
@@ -60,20 +60,20 @@ const ResponsiveMenu = () => {
         onClick={() => setIsOpen(!isOpen)}
       />
       <div
-        className={`z-[999] ${isOpen ? 'flex' : 'hidden'} bg-neutral-01/50 absolute left-0 top-0 h-screen w-screen flex-col overflow-hidden backdrop-blur-sm md:hidden`}
+        className={`z-[999] ${isOpen ? 'flex' : 'hidden'} bg-neutral-01/50 left-0 top-0 h-screen w-screen flex-col overflow-hidden fixed backdrop-blur-lg md:hidden`}
       >
         <IoClose
-          size="28"
+          size="36"
           data-testid="MenuClose"
           className="absolute right-4 top-4 cursor-pointer"
           onClick={() => setIsOpen(!isOpen)}
         />
-        <ul className="flex h-full flex-col items-center justify-center gap-4">
+        <ul className="flex h-full flex-col items-center justify-center gap-8">
           {menuItems.map((item: menuItemType, index: number) => (
             <li
               data-testid="MenuResponsiveItem"
               key={item.id}
-              className="text-primary hover:text-secondary-blue text-2xl transition-colors duration-300 font-semibold"
+              className="text-primary hover:text-secondary-blue text-3xl transition-colors duration-300 font-semibold"
             >
               <Link href={`${item.link}`}>{item.name}</Link>
             </li>
