@@ -15,10 +15,13 @@ describe('NavBar component', () => {
   it('Should render menu items with correct element', () => {
     render(<Navbar/>);
  
-    const menuItems = screen.getAllByTestId('MenuItemDesktop').map(ele => ele.textContent)
+    const menuItems = screen.getAllByTestId('MenuItemDesktop')
 
     const expected = ["Trang chủ", "Kho Tài liệu", "Kênh người bán"]
-    expect(menuItems).toEqual(expected)
+    expect(menuItems.map(ele => ele.textContent)).toEqual(expected)
+    for(let menuItem of menuItems){
+      expect(menuItem).toBeInTheDocument()
+    }
   })
   
   it('Should render button items with correct element', () => {
