@@ -59,7 +59,9 @@ code-quality:
   stage: review
   extends: 
     - .frontend
-  image: sonarsource/sonar-scanner-cli
+  image: 
+    name: sonarsource/sonar-scanner-cli:11.0
+    entrypoint: [""]
   cache:
     key: "${CI_JOB_NAME}"
     paths:

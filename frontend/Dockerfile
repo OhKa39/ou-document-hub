@@ -7,7 +7,7 @@ RUN npm install
 
 COPY . . 
 RUN npm run build
-RUN chmod -R 777 .next
+RUN chmod -R 750 .next
 
 EXPOSE 3005
 CMD ["npm", "start"]
