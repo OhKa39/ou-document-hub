@@ -1,27 +1,56 @@
 import '@testing-library/jest-dom'
-import { render, screen } from '@testing-library/react'
-import Navbar from '@/components/Navbar/Navbar'
+import { fireEvent, render, screen } from '@testing-library/react'
+import ResponsiveMenu from '@/components/Navbar/ResponsiveMenu'
 
 describe('Responsive Menu component', () => {
-  it('Should render menu correct', () => {
-    render(<Navbar/>);
+  beforeEach (()=>{
+    const handleClick = jest.fn()
+    render(<ResponsiveMenu/>)
+    const menu = screen.getByTestId('MenuOpen')
+    menu.onclick = handleClick
+    fireEvent.click(menu)
+  })
 
-    const menu = screen.getByTestId('MenuResponsive')
+  it('Should close menu correctly', () => {
+    // render(<ResponsiveMenu/>);
+    const handleClickClose = jest.fn()
     const menuClose = screen.getByTestId('MenuClose')
+    menuClose.onclick = handleClickClose
+    
+    fireEvent.click(menuClose)
 
-    expect(menu).toBeInTheDocument()
-    expect(menuClose).toBeInTheDocument()
+    expect(handleClickClose).toHaveBeenCalledTimes(1)
   })
 
   it('Should render menu item correct', () => {
-    render(<Navbar/>)
+    // render(<ResponsiveMenu/>)
 
     const menu = screen.getAllByTestId('MenuResponsiveItem')
-    const expected = ["Kho Tài Liệu", "Kênh Người Bán", "Tìm Kiếm", "Thông Tin Cá Nhân", "Tin Nhắn", "Hòm Thư Phản Hồi", "Thống Kê"]
+    const expected = ["Kho Tài Liệu", "Kênh Người Bán", "Tìm Kiếm", "Thông Tin Cá Nhân", "Thống Kê"]
 
     expect(menu.map(ele => ele.textContent)).toEqual(expected)
     for(let item of menu){
       expect(item).toBeInTheDocument()
     }
+  })
+
+  it('Should render submenu item correct', () => {
+    // render(<ResponsiveMenu/>)
+
+    const menu = screen.getAllByTestId('SubmenuItem')
+    const expected = ["Hòm thư phản hồi", "Tin nhắn", "Tài liệu yêu thích"]
+
+    expect(menu.map(ele => ele.textContent)).toEqual(expected)
+    for(let item of menu){
+      expect(item).toBeInTheDocument()
+    }
+  })
+
+  it('Should render login button correct', () => {
+    // render(<ResponsiveMenu/>)
+
+    const loginButton = screen.getByTestId('LoginButton')
+    
+    expect(loginButton).toBeInTheDocument()
   })
 })
