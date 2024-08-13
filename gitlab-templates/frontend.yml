@@ -71,5 +71,5 @@ code-quality:
     paths:
       - .sonar/cache
   script:
-    - cd /frontend
+    - cd frontend/
     - sonar-scanner -Dsonar.login=$SONAR_LOGIN -Dsonar.host.url=https://sonarcloud.io/ -Dsonar.sources=.

@@ -90,7 +90,7 @@ const Hero = () => {
               </div>
             </div>
             {/* Image section */}
-            <div className="relative order-1 flex min-h-[450px] items-center justify-center sm:order-2 sm:min-h-[450px]">
+            <div className="relative order-1 flex min-h-[450px] items-center justify-center sm:order-2 sm:min-h-[450px] md:ml-6 sm:ml-8">
               <div className="flex h-[300px] items-center justify-center overflow-hidden sm:h-[450px]">
                 <Image
                   data-aos="zoom-in"
