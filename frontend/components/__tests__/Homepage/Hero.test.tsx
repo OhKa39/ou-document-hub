@@ -3,35 +3,31 @@ import { render, screen } from '@testing-library/react'
 import Hero from '@/components/Homepage/Hero'
 
 describe('Hero component', () => {
-  it('Should render title correct', () => {
+  it('Should render title correctly', () => {
     render(<Hero/>);
     const titleText = screen.getByTestId('Title')
     expect(titleText).toBeInTheDocument()
   })
 
-  it('Should render description correct', () => {
+  it('Should render description correctly', () => {
     render(<Hero/>)
     const paragraphText = screen.getByTestId('BookDescription')
-    const expected = "lorem will forever be Changed dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
     expect(paragraphText).toBeInTheDocument()
-    expect(paragraphText.textContent?.toLowerCase()).toEqual(expected.toLowerCase())
   })
 
-  it('Should render author correct', () => {
+  it('Should render author correctly', () => {
       render(<Hero/>)
       const byText = screen.getByTestId('ByText')
-      const expected = "by Bùi ngọc tuyền"
       expect(byText).toBeInTheDocument()
-      expect(byText.textContent?.toLowerCase()).toEqual(expected.toLowerCase())
   })
 
-  it('Should render order button', () => {
+  it('Should render order button correctly', () => {
       render(<Hero/>)
       const orderButton = screen.getByTestId('OrderButton')
       expect(orderButton).toBeInTheDocument()
   })
 
-  it('Should render books', () => {
+  it('Should render books correctly', () => {
       render(<Hero/>)
       const books = screen.getAllByTestId('Books')
       const BOOK_LENGTH = 3

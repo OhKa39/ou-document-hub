@@ -22,7 +22,7 @@ describe('Responsive Menu component', () => {
     expect(handleClickClose).toHaveBeenCalledTimes(1)
   })
 
-  it('Should render menu item correct', () => {
+  it('Should render menu item correctly', () => {
     // render(<ResponsiveMenu/>)
 
     const menu = screen.getAllByTestId('MenuResponsiveItem')
@@ -34,7 +34,7 @@ describe('Responsive Menu component', () => {
     }
   })
 
-  it('Should render submenu item correct', () => {
+  it('Should render submenu item correctly', () => {
     // render(<ResponsiveMenu/>)
 
     const menu = screen.getAllByTestId('SubmenuItem')
@@ -46,7 +46,7 @@ describe('Responsive Menu component', () => {
     }
   })
 
-  it('Should render login button correct', () => {
+  it('Should render login button correctly', () => {
     // render(<ResponsiveMenu/>)
 
     const loginButton = screen.getByTestId('LoginButton')

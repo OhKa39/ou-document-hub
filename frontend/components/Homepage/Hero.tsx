@@ -3,14 +3,14 @@ import React from 'react';
 import Image from 'next/image';
 import Vector from '@/public/blue-pattern.png';
 
-import Test1 from '@/public/test1.jpg';
-import Test2 from '@/public/test2.jpg';
-import Test3 from '@/public/test3.jpg';
+import Book1 from '@/public/Book1.jpg';
+import Book2 from '@/public/Book2.jpg';
+import Book3 from '@/public/Book3.jpg';
 
 const ImageList = [
   {
     id: 1,
-    img: Test1,
+    img: Book1,
     title: 'Pháp luật đại cương',
     description:
       'lorem will forever be Changed dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
@@ -18,7 +18,7 @@ const ImageList = [
   },
   {
     id: 2,
-    img: Test2,
+    img: Book2,
     title: "Công nghệ phần mềm",
     description:
       "lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
@@ -26,7 +26,7 @@ const ImageList = [
   },
   {
     id: 3,
-    img: Test3,
+    img: Book3,
     title: 'Quản trị nhân lực',
     description:
       'Lost Boy, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
@@ -109,7 +109,7 @@ const Hero = () => {
                     data-aos-once="true"
                     src={item.img}
                     onClick={() => {
-                      setImageId(item.id === 1 ? Test1 : item.id === 2 ? Test2 : Test3);
+                      setImageId(item.id === 1 ? Book1 : item.id === 2 ? Book2 : Book3);
                       setTitle(item.title);
                       setDescription(item.description);
                       setBy(item.by)
