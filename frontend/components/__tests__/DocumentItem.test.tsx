@@ -1,10 +1,18 @@
 import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
 import DocumentItem from '@/components/DocumentItem'
+import Book1 from "@/public/Book1.jpg"
 
 describe('Document Item component', () => {
   beforeEach(()=>{
-      render(<DocumentItem/>);
+    const mockData = {
+      id: 4,
+      name: 'Giáo trình pháp luật đại cương',
+      price: 299000,
+      image: Book1,
+      tag: 'New'
+    }
+    render(<DocumentItem {...mockData}/>);
   })
 
   it('Should render tag correctly', () => {
@@ -32,8 +40,14 @@ describe('Document Item component', () => {
   it('Should render document name and price correctly', () => {
     const documentName = screen.getByTestId('DocumentName')
     const documentPrice = screen.getByTestId('DocumentPrice')
+    
+    const DOCUMENT_NAME_EXPECT = "giáo trình pháp luật đại cương"
+    const DOCUMENT_PRICE_EXPECT = "299,000đ"
  
     expect(documentName).toBeInTheDocument()
+    expect(documentName.textContent?.toLowerCase()).toEqual(DOCUMENT_NAME_EXPECT)
+    
     expect(documentPrice).toBeInTheDocument()
+    expect(documentPrice.textContent).toEqual(DOCUMENT_PRICE_EXPECT)
   })
 })
