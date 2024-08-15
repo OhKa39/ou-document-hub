@@ -83,13 +83,14 @@ const ResponsiveMenu = () => {
       {isOpen && (
         <div className="fixed -left-2 top-0 z-[998] h-screen w-screen backdrop-blur-md backdrop-brightness-75 backdrop-filter md:hidden">
           <div
-            className={`z-[999] ${isOpen ? 'flex' : 'hidden'} fixed left-0 top-0 h-screen w-[90%] flex-col overflow-hidden bg-[var(--neutral-01)] md:hidden sm:overflow-y-auto`}
+            className={`z-[999] ${isOpen ? 'flex' : 'hidden'} fixed left-0 top-0 h-screen w-[90%] flex-col overflow-hidden bg-[var(--neutral-01)] sm:overflow-y-auto md:hidden`}
           >
             {/* CloseButton */}
             <IoClose
               size="36"
               data-testid="MenuClose"
               className="absolute right-4 top-4 cursor-pointer"
+              aria-label="Close"
               onClick={() => setIsOpen(!isOpen)}
             />
             {/* Main navagition button */}
@@ -112,14 +113,18 @@ const ResponsiveMenu = () => {
               <div className="mt-16 flex flex-col justify-center">
                 {subMenuItems.map((item, index) => (
                   <Link key={index} href={item.link} className="aligh-center py-auto flex h-[40px] justify-between">
-                    <h3 className="text-base" data-testid="SubmenuItem">{item.name}</h3>
+                    <h3 className="text-base" data-testid="SubmenuItem">
+                      {item.name}
+                    </h3>
                     <div className="align-center flex shrink-0 justify-center gap-1">
                       {<item.icon className="h-[24px] w-[24px]" />}
                       <div className="mt-[2px] h-5 w-5 rounded-full bg-black text-center text-sm text-white">2</div>
                     </div>
                   </Link>
                 ))}
-                <Button className="mx-auto h-[52px] w-[295px] bg-black" data-testid="LoginButton">Đăng nhập</Button>
+                <Button className="mx-auto h-[52px] w-[295px] bg-black" data-testid="LoginButton" aria-label="Login">
+                  Đăng nhập
+                </Button>
               </div>
             </div>
           </div>

@@ -3,9 +3,9 @@ import React from 'react';
 import Image from 'next/image';
 import Vector from '@/public/blue-pattern.png';
 
-import Book1 from '@/public/Book1.jpg';
-import Book2 from '@/public/Book2.jpg';
-import Book3 from '@/public/Book3.jpg';
+import Book1 from '@/public/Book1.webp';
+import Book2 from '@/public/Book2.webp';
+import Book3 from '@/public/Book3.webp';
 
 const ImageList = [
   {
@@ -91,6 +91,7 @@ const Hero = () => {
                   // onClick={handleOrderPopup}
                   className="rounded-full bg-gradient-to-r from-[#1182c5] to-[#2aa6df] px-4 py-2 text-white duration-200 hover:scale-105"
                   data-testid="OrderButton"
+                  aria-label="Order"
                 >
                   Đặt hàng
                 </button>
@@ -103,6 +104,7 @@ const Hero = () => {
                   data-aos="zoom-in"
                   data-aos-once="true"
                   src={imageId}
+                  priority
                   alt="biryani img"
                   className="mx-auto h-[300px] w-[300px] object-contain sm:h-[450px] sm:w-[450px] sm:scale-100"
                   data-testid="MainBook"
@@ -114,6 +116,7 @@ const Hero = () => {
                     key={item.id}
                     data-aos="zoom-in"
                     data-aos-once="true"
+                    priority
                     src={item.img}
                     onClick={() => {
                       setImageId(item.id === 1 ? Book1 : item.id === 2 ? Book2 : Book3);

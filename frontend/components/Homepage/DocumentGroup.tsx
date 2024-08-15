@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import React from 'react';
 import Image from 'next/image';
-import IT from '@/public/IT.png';
+import IT from '@/public/IT.webp';
 import Law from '@/public/law.webp';
 import Economy from '@/public/economy.webp';
 
@@ -50,7 +50,7 @@ const DocumentGroup = () => {
           >
             {/* header and link */}
             <div className="mb-[10%] ml-6 gap-2">
-              <h1 className="text-2xl font-bold lg:text-2xl">{documentGroupItems[0].name}</h1>
+              <h1 className="text-2xl font-bold">{documentGroupItems[0].name}</h1>
               <Link href={documentGroupItems[0].name} className="border-b-2 border-black font-semibold lg:text-xl">
                 Bộ Sưu Tập -{'>'}
               </Link>
@@ -69,7 +69,7 @@ const DocumentGroup = () => {
             >
               {/* header and link */}
               <div className="mb-[10%] ml-6 gap-1">
-                <h1 className="text-2xl font-bold lg:text-2xl">{documentGroupItems[1].name}</h1>
+                <h1 className="text-2xl font-bold">{documentGroupItems[1].name}</h1>
                 <Link href={documentGroupItems[1].link} className="border-b-2 border-black font-semibold lg:text-xl">
                   Bộ Sưu Tập -{'>'}
                 </Link>
@@ -86,7 +86,7 @@ const DocumentGroup = () => {
             >
               {/* header and link */}
               <div className="mb-[10%] ml-6 gap-1">
-                <h1 className="text-2xl font-bold lg:text-2xl">{documentGroupItems[2].name}</h1>
+                <h1 className="text-2xl font-bold">{documentGroupItems[2].name}</h1>
                 <Link href={documentGroupItems[2].link} className="border-b-2 border-black font-semibold lg:text-xl">
                   Bộ Sưu Tập -{'>'}
                 </Link>

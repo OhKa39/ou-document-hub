@@ -45,12 +45,12 @@ const Footer = () => {
             >
               OUDocumentHub
             </h1>
-            <h3
+            <h2
               className="inline-block text-base font-semibold text-[var(--neutral-01)] lg:my-auto"
               data-testid="VietnameseTitle"
             >
               Hệ thống quản lý tài liệu OU
-            </h3>
+            </h2>
           </div>
           <ul className="mt-6 flex flex-col gap-6 lg:mt-[52px] lg:flex-row">
             {headerItems.map((item, idx) => (

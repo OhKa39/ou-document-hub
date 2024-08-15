@@ -3,9 +3,9 @@ import React from 'react';
 import DocumentItem from '../DocumentItem';
 import CustomDot from '../Carousel/CustomDot';
 import Carousel from 'react-multi-carousel';
-import Book1 from '@/public/Book1.jpg';
-import Book2 from '@/public/Book2.jpg';
-import Book3 from '@/public/Book3.jpg';
+import Book1 from '@/public/Book1.webp';
+import Book2 from '@/public/Book2.webp';
+import Book3 from '@/public/Book3.webp';
 import 'react-multi-carousel/lib/styles.css';
 import CustomRightArrow from '../Carousel/CustomRightArrow';
 import CustomLeftArrow from '../Carousel/CustomLeftArrow';
@@ -96,14 +96,14 @@ const DocumentMultiCarousel = () => {
       <div className="mt-6">
         <Carousel
           responsive={responsive}
-          ssr={true}
+          // ssr={true}
           swipeable={true}
           showDots={true}
           autoPlay={true}
           infinite={true}
           autoPlaySpeed={6000}
           removeArrowOnDeviceType={['tablet', 'mobile']}
-          dotListClass="h-9 w-[90%] absolute top-1 !flex !justify-end !align-center !py-2"
+          dotListClass="h-9 w-[90%] absolute top-0 !flex !justify-end !align-center !py-2"
           renderDotsOutside={true}
           containerClass="w-full"
           customDot={<CustomDot />}

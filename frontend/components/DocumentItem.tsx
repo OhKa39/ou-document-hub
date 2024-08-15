@@ -34,12 +34,21 @@ const DocumentItem = ({ id, name, price, image, tag }: Props) => {
         </div>
         {/* document image */}
         <div className="absolute left-1/2 top-1/2 h-[260px] w-[180px] -translate-x-1/2 -translate-y-[55%] md:h-[300px] md:w-[210px]">
-          <Image src={image} alt="Document Image" fill priority draggable={false} data-testid="DocumentImage" />
+          <Image
+            src={image}
+            alt="Document Image"
+            fill
+            priority
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            draggable={false}
+            data-testid="DocumentImage"
+          />
         </div>
         {/* add to cart button */}
         <Button
           className="absolute bottom-2 left-1/2 hidden w-[203px] -translate-x-1/2 bg-black group-hover:block md:w-[220px]"
           data-testid="AddToCart"
+          aria-label="Add To Cart"
         >
           Thêm vào giỏ
         </Button>
