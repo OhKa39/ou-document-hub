@@ -52,7 +52,7 @@ const Hero = () => {
   return (
     <>
       <div
-        className="flex min-h-[550px] items-center justify-center bg-gray-100 duration-200 sm:min-h-[650px]"
+        className="flex min-h-[550px] max-w-[1536px] items-center justify-center bg-gray-100 duration-200 sm:min-h-[650px] 2xl:mx-auto"
         style={bgImage}
       >
         <div className="container pb-8 sm:pb-0">

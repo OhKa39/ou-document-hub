@@ -34,7 +34,7 @@ const headerItems: headerItemType[] = [
 ];
 const Footer = () => {
   return (
-    <div className="align-center flex min-h-[665px] justify-center bg-[var(--neutral-07)] lg:min-h-[249px]">
+    <div className="align-center flex min-h-[665px] max-w-[1536px] justify-center bg-[var(--neutral-07)] lg:min-h-[249px] 2xl:mx-auto">
       <div className="container lg:px-32">
         {/* header-footer */}
         <div className="align-center flex flex-col justify-center text-center lg:flex-row lg:justify-between lg:py-4">
@@ -47,7 +47,7 @@ const Footer = () => {
             </h1>
             <h3
               className="inline-block text-base font-semibold text-[var(--neutral-01)] lg:my-auto"
-              data-testid="VietnamseTitle"
+              data-testid="VietnameseTitle"
             >
               Hệ thống quản lý tài liệu OU
             </h3>
@@ -70,7 +70,7 @@ const Footer = () => {
             <FaGithub size={32} className="cursor-pointer" data-testid="Github" />
           </div>
           <div className="px-auto order-2 mt-6 flex flex-col text-white lg:order-1 lg:mt-2 lg:flex-row lg:justify-between lg:gap-6">
-            <div className="aligh-center flex justify-center gap-6">
+            <div className="align-center flex justify-center gap-6">
               <h3>Privacy Policy</h3>
               <h3>Terms of Use</h3>
             </div>
