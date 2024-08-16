@@ -73,7 +73,7 @@ const responsive = {
   desktop: {
     breakpoint: { max: 3000, min: 1024 },
     items: 5,
-    slidesToSlide: 2, // optional, default to 1.
+    slidesToSlide: 3, // optional, default to 1.
   },
   tablet: {
     breakpoint: { max: 1024, min: 640 },
@@ -83,14 +83,14 @@ const responsive = {
   mobile: {
     breakpoint: { max: 640, min: 0 },
     items: 2,
-    slidesToSlide: 1, // optional, default to 1.
+    slidesToSlide: 2, // optional, default to 1.
   },
 };
 
 const DocumentMultiCarousel = () => {
   return (
-    <div className="relative my-12 ml-8 h-[470px] max-w-[1536px] md:h-[530px] lg:ml-32 2xl:mx-auto">
-      <h1 className="text-2xl font-bold md:text-3xl" data-testid="Title">
+    <div className="relative my-12 ml-8 h-[440px] max-w-[1536px] md:h-[500px] lg:ml-32 2xl:mx-auto">
+      <h1 className="text-3xl font-bold md:text-3xl" data-testid="Title">
         Tài Liệu Mới
       </h1>
       <div className="mt-6">

@@ -80,7 +80,7 @@ const DocumentItem = ({ id, name, price, image, tag, resolutionMobile, resolutio
         </Button>
       </div>
       {/* document detail section */}
-      <div className="h-[50%] shadow-sm">
+      <div className="h-[30%] shadow-sm">
         <Rating
           initialValue={5}
           readonly={true}
@@ -89,13 +89,13 @@ const DocumentItem = ({ id, name, price, image, tag, resolutionMobile, resolutio
           fillColor="#FFAB08"
           data-testid="Stars"
         />
-        <h1 className="w-[80%] text-base font-semibold md:text-[18px]" data-testid="DocumentName">
+        <h1
+          className="w-[80%] overflow-hidden text-ellipsis text-base font-semibold md:text-[18px]"
+          data-testid="DocumentName"
+        >
           <Link href="#">{name}</Link>
         </h1>
-        <h1
-          className="text-sm font-semibold text-[color:var(--secondary-red)] md:text-base"
-          data-testid="DocumentPrice"
-        >
+        <h1 className="text-sm font-semibold text-[#B30000] md:text-base" data-testid="DocumentPrice">
           {price.toLocaleString('it-IT', { style: 'currency', currency: 'VND' })}
         </h1>
       </div>
