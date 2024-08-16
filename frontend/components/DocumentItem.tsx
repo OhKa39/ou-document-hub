@@ -54,7 +54,7 @@ const DocumentItem = ({ id, name, price, image, tag, resolutionMobile, resolutio
         </div>
         {/* document image */}
         <div
-          className={`absolute left-1/2 top-1/2 h-[75%] -translate-x-1/2 -translate-y-[55%] md:h-[80%]`}
+          className={`absolute left-1/2 top-1/2 h-[75%] -translate-x-1/2 -translate-y-[55%] shadow-xl md:h-[80%]`}
           style={{
             aspectRatio: image.width / image.height,
           }}
@@ -80,19 +80,22 @@ const DocumentItem = ({ id, name, price, image, tag, resolutionMobile, resolutio
         </Button>
       </div>
       {/* document detail section */}
-      <div className="h-[50%]">
+      <div className="h-[50%] shadow-sm">
         <Rating
           initialValue={5}
           readonly={true}
           size={20}
           SVGstyle={{ display: 'inline' }}
-          fillColor="--var(neutral-05)"
+          fillColor="#FFAB08"
           data-testid="Stars"
         />
         <h1 className="w-[80%] text-base font-semibold md:text-[18px]" data-testid="DocumentName">
           <Link href="#">{name}</Link>
         </h1>
-        <h1 className="text-sm font-semibold md:text-base" data-testid="DocumentPrice">
+        <h1
+          className="text-sm font-semibold text-[color:var(--secondary-red)] md:text-base"
+          data-testid="DocumentPrice"
+        >
           {price.toLocaleString('it-IT', { style: 'currency', currency: 'VND' })}
         </h1>
       </div>

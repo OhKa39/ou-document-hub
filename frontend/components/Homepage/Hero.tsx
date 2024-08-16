@@ -56,7 +56,7 @@ const Hero = () => {
         // style={bgImage}
       >
         <div className="absolute bottom-0 w-full" style={{ aspectRatio: Vector.width / Vector.height }}>
-          <Image src={Vector} alt="Background" fill priority objectFit="cover" />
+          <Image src={Vector} alt="Background" fill priority />
         </div>
         <div className="container z-[99] pb-8 sm:pb-0">
           <div className="grid grid-cols-1 sm:grid-cols-2">
