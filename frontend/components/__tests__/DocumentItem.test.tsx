@@ -42,7 +42,7 @@ describe('Document Item component', () => {
     const documentPrice = screen.getByTestId('DocumentPrice');
 
     const DOCUMENT_NAME_EXPECT = 'giáo trình pháp luật đại cương';
-    const DOCUMENT_PRICE_EXPECT = '299,000đ';
+    const DOCUMENT_PRICE_EXPECT = '299.000 VND';
 
     expect(documentName).toBeInTheDocument();
     expect(documentName.textContent?.toLowerCase()).toEqual(DOCUMENT_NAME_EXPECT);

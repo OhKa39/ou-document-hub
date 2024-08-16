@@ -12,16 +12,36 @@ type Props = {
   price: number;
   image: any;
   tag: string | undefined;
+  resolutionMobile?: Array<number>;
+  resolutionPC?: Array<number>;
 };
 
-const DocumentItem = ({ id, name, price, image, tag }: Props) => {
+const DocumentItem = ({ id, name, price, image, tag, resolutionMobile, resolutionPC }: Props) => {
+  const SCALE_MOBILE = resolutionMobile ?? [412, 231]; //hxw with default value
+  const SCALE_PC = resolutionPC ?? [459, 262];
+
   return (
-    <div className="h-[412px] w-[231px] md:h-[459px] md:w-[262px]" data-testid="DocumentItem">
-      {/* img section */}
-      <div className="group relative h-[308px] w-full bg-[#F3F5F7] md:h-[349px]">
+    <div className="container">
+      <style jsx>{`
+        * {
+          padding: 0;
+        }
+        .container {
+          height: ${SCALE_MOBILE[0]}px;
+          width: ${SCALE_MOBILE[1]}px;
+        }
+        @media (min-width: 768px) {
+          .container {
+            height: ${SCALE_PC[0]}px;
+            width: ${SCALE_PC[1]}px;
+          }
+        }
+      `}</style>
+      {/* header section */}
+      <div className="group relative h-[75%] w-full bg-[#F3F5F7] md:h-[76%]">
         {/* tag and love button  */}
         <div className="absolute left-1/2 top-1 z-[99] flex w-[85%] -translate-x-1/2 items-center justify-between">
-          <div className="w-[67px] bg-white text-center drop-shadow-md">
+          <div className="w-[33%] bg-white text-center drop-shadow-md">
             {tag && (
               <h1 className="text-base font-bold" data-testid="Tag">
                 {tag}
@@ -33,20 +53,26 @@ const DocumentItem = ({ id, name, price, image, tag }: Props) => {
           </div>
         </div>
         {/* document image */}
-        <div className="absolute left-1/2 top-1/2 h-[260px] w-[180px] -translate-x-1/2 -translate-y-[55%] md:h-[300px] md:w-[210px]">
+        <div
+          className={`absolute left-1/2 top-1/2 h-[75%] -translate-x-1/2 -translate-y-[55%] md:h-[80%]`}
+          style={{
+            aspectRatio: image.width / image.height,
+          }}
+        >
           <Image
             src={image}
             alt="Document Image"
             fill
-            priority
+            // priority
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             draggable={false}
+            style={{ objectFit: 'contain' }}
             data-testid="DocumentImage"
           />
         </div>
         {/* add to cart button */}
         <Button
-          className="absolute bottom-2 left-1/2 hidden w-[203px] -translate-x-1/2 bg-black group-hover:block md:w-[220px]"
+          className="absolute bottom-2 left-1/2 hidden w-[88%] -translate-x-1/2 bg-black group-hover:block md:w-[84%]"
           data-testid="AddToCart"
           aria-label="Add To Cart"
         >
@@ -54,7 +80,7 @@ const DocumentItem = ({ id, name, price, image, tag }: Props) => {
         </Button>
       </div>
       {/* document detail section */}
-      <div className="ml-2 h-[98px]">
+      <div className="h-[50%]">
         <Rating
           initialValue={5}
           readonly={true}
@@ -67,7 +93,7 @@ const DocumentItem = ({ id, name, price, image, tag }: Props) => {
           <Link href="#">{name}</Link>
         </h1>
         <h1 className="text-sm font-semibold md:text-base" data-testid="DocumentPrice">
-          {price.toLocaleString()}đ
+          {price.toLocaleString('it-IT', { style: 'currency', currency: 'VND' })}
         </h1>
       </div>
     </div>

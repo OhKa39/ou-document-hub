@@ -1,6 +1,3 @@
-import DocumentGroup from '@/components/Homepage/DocumentGroup';
-import DocumentMultiCarousel from '@/components/Homepage/DocumentMultiCarousel';
-import Hero from '@/components/Homepage/Hero';
 import dynamic from 'next/dynamic';
 
 const DynamicHero = dynamic(() => import('@/components/Homepage/Hero'), {
@@ -15,12 +12,17 @@ const DynamicDocumentGroup = dynamic(() => import('@/components/Homepage/Documen
   loading: () => <p>Loading...</p>,
 });
 
+const DynamicDocumentsSuggest = dynamic(() => import('@/components/Homepage/DocumentsSuggest'), {
+  loading: () => <p>Loading...</p>,
+});
+
 export default function Home() {
   return (
     <main>
       <DynamicHero />
       <DynamicCarousel />
       <DynamicDocumentGroup />
+      <DynamicDocumentsSuggest />
     </main>
   );
 }
