@@ -42,12 +42,14 @@ describe('Document Item component', () => {
     const documentPrice = screen.getByTestId('DocumentPrice');
 
     const DOCUMENT_NAME_EXPECT = 'giáo trình pháp luật đại cương';
-    const DOCUMENT_PRICE_EXPECT = '299.000 VND';
+    const DOCUMENT_PRICE_EXPECT = 299000;
 
     expect(documentName).toBeInTheDocument();
     expect(documentName.textContent?.toLowerCase()).toEqual(DOCUMENT_NAME_EXPECT);
 
     expect(documentPrice).toBeInTheDocument();
-    expect(documentPrice.textContent).toEqual(DOCUMENT_PRICE_EXPECT);
+    expect(documentPrice.textContent).toEqual(
+      DOCUMENT_PRICE_EXPECT.toLocaleString('it-IT', { style: 'currency', currency: 'VND' })
+    );
   });
 });

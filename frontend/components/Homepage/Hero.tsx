@@ -50,7 +50,6 @@ const Hero = () => {
   };
 
   return (
-    <>
       <div
         className="relative flex min-h-[550px] max-w-[1536px] items-center justify-center bg-gray-100 duration-200 sm:min-h-[650px] 2xl:mx-auto"
         // style={bgImage}
@@ -137,7 +136,6 @@ const Hero = () => {
           </div>
         </div>
       </div>
-    </>
   );
 };
 

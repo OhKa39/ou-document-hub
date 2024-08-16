@@ -7,7 +7,7 @@ import { Rating } from 'react-simple-star-rating';
 import Link from 'next/link';
 
 type Props = {
-  id: Number;
+  id: number;
   name: string;
   price: number;
   image: any;
@@ -21,7 +21,7 @@ const DocumentItem = ({ id, name, price, image, tag, resolutionMobile, resolutio
   const SCALE_PC = resolutionPC ?? [459, 262];
 
   return (
-    <div className="container">
+    <div className="container" data-testid="DocumentItem">
       <style jsx>{`
         * {
           padding: 0;

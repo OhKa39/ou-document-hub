@@ -2,8 +2,7 @@
 import Link from 'next/link';
 import React, { useState } from 'react';
 import { IconType } from 'react-icons';
-import { IoMenuOutline } from 'react-icons/io5';
-import { IoClose, IoHeartOutline, IoMailOutline } from 'react-icons/io5';
+import { IoClose, IoHeartOutline, IoMailOutline, IoMenuOutline } from 'react-icons/io5';
 import { AiOutlineMessage } from 'react-icons/ai';
 import { Button } from '@/components/ui/button';
 

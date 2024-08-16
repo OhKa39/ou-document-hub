@@ -6,8 +6,8 @@ default:
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
 
 variables: 
-  DOCKER_HOST: tcp://docker:2376
-  DOCKER_TLS_CERTDIR: "/certs"
+  DOCKER_HOST: tcp://docker:2375
+  DOCKER_TLS_CERTDIR: ""
 
 stages:
   - build
@@ -70,6 +70,9 @@ code-quality:
     key: "${CI_JOB_NAME}"
     paths:
       - .sonar/cache
+  dependencies:
+    - unit-test
   script:
+    - mv test-report coverage frontend/
     - cd frontend/
-    - sonar-scanner -Dsonar.token=$SONAR_LOGIN -Dsonar.host.url=https://sonarcloud.io/ -Dsonar.sources=.
+    - sonar-scanner -Dsonar.token=$SONAR_TOKEN -Dsonar.host.url=https://sonarcloud.io/ -Dsonar.sources=.

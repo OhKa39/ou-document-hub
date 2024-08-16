@@ -1,8 +1,7 @@
 import Link from 'next/link';
 import React from 'react';
 import { HiOutlineUserCircle } from 'react-icons/hi2';
-import { IoNotificationsOutline, IoSearchOutline } from 'react-icons/io5';
-import { IoCartOutline } from 'react-icons/io5';
+import { IoNotificationsOutline, IoSearchOutline, IoCartOutline } from 'react-icons/io5';
 import ResponsiveMenu from './ResponsiveMenu';
 
 type menuElementType = {

@@ -1,11 +1,9 @@
 import Link from 'next/link';
 import React from 'react';
-import { FaInstagram } from 'react-icons/fa';
-import { FaGithub } from 'react-icons/fa';
-import { FaFacebook } from 'react-icons/fa';
+import { FaInstagram, FaGithub, FaFacebook } from 'react-icons/fa';
 
 type headerItemType = {
-  id: Number;
+  id: number;
   link: string;
   name: string;
 };
