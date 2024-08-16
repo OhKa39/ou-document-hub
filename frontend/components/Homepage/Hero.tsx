@@ -1,7 +1,7 @@
 'use client';
 import React from 'react';
 import Image from 'next/image';
-import Vector from '@/public/blue-pattern.png';
+import Vector from '@/public/blue-pattern.webp';
 
 import Book1 from '@/public/Book1.webp';
 import Book2 from '@/public/Book2.webp';
@@ -52,10 +52,13 @@ const Hero = () => {
   return (
     <>
       <div
-        className="flex min-h-[550px] max-w-[1536px] items-center justify-center bg-gray-100 duration-200 sm:min-h-[650px] 2xl:mx-auto"
-        style={bgImage}
+        className="relative flex min-h-[550px] max-w-[1536px] items-center justify-center bg-gray-100 duration-200 sm:min-h-[650px] 2xl:mx-auto"
+        // style={bgImage}
       >
-        <div className="container pb-8 sm:pb-0">
+        <div className="absolute bottom-0 w-full" style={{ aspectRatio: Vector.width / Vector.height }}>
+          <Image src={Vector} alt="Background" fill priority objectFit="cover" />
+        </div>
+        <div className="container z-[99] pb-8 sm:pb-0">
           <div className="grid grid-cols-1 sm:grid-cols-2">
             {/* text content section */}
             <div
