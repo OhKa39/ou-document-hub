@@ -1,6 +1,18 @@
+default:
+  image: docker:27
+  services:
+    - docker:27-dind
+  before_script: 
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+
+variables: 
+  DOCKER_HOST: tcp://docker:2375
+  DOCKER_TLS_CERTDIR: ""
+
 stages:
   - build
   - test
+  - review
 
 include: 
   - gitlab-templates/base-line.yml
@@ -9,16 +21,58 @@ include:
   extends: 
     - .base-line
 
-build-job:
+build:
   stage: build
   extends: 
     - .frontend
   script:
-    - echo "build phase"
+    - docker pull $CI_REGISTRY_IMAGE:frontend-latest || true
+    - docker build --build-arg BUILDKIT_INLINE_CACHE=1 --cache-from $CI_REGISTRY_IMAGE:frontend-latest --tag $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA --tag $CI_REGISTRY_IMAGE:frontend-latest frontend/
+    - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
+    - docker push $CI_REGISTRY_IMAGE:frontend-latest
 
-test-job:
+unit-test:
   stage: test
   extends: 
     - .frontend
   script:
-    - echo "test phase"
+    - docker compose up -d
+    - sleep 15
+    - chmod 777 coverage && chmod 777 test-report
+    - docker compose exec -T client npm run test:coverage
+  coverage: /All files[^|]*\|[^|]*\s+([\d\.]+)/
+  artifacts: 
+    paths:
+    - coverage/
+    - test-report/
+
+lint-test:
+  stage: test
+  extends: 
+    - .frontend
+  script:
+    - docker compose up -d
+    - sleep 15
+    - docker compose exec -T client npm run lint
+
+code-quality:
+  stage: review
+  inherit:
+    default:
+      - image
+      - services
+  extends: 
+    - .frontend
+  image: 
+    name: sonarsource/sonar-scanner-cli:11.0
+    entrypoint: [""]
+  cache:
+    key: "${CI_JOB_NAME}"
+    paths:
+      - .sonar/cache
+  dependencies:
+    - unit-test
+  script:
+    - mv test-report coverage frontend/
+    - cd frontend/
+    - sonar-scanner -Dsonar.token=$SONAR_TOKEN -Dsonar.host.url=https://sonarcloud.io/ -Dsonar.sources=.
