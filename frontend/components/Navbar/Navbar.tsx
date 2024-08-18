@@ -1,8 +1,10 @@
+'use client'
 import Link from 'next/link';
 import React from 'react';
 import { HiOutlineUserCircle } from 'react-icons/hi2';
 import { IoNotificationsOutline, IoSearchOutline, IoCartOutline } from 'react-icons/io5';
 import ResponsiveMenu from './ResponsiveMenu';
+import { useRouter } from 'next/navigation';
 
 type menuElementType = {
   id: number;
@@ -29,6 +31,8 @@ const menuElement: menuElementType[] = [
 ];
 
 const Navbar = () => {
+  const router = useRouter()
+
   return (
     <nav className="align-center relative z-[999] flex h-[3.75rem] max-w-[1536px] justify-between px-12 py-4 shadow-lg md:px-8 lg:px-32 2xl:mx-auto">
       {/*Logo*/}
@@ -55,7 +59,7 @@ const Navbar = () => {
       <div className="align-center flex justify-between space-x-4">
         <IoSearchOutline size="28" data-testid="Search" className="button-navbar hidden cursor-pointer md:block" />
         <IoNotificationsOutline size="28" data-testid="Notification" className="cursor-pointer" />
-        <HiOutlineUserCircle size="28" data-testid="User" className="hidden cursor-pointer md:block" />
+        <HiOutlineUserCircle size="28" data-testid="User" className="hidden cursor-pointer md:block" onClick={()=>router.push('/sign-up')}/>
         <IoCartOutline size="28" data-testid="Cart" className="cursor-pointer" />
       </div>
     </nav>
