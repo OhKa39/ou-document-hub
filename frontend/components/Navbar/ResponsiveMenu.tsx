@@ -102,7 +102,7 @@ const ResponsiveMenu = () => {
                   <li
                     data-testid="MenuResponsiveItem"
                     key={item.id}
-                    className="text-primary text-base font-semibold duration-300"
+                    className="text-base font-semibold text-primary duration-300"
                   >
                     <Link href={`${item.link}`}>{item.name}</Link>
                   </li>
@@ -115,7 +115,7 @@ const ResponsiveMenu = () => {
                     <h3 className="text-base" data-testid="SubmenuItem">
                       {item.name}
                     </h3>
-                    <div className="align-center flex shrink-0 justify-center gap-1">
+                    <div className="flex shrink-0 justify-center gap-1">
                       {<item.icon className="h-[24px] w-[24px]" />}
                       <div className="mt-[2px] h-5 w-5 rounded-full bg-black text-center text-sm text-white">2</div>
                     </div>

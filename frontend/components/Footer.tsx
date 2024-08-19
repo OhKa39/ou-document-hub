@@ -32,10 +32,10 @@ const headerItems: headerItemType[] = [
 ];
 const Footer = () => {
   return (
-    <div className="align-center flex min-h-[665px] max-w-[1536px] justify-center bg-[var(--neutral-07)] lg:min-h-[249px] 2xl:mx-auto">
+    <div className="flex min-h-[665px] max-w-[1536px] justify-center bg-[var(--neutral-07)] lg:min-h-[249px] 2xl:mx-auto">
       <div className="container lg:px-32">
         {/* header-footer */}
-        <div className="align-center flex flex-col justify-center text-center lg:flex-row lg:justify-between lg:py-4">
+        <div className="flex flex-col justify-center text-center lg:flex-row lg:justify-between lg:py-4">
           <div className="mt-[50px] flex flex-col lg:flex-row lg:gap-8">
             <h1
               className="relative pb-6 text-2xl font-bold text-[var(--neutral-01)] after:mx-auto after:mt-5 after:block after:h-[2px] after:w-6 after:bg-white lg:pb-0 lg:after:absolute lg:after:-right-5 lg:after:-top-4 lg:after:h-6 lg:after:w-[2px]"
@@ -68,7 +68,7 @@ const Footer = () => {
             <FaGithub size={32} className="cursor-pointer" data-testid="Github" />
           </div>
           <div className="px-auto order-2 mt-6 flex flex-col text-white lg:order-1 lg:mt-2 lg:flex-row lg:justify-between lg:gap-6">
-            <div className="align-center flex justify-center gap-6">
+            <div className="flex justify-center gap-6">
               <h3>Privacy Policy</h3>
               <h3>Terms of Use</h3>
             </div>

@@ -103,7 +103,7 @@ const DocumentMultiCarousel = () => {
           infinite={true}
           autoPlaySpeed={6000}
           removeArrowOnDeviceType={['tablet', 'mobile']}
-          dotListClass="h-9 w-[90%] absolute top-0 !flex !justify-end !align-center !py-2"
+          dotListClass="h-9 w-[90%] absolute top-0 !flex !justify-end !items-center !py-2"
           renderDotsOutside={true}
           containerClass="w-full"
           customDot={<CustomDot />}
