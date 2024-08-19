@@ -65,7 +65,7 @@ const documentItems = [
 
 const Container = () => {
   return (
-    <div className="grid grid-cols-2 items-center gap-14 md:grid-cols-3 md:gap-10 lg:grid-cols-4">
+    <div className="grid grid-cols-2 items-center gap-14 md:grid-cols-3 md:gap-10 lg:grid-cols-4" data-testid='HomePageContainer'>
       {documentItems.map((item, idx) => (
         <DocumentItem key={idx} {...item} resolutionMobile={[281, 152]} />
       ))}
