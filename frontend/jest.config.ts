@@ -10,11 +10,20 @@ const createJestConfig = nextJest({
 const config: Config = {
   coverageProvider: 'v8',
   testEnvironment: 'jsdom',
+  // transform: {
+  //   "^.+\\.jsx?$": "babel-jest"
+  // },
+  // transformIgnorePatterns: [
+  //   "/node_modules/(?!(react-social-icons)/)"
+  // ],
   // Add more setup options before each test is run
   setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
   moduleNameMapper: {
     // ...
-    '^@/components/(.*)$': '<rootDir>/components/$1',
+    // '^@/components/(.*)$': '<rootDir>/components/$1',
+    "^react-social-icons(.*)$": "<rootDir>/__mocks__/react-social-icons.tsx",
+    '^@/components/(.*)$': '<rootDir>/__mocks__/components/$1',
+    '^@/next/(.*)$': '<rootDir>/__mocks__/next/$1',
   },
   reporters: [
     "default",
