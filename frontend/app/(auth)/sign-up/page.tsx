@@ -10,12 +10,12 @@ import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import Link from 'next/link';
 import { useState } from 'react';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-import { cn } from '@/lib/utils';
 import { CiCalendar } from 'react-icons/ci';
 import { format } from 'date-fns';
 import { Calendar } from '@/components/ui/calendar';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import PasswordStrengthBar from '@/components/sign-up/PasswordStrengthBar';
+import PasswordStrengthBar from '@/components/(auth)/sign-up/PasswordStrengthBar';
+import ThirdAppsButton from '@/components/(auth)/ThirdAppsButton';
 
 const passwordValidation = new RegExp(/^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*\W)(?!.* ).{8,50}$/);
 const nameValidation = new RegExp(
@@ -61,7 +61,6 @@ const SignUp = () => {
 
   function submitForm(data: SchemaProps) {
     console.log(data);
-    form.reset();
   }
 
   const [isShowPassword, setIsShowPassword] = useState(false);
@@ -83,16 +82,18 @@ const SignUp = () => {
         ></video>
       </div>
       {/* sign up section */}
-      <div className="mx-auto mt-6 pb-8 lg:mx-0 lg:ml-16 lg:mt-14">
+      <div className="mx-[10%] mt-6 pb-14 lg:mx-0 lg:ml-16 lg:mt-14 lg:w-[80%]">
         <h1 className="text-3xl font-bold">Đăng ký</h1>
-        <p className="mt-5 text-base text-[color:var(--neutral-04)]">
+        <p className="mt-5 text-[18px] text-[color:var(--neutral-04)]">
           Bạn đã có tài khoản?{' '}
           <Link className="text-[color:var(--secondary-blue)]" href="/sign-in">
             Đăng nhập
           </Link>
         </p>
+        {/* Social Media Button */}
+        <ThirdAppsButton />
         {/* Form section */}
-        <div className="mt-5 w-full lg:w-[80%]">
+        <div className="mt-5 w-full">
           <Form {...form}>
             <form onSubmit={form.handleSubmit(submitForm)} className="space-y-4">
               <div className="flex flex-col justify-between space-y-4 lg:flex-row lg:space-y-0">
@@ -218,7 +219,8 @@ const SignUp = () => {
                           <FormControl>
                             <Button
                               variant={'outline'}
-                              className={`pl-3 text-left font-normal lg:w-[200px] ${!field.value && 'text-muted-foreground'} ${form.formState.errors.dateOfBirth ? 'ring-2 ring-[red]' : ''} `}
+                              className={`pl-3 text-left text-base font-normal lg:w-[200px] ${!field.value && 'text-muted-foreground'} ${form.formState.errors.dateOfBirth ? 'ring-2 ring-[red]' : ''} `}
+                              aria-label="Pick Date Of Birth"
                             >
                               {field.value ? format(field.value, 'PPP') : <span>Chọn ngày sinh</span>}
                               <CiCalendar className="ml-auto h-4 w-4 opacity-50" />
@@ -248,7 +250,8 @@ const SignUp = () => {
                       <Select onValueChange={field.onChange} defaultValue={field.value}>
                         <FormControl>
                           <SelectTrigger
-                            className={`text-[color:#687C92] ring-1 ring-[#ece6e6] lg:w-[200px] ${form.formState.errors.gender ? 'ring-2 ring-[red]' : ''}`}
+                            className={`${!field.value && 'text-muted-foreground'} ring-1 ring-[#ece6e6] lg:w-[200px] ${form.formState.errors.gender ? 'ring-2 ring-[red]' : ''}`}
+                            aria-label="Pick gender"
                           >
                             <SelectValue placeholder="Chọn giới tính" />
                           </SelectTrigger>
@@ -264,7 +267,7 @@ const SignUp = () => {
                   )}
                 />
               </div>
-              <Button type="submit" className="mt-5 w-full">
+              <Button type="submit" className="!mt-6 w-full !text-base" aria-label="Submit Form">
                 Đăng ký
               </Button>
             </form>

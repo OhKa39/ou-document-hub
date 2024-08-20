@@ -29,6 +29,7 @@ const PasswordStrengthBar = ({ password, customFunctionEvaluate, customWords, cu
         <div
           className="h-[10px] w-[15%] bg-[#ddd]"
           style={{ backgroundColor: `${index < score ? colors[score - 1] : '#ddd'}` }}
+          key={index}
         ></div>
       ))}
       <h1 className="text-base font-bold" style={{ color: `${colors[score - 1]}` }}>

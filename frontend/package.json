@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev --turbo",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
@@ -35,6 +35,8 @@
     "react-multi-carousel": "^2.8.5",
     "react-phone-number-input": "^3.4.5",
     "react-simple-star-rating": "^5.1.7",
+    "react-social-icons": "^6.18.0",
+    "sharp": "^0.33.5",
     "tailwind-merge": "^2.4.0",
     "tailwindcss-animate": "^1.0.7",
     "ts-node": "^10.9.2",
