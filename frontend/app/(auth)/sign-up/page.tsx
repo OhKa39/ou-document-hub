@@ -79,10 +79,11 @@ const SignUp = () => {
           preload="auto"
           src="/SignUpVideo.mp4"
           className="h-full w-full object-cover"
+          data-testid="SignUpVideoSection"
         ></video>
       </div>
       {/* sign up section */}
-      <div className="mx-[10%] mt-6 pb-14 lg:mx-0 lg:ml-16 lg:mt-14 lg:w-[80%]">
+      <div className="mx-[10%] mt-6 pb-20 lg:mx-0 lg:ml-16 lg:mt-14 lg:w-[80%]">
         <h1 className="text-3xl font-bold">Đăng ký</h1>
         <p className="mt-5 text-[18px] text-[color:var(--neutral-04)]">
           Bạn đã có tài khoản?{' '}
@@ -107,7 +108,7 @@ const SignUp = () => {
                         <Input
                           placeholder="Nhập họ"
                           {...field}
-                          className={`ring-1 ring-[#ece6e6] lg:w-[200px] ${form.formState.errors.lastName ? 'ring-2 ring-[red]' : ''}`}
+                          className={`ring-1 ring-[#ece6e6] lg:w-[230px] ${form.formState.errors.lastName ? 'ring-2 ring-[red]' : ''}`}
                         />
                       </FormControl>
                       <FormMessage />
@@ -124,7 +125,7 @@ const SignUp = () => {
                         <Input
                           placeholder="Nhập tên"
                           {...field}
-                          className={`ring-1 ring-[#ece6e6] lg:w-[200px] ${form.formState.errors.firstName ? 'ring-2 ring-[red]' : ''}`}
+                          className={`ring-1 ring-[#ece6e6] lg:w-[230px] ${form.formState.errors.firstName ? 'ring-2 ring-[red]' : ''}`}
                         />
                       </FormControl>
                       <FormMessage />
@@ -167,6 +168,7 @@ const SignUp = () => {
                           onCopy={(e) => e.preventDefault()}
                           onChangeCapture={(e) => setPassword(e.currentTarget.value)}
                           className={`ring-1 ring-[#ece6e6] ${form.formState.errors.password ? 'ring-2 ring-[red]' : ''}`}
+                          title="Ít nhất 8 kí tự, tồn tại chữ hoa, chữ thường, chữ số, kí tự đặc biệt"
                         />
                         {!isShowPassword ? (
                           <FaEye
@@ -219,7 +221,7 @@ const SignUp = () => {
                           <FormControl>
                             <Button
                               variant={'outline'}
-                              className={`pl-3 text-left text-base font-normal lg:w-[200px] ${!field.value && 'text-muted-foreground'} ${form.formState.errors.dateOfBirth ? 'ring-2 ring-[red]' : ''} `}
+                              className={`pl-3 text-left text-base font-normal lg:w-[230px] ${!field.value && 'text-muted-foreground'} ${form.formState.errors.dateOfBirth ? 'ring-2 ring-[red]' : ''} `}
                               aria-label="Pick Date Of Birth"
                             >
                               {field.value ? format(field.value, 'PPP') : <span>Chọn ngày sinh</span>}
@@ -250,7 +252,7 @@ const SignUp = () => {
                       <Select onValueChange={field.onChange} defaultValue={field.value}>
                         <FormControl>
                           <SelectTrigger
-                            className={`${!field.value && 'text-muted-foreground'} ring-1 ring-[#ece6e6] lg:w-[200px] ${form.formState.errors.gender ? 'ring-2 ring-[red]' : ''}`}
+                            className={`${!field.value && 'text-muted-foreground'} ring-1 ring-[#ece6e6] lg:w-[230px] ${form.formState.errors.gender ? 'ring-2 ring-[red]' : ''}`}
                             aria-label="Pick gender"
                           >
                             <SelectValue placeholder="Chọn giới tính" />
