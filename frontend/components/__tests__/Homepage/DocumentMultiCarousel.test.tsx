@@ -3,9 +3,7 @@ import { render, screen } from '@testing-library/react';
 import DocumentMultiCarousel from '@/components/Homepage/DocumentMultiCarousel';
 
 // Mock the Carousel component
-jest.mock('react-multi-carousel', () => {
-  return jest.fn(({ children }) => <div data-testid="carousel">{children}</div>);
-});
+jest.mock('react-multi-carousel');
 
 describe('Document Multi Carousel component', () => {
   beforeEach(() => {

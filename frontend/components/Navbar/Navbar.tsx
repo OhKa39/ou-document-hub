@@ -63,7 +63,7 @@ const Navbar = () => {
           size="28"
           data-testid="User"
           className="hidden cursor-pointer md:block"
-          onClick={() => router.push('/sign-up')}
+          onClick={() => router.push('/sign-in')}
         />
         <IoCartOutline size="28" data-testid="Cart" className="cursor-pointer" />
       </div>
