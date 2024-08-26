@@ -1,0 +1,26 @@
+# Ignore build artifacts
+target/
+*.jar
+*.war
+
+# Ignore IDE-specific files
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# Ignore build tools
+.gradle/
+.mvn/
+
+# Ignore generated code
+build/
+generated-sources/
+generated-test-sources/
+
+# Ignore logs
+logs/
+
+# Ignore temporary files
+*.tmp
+*~

@@ -1,4 +1,4 @@
 .vscode/
-.env
+.env*
 coverage/
 test-report/

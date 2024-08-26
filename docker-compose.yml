@@ -1,14 +1,31 @@
 services:
   client:
-    image: registry.gitlab.com/ohka391/oudocumenthub:frontend-latest
+    # image: registry.gitlab.com/ohka391/oudocumenthub:frontend-latest
     #local build
-    # build: frontend/
+    build: frontend/
     ports:
       - "3005:3005"
     volumes: 
       - ./coverage:/app/coverage
       - ./test-report:/app/test-report
     restart: unless-stopped
+    networks:
+      - app
+
+  backend:
+    # image: registry.gitlab.com/ohka391/oudocumenthub:backend-latest
+    #local build
+    build: frontend/
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - db
+      - app
+      - redis
 
   db:
     image: postgres
@@ -23,10 +40,35 @@ services:
       - db_volumes:/var/lib/postgresql/data
     networks:
       - db
+    healthcheck:
+      test: ["CMD-SHELL", "sh -c 'pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}'"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+
+  redis:
+    image: redis
+    ports:
+      - "6379:6379"
+    restart: unless-stopped
+    volumes:
+      - redis_volumes:/data
+    networks:
+      - redis
+    healthcheck:
+      test: [ "CMD", "redis-cli", "--raw", "incr", "ping" ]
+      interval: 1s
+      timeout: 3s
+      retries: 5
 
 volumes:
   db_volumes:
+  redis_volumes:
 
 networks:
   db:
+    driver: bridge
+  redis:
+    driver: bridge
+  app:
     driver: bridge
