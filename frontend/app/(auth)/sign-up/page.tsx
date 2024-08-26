@@ -60,6 +60,17 @@ const SignUp = () => {
   });
 
   function submitForm(data: SchemaProps) {
+    console.log(process.env.API_URL)
+    const response = fetch(process.env.API_URL + "/api/v1/auth/sign-up", {
+      method: "POST",
+      headers:{
+        'Content-Type': 'application/json'
+      },
+      credentials: 'include',
+      body: JSON.stringify(data)
+    })
+    .then((response) => response.json())
+    .then((dataRes) => console.log(dataRes))
     console.log(data);
   }
 
