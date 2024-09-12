@@ -10,8 +10,8 @@ variables:
   DOCKER_TLS_CERTDIR: ""
 
 stages:
-  - build
   - test
+  - build
 
 include:
   - gitlab-templates/base-line.yml
@@ -20,19 +20,22 @@ include:
   extends: 
     - .base-line
 
-build:
-  stage: build
-  extends: 
-    - .backend
-  script:
-    - docker pull $CI_REGISTRY_IMAGE:backend-latest || true
-    - docker build --build-arg BUILDKIT_INLINE_CACHE=1 --cache-from $CI_REGISTRY_IMAGE:backend-latest --target build-base --tag $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA --tag $CI_REGISTRY_IMAGE:backend-latest backend/
-    - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
-    - docker push $CI_REGISTRY_IMAGE:backend-latest
-
-test-job:
+unit-test:
   stage: test
   extends: 
     - .backend
   script:
     - echo "test phase"
+  artifacts:
+    when: always
+    coverage: /Total.*?([0-9]{1,3})%/
+
+build:
+  stage: build
+  extends: 
+    - .backend
+  script:
+    - docker pull $CI_REGISTRY_IMAGE/backend:latest || true
+    - docker build --build-arg BUILDKIT_INLINE_CACHE=1 --cache-from $CI_REGISTRY_IMAGE/backend:latest --tag $CI_REGISTRY_IMAGE/backend:latest $CI_REGISTRY_IMAGE/backend:$CI_COMMIT_SHORT_SHA backend/
+    - docker push $CI_REGISTRY_IMAGE/backend:latest
+    - docker push $CI_REGISTRY_IMAGE/backend:$CI_COMMIT_SHORT_SHA

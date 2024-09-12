@@ -1,37 +1,64 @@
 services:
   client:
-    image: registry.gitlab.com/ohka391/oudocumenthub:frontend-latest
-    #local build
-    # build: frontend-branch/frontend/ #git worktree of frontend
+    # image: registry.gitlab.com/ohka391/oudocumenthub/frontend:latest
+    # local build
+    build: frontend-auth/frontend/ #git worktree of frontend
     ports:
-      - "3005:3005"
-    volumes: 
-      - ./coverage:/app/coverage
-      - ./test-report:/app/test-report
+      - 3002:3002
     restart: unless-stopped
-    networks:
-      - app
     environment:
-      - API_URL=${API_URL}
+      - NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL}
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://0.0.0.0:3002"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    depends_on:
+      backend:
+        condition: service_healthy
 
   backend:
-    image: registry.gitlab.com/ohka391/oudocumenthub:backend-latest
+    # image: registry.gitlab.com/ohka391/oudocumenthub/backend:latest
     #local build
-    # build: backend/
+    build: backend/
+    ports:
+      - 8080:8080
     restart: unless-stopped
     depends_on:
       db:
         condition: service_healthy
       redis:
         condition: service_healthy
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - DB_URL=${DB_URL}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+
+      - REDIS_HOST=${REDIS_HOST}
+      - REDIS_PORT=${REDIS_PORT}
+
+      - MAIL_USERNAME=${MAIL_USERNAME}
+      - MAIL_PASSWORD=${MAIL_PASSWORD}
+      - FRONTEND_URL=${FRONTEND_URL}
+
+      - GOOGLE_CLIENTID=${GOOGLE_CLIENTID}
+      - GOOGLE_CLIENTSECRET=${GOOGLE_CLIENTSECRET}
+
+      - FACEBOOK_CLIENTID=${FACEBOOK_CLIENTID}
+      - FACEBOOK_CLIENTSECRET=${FACEBOOK_CLIENTSECRET}
+    healthcheck:
+      test: "curl --fail --silent localhost:8080/actuator/health | grep UP || exit 1"
+      interval: 20s
+      timeout: 5s
+      retries: 5
+      start_period: 40s
     networks:
       - db
-      - app
       - redis
 
   db:
     image: postgres
-    ports: 
+    ports:
       - "5432:5432"
     restart: unless-stopped
     environment:
@@ -43,7 +70,11 @@ services:
     networks:
       - db
     healthcheck:
-      test: ["CMD-SHELL", "sh -c 'pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}'"]
+      test:
+        [
+          "CMD-SHELL",
+          "sh -c 'pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}'",
+        ]
       interval: 10s
       timeout: 3s
       retries: 3
@@ -58,7 +89,7 @@ services:
     networks:
       - redis
     healthcheck:
-      test: [ "CMD", "redis-cli", "--raw", "incr", "ping" ]
+      test: ["CMD", "redis-cli", "--raw", "incr", "ping"]
       interval: 1s
       timeout: 3s
       retries: 5
@@ -71,6 +102,4 @@ networks:
   db:
     driver: bridge
   redis:
-    driver: bridge
-  app:
     driver: bridge

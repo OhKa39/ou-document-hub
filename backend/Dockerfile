@@ -1,19 +1,12 @@
-# Stage 1: Build for dev
-FROM maven:3.9.9-amazoncorretto-21 AS build-dev
-WORKDIR /app
-COPY pom.xml .
-COPY src /app/src
-RUN mvn package
-
-# Stage 2: Build for prod
-FROM maven:3.9.9-amazoncorretto-21 AS build-prod
+# Stage 1: Build 
+FROM maven:3.9.9-amazoncorretto-21 AS builder
 WORKDIR /app
 COPY pom.xml .
 COPY src /app/src
 RUN mvn package -DskipTests
 
-# Stage 3: Runtime prod
-FROM openjdk:21-jdk as runtime
+# Stage 2: Runtime prod
+FROM openjdk:21-jdk AS runtime
 WORKDIR /app
-COPY --from=build /app/target/*.jar /app/
-CMD ["java", "-jar", "your-app.jar"]
+COPY --from=builder /app/target/*.jar /app/
+CMD ["java", "-jar", "oudocumenthub-backend.jar"]

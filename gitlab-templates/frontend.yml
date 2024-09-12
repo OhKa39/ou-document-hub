@@ -10,9 +10,9 @@ variables:
   DOCKER_TLS_CERTDIR: ""
 
 stages:
-  - build
   - test
   - review
+  - build
 
 include: 
   - gitlab-templates/base-line.yml
@@ -21,27 +21,16 @@ include:
   extends: 
     - .base-line
 
-build:
-  stage: build
-  extends: 
-    - .frontend
-  script:
-    - docker pull $CI_REGISTRY_IMAGE:frontend-latest || true
-    - docker build --build-arg BUILDKIT_INLINE_CACHE=1 --cache-from $CI_REGISTRY_IMAGE:frontend-latest --target build-base --tag $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA --tag $CI_REGISTRY_IMAGE:frontend-latest frontend/
-    - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
-    - docker push $CI_REGISTRY_IMAGE:frontend-latest
-
 unit-test:
   stage: test
   extends: 
     - .frontend
   script:
-    - docker compose up -d
-    - sleep 15
-    - chmod 777 coverage && chmod 777 test-report
-    - docker compose exec -T client npm run test:coverage
+    - cd frontend/
+    - npm run test:coverage
   coverage: /All files[^|]*\|[^|]*\s+([\d\.]+)/
-  artifacts: 
+  artifacts:
+    when: always 
     paths:
     - coverage/
     - test-report/
@@ -51,9 +40,8 @@ lint-test:
   extends: 
     - .frontend
   script:
-    - docker compose up -d
-    - sleep 15
-    - docker compose exec -T client npm run lint
+    - cd frontend/
+    - npm run lint
 
 code-quality:
   stage: review
@@ -76,3 +64,13 @@ code-quality:
     - mv test-report coverage frontend/
     - cd frontend/
     - sonar-scanner -Dsonar.token=$SONAR_TOKEN -Dsonar.host.url=https://sonarcloud.io/ -Dsonar.sources=.
+
+build:
+  stage: build
+  extends: 
+    - .frontend
+  script:
+    - docker pull $CI_REGISTRY_IMAGE/frontend:latest || true
+    - docker build --build-arg BUILDKIT_INLINE_CACHE=1 --cache-from $CI_REGISTRY_IMAGE/frontend:latest --tag $CI_REGISTRY_IMAGE/frontend:latest $CI_REGISTRY_IMAGE/frontend:$CI_COMMIT_SHORT_SHA frontend/
+    - docker push $CI_REGISTRY_IMAGE/frontend:latest
+    - docker push $CI_REGISTRY_IMAGE/frontend:$CI_COMMIT_SHORT_SHA
