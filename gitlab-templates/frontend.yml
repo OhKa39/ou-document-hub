@@ -2,43 +2,65 @@ default:
   image: docker:27
   services:
     - docker:27-dind
-  before_script: 
+  before_script:
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
 
-variables: 
+variables:
   DOCKER_HOST: tcp://docker:2375
   DOCKER_TLS_CERTDIR: ""
 
 stages:
+  - install
   - test
   - review
   - build
 
-include: 
+include:
   - gitlab-templates/base-line.yml
 
 .frontend:
-  extends: 
+  extends:
     - .base-line
+
+install_packages:
+  image: node:22.6.0-alpine3.19
+  stage: install
+  script:
+    - cd frontend/
+    - npm prune
+    - npm install
+  cache:
+    key: ${CI_COMMIT_REF_NAME}
+    paths:
+      - frontend/node_modules/
+  artifacts:
+    paths:
+      - frontend/node_modules/
+    changes:
+      - package.json
 
 unit-test:
   stage: test
-  extends: 
+  extends:
     - .frontend
   script:
     - cd frontend/
     - npm run test:coverage
   coverage: /All files[^|]*\|[^|]*\s+([\d\.]+)/
+  dependencies:
+    - install_packages
   artifacts:
-    when: always 
+    when: always
     paths:
-    - coverage/
-    - test-report/
+      - coverage/
+      - test-report/
 
 lint-test:
   stage: test
-  extends: 
+  extends:
     - .frontend
+  dependencies:
+    - install_packages
   script:
     - cd frontend/
     - npm run lint
@@ -49,9 +71,9 @@ code-quality:
     default:
       - image
       - services
-  extends: 
+  extends:
     - .frontend
-  image: 
+  image:
     name: sonarsource/sonar-scanner-cli:11.0
     entrypoint: [""]
   cache:
@@ -64,13 +86,12 @@ code-quality:
     - mv test-report coverage frontend/
     - cd frontend/
     - sonar-scanner -Dsonar.token=$SONAR_TOKEN -Dsonar.host.url=https://sonarcloud.io/ -Dsonar.sources=.
-
-build:
-  stage: build
-  extends: 
-    - .frontend
-  script:
-    - docker pull $CI_REGISTRY_IMAGE/frontend:latest || true
-    - docker build --build-arg BUILDKIT_INLINE_CACHE=1 --cache-from $CI_REGISTRY_IMAGE/frontend:latest --tag $CI_REGISTRY_IMAGE/frontend:latest $CI_REGISTRY_IMAGE/frontend:$CI_COMMIT_SHORT_SHA frontend/
-    - docker push $CI_REGISTRY_IMAGE/frontend:latest
-    - docker push $CI_REGISTRY_IMAGE/frontend:$CI_COMMIT_SHORT_SHA
+# build:
+#   stage: build
+#   extends:
+#     - .frontend
+#   script:
+#     - docker pull $CI_REGISTRY_IMAGE/frontend:latest || true
+#     - docker build --build-arg BUILDKIT_INLINE_CACHE=1 --cache-from $CI_REGISTRY_IMAGE/frontend:latest --tag $CI_REGISTRY_IMAGE/frontend:latest $CI_REGISTRY_IMAGE/frontend:$CI_COMMIT_SHORT_SHA frontend/
+#     - docker push $CI_REGISTRY_IMAGE/frontend:latest
+#     - docker push $CI_REGISTRY_IMAGE/frontend:$CI_COMMIT_SHORT_SHA

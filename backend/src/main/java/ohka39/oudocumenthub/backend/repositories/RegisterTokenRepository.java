@@ -10,4 +10,9 @@ import ohka39.oudocumenthub.backend.models.RegisterToken;
 @Repository
 public interface RegisterTokenRepository extends CrudRepository<RegisterToken, String> {
     Optional<RegisterToken> findById(String id);
+
+    Optional<RegisterToken> findByRegisterTokenId(String tokenId);
+
+    void deleteByRegisterTokenId(String tokenId);
+
 }
