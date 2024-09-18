@@ -6,6 +6,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,76 +21,82 @@ import org.springframework.test.web.servlet.MockMvc;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import ohka39.oudocumenthub.backend.enums.EGender;
-import ohka39.oudocumenthub.backend.payload.requests.UserRequest;
-import ohka39.oudocumenthub.backend.payload.responses.UserResponse;
+import ohka39.oudocumenthub.backend.payload.DTO.UserDTO;
+import ohka39.oudocumenthub.backend.payload.requests.SignUpRequest;
+import ohka39.oudocumenthub.backend.services.ITokenService;
 import ohka39.oudocumenthub.backend.services.IUserService;
 
 @WebMvcTest(AuthController.class)
 @AutoConfigureMockMvc(addFilters = false)
 public class AuthControllerTest {
 
-        @Autowired
-        private MockMvc mockMvc;
+    @Autowired
+    private MockMvc mockMvc;
 
-        @MockBean
-        private IUserService userService;
+    @MockBean
+    private IUserService userService;
 
-        @MockBean
-        private ApplicationEventPublisher eventPublisher;
+    @MockBean
+    private ITokenService tokenService;
 
-        @Autowired
-        private ObjectMapper objectMapper;
+    @MockBean
+    private ApplicationEventPublisher eventPublisher;
 
-        @Test
-        public void testSignUpSuccessfully() throws Exception {
-                // Mock user request
-                UserRequest userRequest = UserRequest.builder()
-                                .email("test@example.com")
-                                .firstName("Test")
-                                .lastName("User")
-                                .password("12303123aBc@")
-                                .gender(EGender.Male)
-                                .dateOfBirth(LocalDate.of(1990, 1, 1))
-                                .build();
+    @Autowired
+    private ObjectMapper objectMapper;
 
-                // Mock user response
-                UserResponse userResponse = UserResponse.builder()
-                                .email("test@example.com")
-                                .firstName("Test")
-                                .gender(EGender.Male)
-                                .dateOfBirth(LocalDate.of(1990, 1, 1))
-                                .createdAt(LocalDateTime.now())
-                                .lastName("User")
-                                .build();
+    @Test
+    public void testSignUpSuccessfully() throws Exception {
+        // Mock user request
+        SignUpRequest userRequest = SignUpRequest.builder()
+                .email("test@example.com")
+                .firstName("Test")
+                .lastName("User")
+                .password("12303123aBc@")
+                .gender(EGender.Male)
+                .dateOfBirth(LocalDate.of(1990, 1, 1))
+                .build();
 
-                // Mock service behavior
-                when(userService.registerNewUserAccount(userRequest)).thenReturn(userResponse);
+        // Mock user response
+        UserDTO userResponse = UserDTO.builder()
+                .userId(UUID.randomUUID())
+                .email("test@example.com")
+                .firstName("Test")
+                .gender(EGender.Male)
+                .dateOfBirth(LocalDate.of(1990, 1, 1))
+                .createdAt(LocalDateTime.now())
+                .lastName("User")
+                .roles(Arrays.asList("ROLE_USER"))
+                .build();
 
-                // Perform POST request
-                mockMvc.perform(post("/api/v1/auth/sign-up")
-                                .contentType(MediaType.APPLICATION_JSON)
-                                .content(objectMapper.writeValueAsString(userRequest)))
-                                .andExpect(status().isOk());
+        // Mock service behavior
+        when(userService.registerNewUserAccount(userRequest)).thenReturn(userResponse);
 
-        }
+        // Perform POST request
+        mockMvc.perform(post("/api/v1/auth/sign-up")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(userRequest)))
+                .andExpect(status().isCreated());
 
-        @Test
-        public void testSignUpFailWithWrongEmailFormat() throws Exception {
-                // Mock user request
-                UserRequest userRequest = UserRequest.builder()
-                                .email("testexample.com")
-                                .firstName("Test")
-                                .lastName("User")
-                                .password("12303123aBc@")
-                                .gender(EGender.Male)
-                                .dateOfBirth(LocalDate.of(1990, 1, 1))
-                                .build();
+    }
 
-                // Perform POST request
-                mockMvc.perform(post("/api/v1/auth/sign-up")
-                                .contentType(MediaType.APPLICATION_JSON)
-                                .content(objectMapper.writeValueAsString(userRequest)))
-                                .andExpect(status().isBadRequest());
+    @Test
+    public void testSignUpFailWithWrongEmailFormat() throws Exception {
+        // Mock user request
+        SignUpRequest userRequest = SignUpRequest.builder()
+                .email("testexample.com")
+                .firstName("Test")
+                .lastName("User")
+                .password("12303123aBc@")
+                .gender(EGender.Male)
+                .dateOfBirth(LocalDate.of(1990, 1, 1))
+                .build();
 
-        }
+        // Perform POST request
+        mockMvc.perform(post("/api/v1/auth/sign-up")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(userRequest)))
+                .andExpect(status().isBadRequest());
+
+    }
 }

@@ -15,7 +15,7 @@ import ohka39.oudocumenthub.backend.enums.EGender;
 @Data
 @AllArgsConstructor
 @Builder
-public class UserRequest {
+public class SignUpRequest {
 
     @NotBlank(message = "email is required")
     @Email

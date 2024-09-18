@@ -9,7 +9,6 @@ import org.springframework.stereotype.Repository;
 
 import ohka39.oudocumenthub.backend.models.User;
 
-
 @Repository
 public interface UserRepository extends JpaRepository<User, UUID> {
     Optional<User> findById(UUID id);
