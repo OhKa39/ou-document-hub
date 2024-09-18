@@ -35,7 +35,7 @@ const documentGroupItems = [
 
 const DocumentGroup = () => {
   return (
-    <div className="bg-gray-100 py-12 max-width-[1544px]">
+    <div className="max-width-[1544px] bg-gray-100 py-12">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <h1 className="mb-8 text-center text-3xl font-bold text-gray-900" data-testid="Title">
           Tài Liệu Theo Ngành
@@ -62,6 +62,8 @@ const DocumentGroup = () => {
                   src={item.image}
                   alt={`${item.name} image`}
                   fill
+                  priority
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   style={{ objectFit: 'contain' }}
                   className="p-4"
                 />

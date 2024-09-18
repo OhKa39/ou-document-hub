@@ -10,21 +10,55 @@ import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import Link from 'next/link';
 import { useState } from 'react';
 import ThirdAppsButton from '@/components/(auth)/ThirdAppsButton';
+import { SignInSchema } from '@/schemas/SignInSchema';
+import { loginAccount } from '@/actions/loginAccount';
+import { useRouter } from 'next/navigation';
+import { AiOutlineLoading3Quarters } from 'react-icons/ai';
+import { useToast } from '@/hooks/use-toast';
+import { useUserStore } from '@/components/providers/UserProvider';
 
-const formSchema: any = z.object({
-  email: z.string({ required_error: 'Email không được để trống' }).email({ message: 'Email không đúng định dạng' }),
-  password: z.string({ required_error: 'Mật khẩu không được để trống' }),
-});
-
-type SchemaProps = z.infer<typeof formSchema>;
+type SchemaProps = z.infer<typeof SignInSchema>;
 
 const SignIn = () => {
+  const { toast } = useToast();
+  const router = useRouter();
+  const { signIn } = useUserStore((state) => state);
+
   const form = useForm<SchemaProps>({
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(SignInSchema),
+    defaultValues: {
+      password: '',
+      email: '',
+    },
   });
 
-  function submitForm(data: SchemaProps) {
+  async function submitForm(data: SchemaProps) {
     console.log(data);
+    const dataResponse = await loginAccount(data);
+
+    switch (dataResponse.statusCode) {
+      case 200:
+        router.replace('/');
+        signIn(dataResponse.data);
+        break;
+      case 401:
+        form.setError('password', {
+          type: 'manual',
+          message: 'Sai tài khoản hoặc mặt khẩu',
+        });
+        form.setError('email', {
+          type: 'manual',
+          message: '',
+        });
+        break;
+      default:
+        toast({
+          variant: 'destructive',
+          title: 'Thông báo lỗi',
+          description: 'Đã có lỗi xảy ra',
+        });
+        break;
+    }
   }
 
   const [isShowPassword, setIsShowPassword] = useState(false);
@@ -40,7 +74,7 @@ const SignIn = () => {
           loop
           muted
           preload="auto"
-          src="/SignInVideo.mp4"
+          src="/SignInVideo.webm"
           className="h-full w-full object-cover"
           data-testid="SignInVideoSection"
         ></video>
@@ -69,6 +103,7 @@ const SignIn = () => {
                     <FormControl>
                       <Input
                         placeholder="Nhập email"
+                        autoComplete="on"
                         {...field}
                         className={`ring-1 ring-[#ece6e6] ${form.formState.errors.email ? 'ring-2 ring-[red]' : ''}`}
                       />
@@ -92,6 +127,7 @@ const SignIn = () => {
                           placeholder="Nhập mật khẩu"
                           {...field}
                           type={`${!isShowPassword ? 'password' : 'text'}`}
+                          autoComplete="on"
                           onCopy={(e) => e.preventDefault()}
                           className={`ring-1 ring-[#ece6e6] ${form.formState.errors.password ? 'ring-2 ring-[red]' : ''}`}
                         />
@@ -114,8 +150,20 @@ const SignIn = () => {
                   </FormItem>
                 )}
               />
-              <Button type="submit" className="!mt-8 w-full !text-base" aria-label="Submit Form">
-                Đăng nhập
+              <Button
+                type="submit"
+                className="!mt-6 w-full !text-base"
+                aria-label="Submit Form"
+                disabled={form.formState.isSubmitting}
+              >
+                {form.formState.isSubmitting ? (
+                  <div className="flex gap-2">
+                    <AiOutlineLoading3Quarters className="animate-spin text-white" size={20} />
+                    <span>Loading</span>
+                  </div>
+                ) : (
+                  <span> Đăng nhập </span>
+                )}
               </Button>
             </form>
           </Form>

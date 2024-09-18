@@ -14,6 +14,11 @@ LABEL author="ohka39 <lythanhkhoa360@gmailcom>"
 
 WORKDIR /app
 
+# ARG NEXT_PUBLIC_API_URL
+ENV NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL}
+
+RUN npm i sharp
+
 COPY --from=base /app/node_modules ./node_modules
 COPY . . 
 
