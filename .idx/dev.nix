@@ -5,10 +5,11 @@
     pkgs.docker
     pkgs.packer
     pkgs.terraform
-    pkgs.jdk22
+    pkgs.jdk21
     pkgs.maven
     pkgs.awscli2
     pkgs.fira-code-symbols
+    pkgs.jre8
   ];
   env = {};
   services.docker.enable = true;
@@ -33,6 +34,9 @@
       "vscjava.vscode-maven"
       "vscjava.vscode-spring-boot-dashboard"
       "vscjava.vscode-spring-initializr"
+      "abusaidm.html-snippets"
+      "GitLab.gitlab-workflow"
+      "bradlc.vscode-tailwindcss"
     ];
   };
 }
