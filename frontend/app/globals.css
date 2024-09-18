@@ -83,3 +83,16 @@
     @apply bg-background text-foreground;
   }
 }
+
+.scrollbar-hide {
+  -ms-overflow-style: none;  /* Hide scrollbar for Internet Explorer and Edge */
+  scrollbar-width: none;  /* Hide scrollbar for Firefox */
+}
+
+.rdp [aria-hidden="true"]{
+    @apply hidden;
+}
+
+.rdp-vhidden{
+    @apply hidden;
+}

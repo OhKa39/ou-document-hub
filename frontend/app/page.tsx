@@ -1,11 +1,16 @@
 import dynamic from 'next/dynamic';
+import HeroLoading from '@/components/Loading/HeroLoading';
+import DocumentMultiCarouselLoading from '@/components/Loading/DocumentMultiCarouselLoading';
+import { Suspense } from 'react';
 
 const DynamicHero = dynamic(() => import('@/components/Homepage/Hero'), {
-  loading: () => <p>Loading...</p>,
+  loading: () => <HeroLoading />,
+  ssr: false,
 });
 
 const DynamicCarousel = dynamic(() => import('@/components/Homepage/DocumentMultiCarousel'), {
-  loading: () => <p>Loading...</p>,
+  loading: () => <DocumentMultiCarouselLoading />,
+  ssr: false,
 });
 
 const DynamicDocumentGroup = dynamic(() => import('@/components/Homepage/DocumentGroup'), {
@@ -19,7 +24,9 @@ const DynamicDocumentsSuggest = dynamic(() => import('@/components/Homepage/Docu
 export default function Home() {
   return (
     <main>
+      {/* <HeroLoading /> */}
       <DynamicHero />
+      {/* <DocumentMultiCarouselLoading /> */}
       <DynamicCarousel />
       <DynamicDocumentGroup />
       <DynamicDocumentsSuggest />
