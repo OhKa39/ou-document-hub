@@ -1,6 +1,6 @@
 default:
   image: docker:27
-  image: npm:latest
+  image: node:22.6.0-alpine3.19
   services:
     - docker:27-dind
   before_script:
@@ -24,7 +24,6 @@ include:
     - .base-line
 
 install_packages:
-  image: node:22.6.0-alpine3.19
   stage: install
   script:
     - cd frontend/
@@ -47,6 +46,8 @@ unit-test:
   script:
     - cd frontend/
     - npm run test:coverage
+    - cd frontend/
+    - npm run test:coverage
   coverage: /All files[^|]*\|[^|]*\s+([\d\.]+)/
   dependencies:
     - install_packages
@@ -63,6 +64,8 @@ lint-test:
   dependencies:
     - install_packages
   script:
+    - cd frontend/
+    - npm run lint
     - cd frontend/
     - npm run lint
 
@@ -87,12 +90,13 @@ code-quality:
     - mv test-report coverage frontend/
     - cd frontend/
     - sonar-scanner -Dsonar.token=$SONAR_TOKEN -Dsonar.host.url=https://sonarcloud.io/ -Dsonar.sources=.
-# build:
-#   stage: build
-#   extends:
-#     - .frontend
-#   script:
-#     - docker pull $CI_REGISTRY_IMAGE/frontend:latest || true
-#     - docker build --build-arg BUILDKIT_INLINE_CACHE=1 --cache-from $CI_REGISTRY_IMAGE/frontend:latest --tag $CI_REGISTRY_IMAGE/frontend:latest $CI_REGISTRY_IMAGE/frontend:$CI_COMMIT_SHORT_SHA frontend/
-#     - docker push $CI_REGISTRY_IMAGE/frontend:latest
-#     - docker push $CI_REGISTRY_IMAGE/frontend:$CI_COMMIT_SHORT_SHA
+    
+build:
+  stage: build
+  extends:
+    - .frontend
+  script:
+    - docker pull $CI_REGISTRY_IMAGE/frontend:latest || true
+    - docker build --build-arg BUILDKIT_INLINE_CACHE=1 --cache-from $CI_REGISTRY_IMAGE/frontend:latest --tag $CI_REGISTRY_IMAGE/frontend:latest $CI_REGISTRY_IMAGE/frontend:$CI_COMMIT_SHORT_SHA frontend/
+    - docker push $CI_REGISTRY_IMAGE/frontend:latest
+    - docker push $CI_REGISTRY_IMAGE/frontend:$CI_COMMIT_SHORT_SHA

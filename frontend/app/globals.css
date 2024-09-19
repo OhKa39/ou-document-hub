@@ -31,7 +31,7 @@
     --chart-5: 27 87% 67%;
     --primary-1: #000000;
     --primary-2: #1182c5;
-    --secondary-blue: #377DFF;
+    --secondary-blue: #0c4ca3;
     --secondary-red: #FF5630;
     --secondary-green: #38CB89;
     --secondary-orange: #FFAB00;
@@ -82,4 +82,17 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;  /* Hide scrollbar for Internet Explorer and Edge */
+  scrollbar-width: none;  /* Hide scrollbar for Firefox */
+}
+
+.rdp [aria-hidden="true"]{
+    @apply hidden;
+}
+
+.rdp-vhidden{
+    @apply hidden;
 }

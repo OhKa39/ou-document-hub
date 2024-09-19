@@ -3,7 +3,7 @@
 scripts
 *Dockerfile*
 node_modules
-.env
+.env*
 README.md
 coverage
 test-report

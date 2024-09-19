@@ -102,7 +102,7 @@ const ResponsiveMenu = () => {
                   <li
                     data-testid="MenuResponsiveItem"
                     key={item.id}
-                    className="text-primary text-base font-semibold duration-300"
+                    className="text-base font-semibold text-primary duration-300"
                   >
                     <Link href={`${item.link}`}>{item.name}</Link>
                   </li>
@@ -111,13 +111,15 @@ const ResponsiveMenu = () => {
               {/* Section 2 */}
               <div className="mt-16 flex flex-col justify-center">
                 {subMenuItems.map((item, index) => (
-                  <Link key={index} href={item.link} className="aligh-center py-auto flex h-[40px] justify-between">
+                  <Link key={index} href={item.link} className="py-auto flex h-[40px] items-center justify-between">
                     <h3 className="text-base" data-testid="SubmenuItem">
                       {item.name}
                     </h3>
-                    <div className="align-center flex shrink-0 justify-center gap-1">
+                    <div className="flex shrink-0 justify-center gap-1">
                       {<item.icon className="h-[24px] w-[24px]" />}
-                      <div className="mt-[2px] h-5 w-5 rounded-full bg-black text-center text-sm text-white">2</div>
+                      <div className="mt-[2px] flex h-5 w-5 items-center justify-center rounded-full bg-black text-[12px] text-white">
+                        <p>2</p>
+                      </div>
                     </div>
                   </Link>
                 ))}

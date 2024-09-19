@@ -72,13 +72,13 @@ const documentItems = [
 const responsive = {
   desktop: {
     breakpoint: { max: 3000, min: 1024 },
-    items: 5,
-    slidesToSlide: 3, // optional, default to 1.
+    items: 4,
+    slidesToSlide: 2, // optional, default to 1.
   },
   tablet: {
     breakpoint: { max: 1024, min: 640 },
     items: 3,
-    slidesToSlide: 2, // optional, default to 1.
+    slidesToSlide: 3, // optional, default to 1.
   },
   mobile: {
     breakpoint: { max: 640, min: 0 },
@@ -96,21 +96,25 @@ const DocumentMultiCarousel = () => {
       <div className="mt-6">
         <Carousel
           responsive={responsive}
-          // ssr={true}
-          swipeable={true}
-          showDots={true}
-          autoPlay={true}
-          infinite={true}
-          autoPlaySpeed={6000}
+          // ssr
+          swipeable
+          draggable
+          showDots
+          rewindWithAnimation
+          // autoPlay
+          infinite
+          // autoPlaySpeed={6000}
           removeArrowOnDeviceType={['tablet', 'mobile']}
-          dotListClass="h-9 w-[90%] absolute top-0 !flex !justify-end !align-center !py-2"
-          renderDotsOutside={true}
+          dotListClass="h-9 w-[90%] absolute top-0 !flex !justify-end !items-center !py-2"
+          renderDotsOutside
           containerClass="w-full"
           customDot={<CustomDot />}
-          itemClass="mx-5 h-[412px] w-[100px] md:h-[459px] md:w-[262px]"
+          itemClass="mr-20 lg:mr-12"
           customLeftArrow={<CustomLeftArrow />}
           customRightArrow={<CustomRightArrow />}
           data-testid="carousel"
+          partialVisible={false}
+          // centerMode
         >
           {documentItems.map((item) => (
             <DocumentItem key={item.id} {...item} data-testid="DocumentItem" />
