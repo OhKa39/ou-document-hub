@@ -9,65 +9,7 @@ import Book3 from '@/public/Book3.webp';
 import 'react-multi-carousel/lib/styles.css';
 import CustomRightArrow from '../Carousel/CustomRightArrow';
 import CustomLeftArrow from '../Carousel/CustomLeftArrow';
-
-const documentItems = [
-  {
-    id: 1,
-    name: 'Giáo trình pháp luật đại cương',
-    price: 299000,
-    image: Book1,
-    tag: 'New',
-  },
-  {
-    id: 2,
-    name: 'Sách công nghệ phần mềm',
-    price: 299000,
-    image: Book2,
-    tag: 'New',
-  },
-  {
-    id: 3,
-    name: 'Sách quản trị nhân lực',
-    price: 299000,
-    image: Book3,
-    tag: 'New',
-  },
-  {
-    id: 4,
-    name: 'Giáo trình pháp luật đại cương',
-    price: 299000,
-    image: Book1,
-    tag: 'New',
-  },
-  {
-    id: 5,
-    name: 'Giáo trình pháp luật đại cương',
-    price: 299000,
-    image: Book1,
-    tag: 'New',
-  },
-  {
-    id: 6,
-    name: 'Giáo trình pháp luật đại cương',
-    price: 299000,
-    image: Book1,
-    tag: 'New',
-  },
-  {
-    id: 7,
-    name: 'Giáo trình pháp luật đại cương',
-    price: 299000,
-    image: Book1,
-    tag: 'New',
-  },
-  {
-    id: 8,
-    name: 'Giáo trình pháp luật đại cương',
-    price: 299000,
-    image: Book1,
-    tag: 'New',
-  },
-];
+import documents from '@/__mocks__/data/documents';
 
 const responsive = {
   desktop: {
@@ -116,7 +58,7 @@ const DocumentMultiCarousel = () => {
           partialVisible={false}
           // centerMode
         >
-          {documentItems.map((item) => (
+          {documents.map((item) => (
             <DocumentItem key={item.id} {...item} data-testid="DocumentItem" />
           ))}
         </Carousel>

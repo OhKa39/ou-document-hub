@@ -9,14 +9,9 @@ import { useUserStore } from '../providers/UserProvider';
 import { useQuery } from '@tanstack/react-query';
 import { VscLoading } from 'react-icons/vsc';
 import ServerFetch from '@/utils/ServerFetch';
+import HeaderItemType from '@/types/HeaderItemType';
 
-type menuElementType = {
-  id: number;
-  name: string;
-  link: string;
-};
-
-const menuElement: menuElementType[] = [
+const menuElement: HeaderItemType[] = [
   {
     id: 1,
     name: 'Trang Chủ',
@@ -64,7 +59,7 @@ const Navbar = () => {
   return (
     <nav className="relative z-[999] flex h-[3.75rem] max-w-[1536px] justify-between px-12 py-4 shadow-lg md:px-8 lg:px-32 2xl:mx-auto">
       {/*Logo*/}
-      <div className="flex justify-center space-x-2">
+      <div className="flex justify-center space-x-2 md:space-x-0">
         <ResponsiveMenu />
         <h1 className="font-Poppins cursor-pointer text-xl font-bold text-[#0c4ca3]">
           <Link href="/">OUDocumentHub</Link>
@@ -73,7 +68,7 @@ const Navbar = () => {
 
       {/*Menu Items*/}
       <ul className="hidden justify-between space-x-6 py-1 md:flex">
-        {menuElement.map((ele: menuElementType, idx: number) => (
+        {menuElement.map((ele: HeaderItemType) => (
           <li
             key={ele.id}
             data-testid="MenuItemDesktop"

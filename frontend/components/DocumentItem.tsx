@@ -5,18 +5,16 @@ import Image from 'next/image';
 import { IoHeartOutline } from 'react-icons/io5';
 import { Rating } from 'react-simple-star-rating';
 import Link from 'next/link';
+import DocumentType from '@/types/DocumentType';
 
-type Props = {
-  id: number;
-  name: string;
-  price: number;
-  image: any;
-  tag: string | undefined;
+type ComponentType = {
   resolutionMobile?: Array<number>;
   resolutionPC?: Array<number>;
 };
 
-const DocumentItem = ({ id, name, price, image, tag, resolutionMobile, resolutionPC }: Props) => {
+type props = ComponentType & DocumentType;
+
+const DocumentItem = ({ id, name, price, image, tag, resolutionMobile, resolutionPC }: props) => {
   const SCALE_MOBILE = resolutionMobile ?? [412, 231]; //hxw with default value
   const SCALE_PC = resolutionPC ?? [459, 262];
 
@@ -72,7 +70,7 @@ const DocumentItem = ({ id, name, price, image, tag, resolutionMobile, resolutio
         </div>
         {/* add to cart button */}
         <Button
-          className="absolute bottom-2 left-1/2 hidden w-[88%] -translate-x-1/2 bg-black group-hover:block md:w-[84%]"
+          className="absolute bottom-2 left-1/2 hidden w-[88%] -translate-x-1/2 group-hover:block md:w-[84%]"
           data-testid="AddToCart"
           aria-label="Add To Cart"
         >
@@ -90,7 +88,7 @@ const DocumentItem = ({ id, name, price, image, tag, resolutionMobile, resolutio
           data-testid="Stars"
         />
         <h1
-          className="w-[80%] overflow-hidden text-ellipsis text-base font-semibold md:text-[18px]"
+          className="overflow-hidden text-ellipsis text-base font-semibold md:text-[18px] lg:w-[80%]"
           data-testid="DocumentName"
         >
           <Link href="#">{name}</Link>

@@ -20,15 +20,9 @@ import { useRouter } from 'next/navigation';
 import { getAuthCookies } from '@/actions/getAuthCookies';
 // import CustomFetch from '@/utils/CustomFetch';
 import Image from 'next/image';
-import { Button } from '../ui/button';
-import UserSchema from '@/schemas/UserSchema';
+import { UserState } from '@/store/UserStore';
 
-type propsType = {
-  isAuthenticated: boolean;
-  user: UserSchema;
-};
-
-const UserDropDown = ({ isAuthenticated, user }: propsType) => {
+const UserDropDown = ({ isAuthenticated, user }: UserState) => {
   const { logOut } = useUserStore((state) => state);
   const router = useRouter();
 

@@ -5,14 +5,9 @@ import { IconType } from 'react-icons';
 import { IoClose, IoHeartOutline, IoMailOutline, IoMenuOutline } from 'react-icons/io5';
 import { AiOutlineMessage } from 'react-icons/ai';
 import { Button } from '@/components/ui/button';
+import HeaderItemType from '@/types/HeaderItemType';
 
-type menuItemType = {
-  id: number;
-  link: string;
-  name: string;
-};
-
-const menuItems = [
+const menuItems: HeaderItemType[] = [
   {
     id: 1,
     link: '#',
@@ -40,10 +35,7 @@ const menuItems = [
   },
 ];
 
-type subMenuItemType = {
-  id: number;
-  link: string;
-  name: string;
+type subMenuItemType = HeaderItemType & {
   icon: IconType;
 };
 
@@ -98,7 +90,7 @@ const ResponsiveMenu = () => {
               <h1 className="mt-[16px] text-[24px] font-bold text-[#0c4ca3]">OUDocumentHub</h1>
               {/* Section 1 */}
               <ul className="mt-4 flex min-h-[200px] flex-col gap-4">
-                {menuItems.map((item: menuItemType, index: number) => (
+                {menuItems.map((item: HeaderItemType) => (
                   <li
                     data-testid="MenuResponsiveItem"
                     key={item.id}

@@ -1,20 +1,15 @@
+import SocialMediaType from '@/types/SocialMediaType';
 import Link from 'next/link';
 import React from 'react';
 import { SocialIcon } from 'react-social-icons/component';
 import 'react-social-icons/facebook';
 import 'react-social-icons/google';
 
-type socialMediaType = {
-  id: number;
-  url: string;
-  link: string;
-};
-
 const onClickHandler = (link: string) => {
   window.location.href = link;
 };
 
-const socialMedia: socialMediaType[] = [
+const socialMedia: SocialMediaType[] = [
   {
     id: 1,
     url: 'facebook',

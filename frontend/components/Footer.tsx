@@ -1,22 +1,17 @@
+import HeaderItemType from '@/types/HeaderItemType';
 import Link from 'next/link';
 import React from 'react';
 import { FaInstagram, FaGithub, FaFacebook } from 'react-icons/fa';
 
-type headerItemType = {
-  id: number;
-  link: string;
-  name: string;
-};
-
-const headerItems: headerItemType[] = [
+const headerItems: HeaderItemType[] = [
   {
     id: 1,
-    link: '#',
+    link: '/',
     name: 'Trang chủ',
   },
   {
     id: 2,
-    link: '#',
+    link: '/documents',
     name: 'Kho tài liệu',
   },
   {
