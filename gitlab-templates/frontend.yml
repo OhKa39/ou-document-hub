@@ -34,8 +34,6 @@ install_packages:
     paths:
       - frontend/node_modules/
   artifacts:
-    paths:
-      - frontend/node_modules/
     changes:
       - package.json
 
@@ -46,16 +44,14 @@ unit-test:
   script:
     - cd frontend/
     - npm run test:coverage
-    - cd frontend/
-    - npm run test:coverage
   coverage: /All files[^|]*\|[^|]*\s+([\d\.]+)/
   dependencies:
     - install_packages
   artifacts:
     when: always
     paths:
-      - coverage/
-      - test-report/
+      - frontend/coverage/
+      - frontend/test-report/
 
 lint-test:
   stage: test
@@ -64,8 +60,6 @@ lint-test:
   dependencies:
     - install_packages
   script:
-    - cd frontend/
-    - npm run lint
     - cd frontend/
     - npm run lint
 
@@ -87,7 +81,6 @@ code-quality:
   dependencies:
     - unit-test
   script:
-    - mv test-report coverage frontend/
     - cd frontend/
     - sonar-scanner -Dsonar.token=$SONAR_TOKEN -Dsonar.host.url=https://sonarcloud.io/ -Dsonar.sources=.
     

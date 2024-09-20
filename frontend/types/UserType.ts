@@ -1,4 +1,4 @@
-type UserSchema = {
+type UserType = {
   userId: string;
   email: string;
   firstName: string;
@@ -11,4 +11,4 @@ type UserSchema = {
   avatarLink: string
 } | null
 
-export default UserSchema;
+export default UserType;

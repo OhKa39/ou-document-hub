@@ -3,18 +3,18 @@ import { createStore } from 'zustand/vanilla'
 
 import {persist, devtools } from 'zustand/middleware'
 
-import UserSchema from '../schemas/UserSchema'
+import UserType from '../types/UserType'
 
 export type UserState = {
   isAuthenticated: boolean; 
-  user: UserSchema;
+  user: UserType;
 }
 
 export type UserActions = {
-  setUser: (data: UserSchema) => void
+  setUser: (data: UserType) => void
   logOut: () => void
   signIn: (data: any) => void
-  signUp: (data: UserSchema) => void
+  signUp: (data: UserType) => void
 }
 
 export type UserStore = UserState & UserActions
