@@ -1,5 +1,5 @@
+'use client';
 import SocialMediaType from '@/types/SocialMediaType';
-import Link from 'next/link';
 import React from 'react';
 import { SocialIcon } from 'react-social-icons/component';
 import 'react-social-icons/facebook';
@@ -36,7 +36,7 @@ const ThirdAppsButton = () => {
           />
         ))}
       </div>
-      <h1 className="text-[color:var(--neutral-04)]">or</h1>
+      <p className="text-[color:var(--neutral-04)]">or</p>
     </div>
   );
 };

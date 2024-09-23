@@ -16,7 +16,7 @@ const CarouselImageSection = () => {
           style={{ objectFit: 'cover' }}
         />
         {/* text section */}
-        <div className="absolute flex h-full w-full flex-col items-center justify-center gap-8 font-bold">
+        <div className="absolute flex h-full w-full flex-col items-center justify-center gap-8 font-semibold">
           <div className="flex gap-2">
             <p className="text-slate-700">Trang chủ {` >`}</p>
             <p>Kho tài liệu</p>

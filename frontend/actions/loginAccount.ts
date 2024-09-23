@@ -1,5 +1,5 @@
-'use server'
-import {SignInSchema} from '@/schemas/SignInSchema'
+'use server';
+import { SignInSchema } from '@/schemas/SignInSchema';
 import { setAuthCookies } from './setAuthCookies';
 export async function loginAccount(data: any) {
   const parsedData = SignInSchema.safeParse(data);
@@ -16,11 +16,11 @@ export async function loginAccount(data: any) {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(parsedData.data),
-  }).then((data)=> data.json())
+  }).then((data) => data.json());
 
-  if(dataResponse.statusCode === 200){
-    setAuthCookies(dataResponse.data)
+  if (dataResponse.statusCode === 200) {
+    setAuthCookies(dataResponse.data);
   }
 
-  return { statusCode: dataResponse.statusCode, data: dataResponse.data};
+  return { statusCode: dataResponse.statusCode, data: dataResponse.data };
 }

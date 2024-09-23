@@ -1,4 +1,4 @@
 {
-    "outputPath": "./test-report/test-report.html",
-    "includeFailureMsg": true
+  "outputPath": "./test-report/test-report.html",
+  "includeFailureMsg": true
 }

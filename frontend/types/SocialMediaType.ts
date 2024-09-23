@@ -1,7 +1,7 @@
 type SocialMediaType = {
-    id: number;
-    url: string;
-    link: string;
+  id: number;
+  url: string;
+  link: string;
 };
 
-export default SocialMediaType
+export default SocialMediaType;

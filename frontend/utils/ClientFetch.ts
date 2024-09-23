@@ -1,16 +1,15 @@
-import { setAuthCookies } from "@/actions/setAuthCookies";
+import { setAuthCookies } from '@/actions/setAuthCookies';
 
 let isRefreshing = false;
 let refreshSubscribers: any = [];
 
 const ClientFetch = async (url: string, options: RequestInit = {}) => {
-  const globalState = JSON.parse(localStorage.getItem('UserStore')!)
-
+  const globalState = JSON.parse(localStorage.getItem('UserStore')!);
 
   // console.log(globalState)
 
   // Attach access token to headers if available
-  if(globalState?.state?.refreshToken)
+  if (globalState?.state?.refreshToken)
     options.headers = {
       ...options.headers!,
       Authorization: `Bearer ${globalState?.state?.accessToken}`,
@@ -19,7 +18,7 @@ const ClientFetch = async (url: string, options: RequestInit = {}) => {
   try {
     let response = await fetch(url, options);
 
-    console.log(response)
+    console.log(response);
 
     // If access token is expired, handle refresh logic
     if (response.status === 401 && globalState?.state.refreshToken) {
@@ -28,10 +27,19 @@ const ClientFetch = async (url: string, options: RequestInit = {}) => {
         isRefreshing = true;
         try {
           const newToken = await refreshAccessToken(globalState?.state.refreshToken).then((data) => data.json());
-          if(newToken.statusCode === 200){
-            localStorage.setItem('UserStore', JSON.stringify({...globalState, state:{...globalState?.state, accessToken: newToken.data?.accessToken, refreshToken: newToken.data?.refreshToken}}))
-            if(newToken.data?.refreshToken !== globalState?.state.refreshToken)
-              await setAuthCookies(newToken)
+          if (newToken.statusCode === 200) {
+            localStorage.setItem(
+              'UserStore',
+              JSON.stringify({
+                ...globalState,
+                state: {
+                  ...globalState?.state,
+                  accessToken: newToken.data?.accessToken,
+                  refreshToken: newToken.data?.refreshToken,
+                },
+              })
+            );
+            if (newToken.data?.refreshToken !== globalState?.state.refreshToken) await setAuthCookies(newToken);
           }
           // console.log(newToken.data?.accessToken)
 
@@ -41,7 +49,7 @@ const ClientFetch = async (url: string, options: RequestInit = {}) => {
             ...options.headers!,
             Authorization: `Bearer ${newToken.data?.accessToken}`,
           };
-          return fetch(url, options)
+          return fetch(url, options);
         } catch (refreshError) {
           console.error('Failed to refresh token:', refreshError);
           throw refreshError;

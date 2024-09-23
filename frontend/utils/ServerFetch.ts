@@ -1,19 +1,18 @@
-import { getAuthCookies } from "@/actions/getAuthCookies";
+import { getAuthCookies } from '@/actions/getAuthCookies';
 
 const BASE_URL = process.env.NEXT_PUBLIC_HOST;
 
 export default async function ServerFetch(url: any, options: RequestInit = {}) {
-  let {accessToken, JSESSIONID} = await getAuthCookies(); 
+  let { accessToken, JSESSIONID } = await getAuthCookies();
 
   const fetchOptions = {
     ...options,
     headers: {
       ...options.headers,
-      ...(accessToken ? { 'Authorization': `Bearer ${accessToken}` } : {}),
-      Cookie: `JSESSIONID=${JSESSIONID}`
+      ...(accessToken ? { Authorization: `Bearer ${accessToken}` } : {}),
+      Cookie: `JSESSIONID=${JSESSIONID}`,
     },
   };
-
 
   // console.log(fetchOptions)
 

@@ -4,6 +4,6 @@ type DocumentType = {
   price: number;
   image: any;
   tag: string | undefined;
-}
+};
 
-export default DocumentType
+export default DocumentType;

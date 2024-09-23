@@ -4,7 +4,7 @@ const CustomDot = ({ onClick, active }: { onClick?: any; active?: any }) => {
       className={`mx-1 focus:outline-none ${active ? 'h-6 w-6 md:h-7 md:w-7' : 'h-3 w-3 md:h-4 md:w-4'} cursor-pointer`}
       data-testid="Dot"
       onClick={() => onClick()}
-      role='button'
+      role="button"
       aria-hidden="true"
     >
       <span

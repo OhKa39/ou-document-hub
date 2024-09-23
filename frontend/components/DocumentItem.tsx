@@ -41,9 +41,9 @@ const DocumentItem = ({ id, name, price, image, tag, resolutionMobile, resolutio
         <div className="absolute left-1/2 top-1 z-[99] flex w-[85%] -translate-x-1/2 items-center justify-between">
           <div className="w-[33%] bg-white text-center drop-shadow-md">
             {tag && (
-              <h1 className="text-base font-bold" data-testid="Tag">
+              <p className="text-base font-bold" data-testid="Tag">
                 {tag}
-              </h1>
+              </p>
             )}
           </div>
           <div className="flex h-8 w-8 cursor-pointer rounded-full bg-white text-center opacity-0 drop-shadow-md group-hover:opacity-100">
@@ -87,15 +87,15 @@ const DocumentItem = ({ id, name, price, image, tag, resolutionMobile, resolutio
           fillColor="#FFAB08"
           data-testid="Stars"
         />
-        <h1
+        <p
           className="overflow-hidden text-ellipsis text-base font-semibold md:text-[18px] lg:w-[80%]"
           data-testid="DocumentName"
         >
           <Link href="#">{name}</Link>
-        </h1>
-        <h1 className="text-sm font-semibold text-[#B30000] md:text-base" data-testid="DocumentPrice">
+        </p>
+        <p className="text-sm font-semibold text-[#B30000] md:text-base" data-testid="DocumentPrice">
           {price.toLocaleString('it-IT', { style: 'currency', currency: 'VND' })}
-        </h1>
+        </p>
       </div>
     </div>
   );

@@ -32,13 +32,13 @@
     --primary-1: #000000;
     --primary-2: #1182c5;
     --secondary-blue: #0c4ca3;
-    --secondary-red: #FF5630;
-    --secondary-green: #38CB89;
-    --secondary-orange: #FFAB00;
-    --neutral-01: #FEFEFE;
-    --neutral-02: #F3F5F7;
-    --neutral-03: #E8ECEF;
-    --neutral-04: #6C7275;
+    --secondary-red: #ff5630;
+    --secondary-green: #38cb89;
+    --secondary-orange: #ffab00;
+    --neutral-01: #fefefe;
+    --neutral-02: #f3f5f7;
+    --neutral-03: #e8ecef;
+    --neutral-04: #6c7275;
     --neutral-05: #343839;
     --neutral-06: #232627;
     --neutral-07: #141718;
@@ -77,7 +77,7 @@
     @apply border-border;
     box-sizing: border-box;
     padding: 0;
-    margin: 0
+    margin: 0;
   }
   body {
     @apply bg-background text-foreground;
@@ -85,14 +85,34 @@
 }
 
 .scrollbar-hide {
-  -ms-overflow-style: none;  /* Hide scrollbar for Internet Explorer and Edge */
-  scrollbar-width: none;  /* Hide scrollbar for Firefox */
+  -ms-overflow-style: none; /* Hide scrollbar for Internet Explorer and Edge */
+  scrollbar-width: none; /* Hide scrollbar for Firefox */
 }
 
-.rdp [aria-hidden="true"]{
-    @apply hidden;
+.rdp [aria-hidden='true'] {
+  @apply hidden;
 }
 
-.rdp-vhidden{
-    @apply hidden;
+.rdp-vhidden {
+  @apply hidden;
+}
+
+.custom-scrollbar {
+  @apply overflow-y-auto;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  @apply w-1.5;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  @apply bg-transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  @apply rounded-full bg-gray-400;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  @apply bg-gray-500;
 }

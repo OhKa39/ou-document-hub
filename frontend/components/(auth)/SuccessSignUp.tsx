@@ -3,7 +3,7 @@ import { Card, CardContent } from '../ui/card';
 import { Button } from '../ui/button';
 import Image from 'next/image';
 import VietnameseGirl from '@/public/VietnameseGirl.jpg';
-import Link from 'next/link'
+import Link from 'next/link';
 
 const SuccessSignUp = () => {
   return (

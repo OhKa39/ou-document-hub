@@ -8,7 +8,7 @@ type UserType = {
   createdAt: Date;
   roles: string[];
   provider: string;
-  avatarLink: string
-} | null
+  avatarLink: string;
+} | null;
 
 export default UserType;

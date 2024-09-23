@@ -15,4 +15,4 @@ function CustomPasswordStrength(password: string) {
 
   return score; // Score will range from 0 to 5
 }
-export default CustomPasswordStrength
+export default CustomPasswordStrength;

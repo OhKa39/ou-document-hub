@@ -50,92 +50,92 @@ const Hero = () => {
   };
 
   return (
-      <div
-        className="relative flex min-h-[550px] max-w-[1536px] items-center justify-center bg-gray-100 duration-200 sm:min-h-[650px] 2xl:mx-auto"
-        // style={bgImage}
-      >
-        <div className="absolute bottom-0 w-full" style={{ aspectRatio: Vector.width / Vector.height }}>
-          <Image src={Vector} alt="Background" fill priority />
-        </div>
-        <div className="container z-[99] pb-8 sm:pb-0">
-          <div className="grid grid-cols-1 sm:grid-cols-2">
-            {/* text content section */}
-            <div
+    <div
+      className="relative flex min-h-[550px] max-w-[1536px] items-center justify-center bg-gray-100 duration-200 sm:min-h-[650px] 2xl:mx-auto"
+      // style={bgImage}
+    >
+      <div className="absolute bottom-0 w-full" style={{ aspectRatio: Vector.width / Vector.height }}>
+        <Image src={Vector} alt="Background" fill priority />
+      </div>
+      <div className="container z-[99] pb-8 sm:pb-0">
+        <div className="grid grid-cols-1 sm:grid-cols-2">
+          {/* text content section */}
+          <div
+            data-aos-once="true"
+            className="order-2 flex flex-col justify-center gap-4 pt-12 text-center sm:order-1 sm:pt-0 sm:text-left"
+          >
+            <h1
+              data-aos="zoom-out"
+              data-aos-duration="500"
               data-aos-once="true"
-              className="order-2 flex flex-col justify-center gap-4 pt-12 text-center sm:order-1 sm:pt-0 sm:text-left"
+              className="text-5xl font-bold sm:text-6xl lg:text-7xl"
+              data-testid="Title"
             >
-              <h1
-                data-aos="zoom-out"
-                data-aos-duration="500"
-                data-aos-once="true"
-                className="text-5xl font-bold sm:text-6xl lg:text-7xl"
-                data-testid="Title"
-              >
-                {title}
-                <p
-                  className="mt-2 bg-gradient-to-b from-[#1182c5] to-[#2aa6df] bg-clip-text text-right text-sm text-transparent"
-                  data-testid="ByText"
-                >
-                  by {by}
-                </p>{' '}
-              </h1>
+              {title}
               <p
-                data-aos="slide-up"
-                data-aos-duration="500"
-                data-aos-delay="100"
-                className="text-sm"
-                data-testid="BookDescription"
+                className="mt-2 bg-gradient-to-b from-[#1182c5] to-[#2aa6df] bg-clip-text text-right text-sm text-transparent"
+                data-testid="ByText"
               >
-                {description}
-              </p>
-              <div>
-                <button
-                  // onClick={handleOrderPopup}
-                  className="rounded-full bg-gradient-to-r from-[#1182c5] to-[#2aa6df] px-4 py-2 text-white duration-200 hover:scale-105"
-                  data-testid="OrderButton"
-                  aria-label="Order"
-                >
-                  Đặt hàng
-                </button>
-              </div>
+                by {by}
+              </p>{' '}
+            </h1>
+            <p
+              data-aos="slide-up"
+              data-aos-duration="500"
+              data-aos-delay="100"
+              className="text-sm"
+              data-testid="BookDescription"
+            >
+              {description}
+            </p>
+            <div>
+              <button
+                // onClick={handleOrderPopup}
+                className="rounded-full bg-gradient-to-r from-[#1182c5] to-[#2aa6df] px-4 py-2 text-white duration-200 hover:scale-105"
+                data-testid="OrderButton"
+                aria-label="Order"
+              >
+                Đặt hàng
+              </button>
             </div>
-            {/* Image section */}
-            <div className="relative order-1 flex min-h-[450px] items-center justify-center sm:order-2 sm:ml-8 sm:min-h-[450px] md:ml-6">
-              <div className="flex h-[300px] items-center justify-center overflow-hidden sm:h-[450px]">
+          </div>
+          {/* Image section */}
+          <div className="relative order-1 flex min-h-[450px] items-center justify-center sm:order-2 sm:ml-8 sm:min-h-[450px] md:ml-6">
+            <div className="flex h-[300px] items-center justify-center overflow-hidden sm:h-[450px]">
+              <Image
+                data-aos="zoom-in"
+                data-aos-once="true"
+                src={imageId}
+                priority
+                alt="biryani img"
+                className="mx-auto h-[300px] w-[300px] object-contain sm:h-[450px] sm:w-[450px] sm:scale-100"
+                data-testid="MainBook"
+              />
+            </div>
+            <div className="absolute -bottom-[40px] flex justify-center gap-4 rounded-full bg-white lg:-right-1 lg:top-1/2 lg:-translate-y-1/2 lg:flex-col lg:py-2">
+              {ImageList.map((item) => (
                 <Image
+                  key={item.id}
                   data-aos="zoom-in"
                   data-aos-once="true"
-                  src={imageId}
                   priority
+                  src={item.img}
+                  onClick={() => {
+                    setImageId(item.id === 1 ? Book1 : item.id === 2 ? Book2 : Book3);
+                    setTitle(item.title);
+                    setDescription(item.description);
+                    setBy(item.by);
+                  }}
                   alt="biryani img"
-                  className="mx-auto h-[300px] w-[300px] object-contain sm:h-[450px] sm:w-[450px] sm:scale-100"
-                  data-testid="MainBook"
+                  className="inline-block h-[100px] max-w-[100px] cursor-pointer object-contain duration-200 hover:scale-110"
+                  data-testid="Books"
                 />
-              </div>
-              <div className="absolute -bottom-[40px] flex justify-center gap-4 rounded-full bg-white lg:-right-1 lg:top-1/2 lg:-translate-y-1/2 lg:flex-col lg:py-2">
-                {ImageList.map((item) => (
-                  <Image
-                    key={item.id}
-                    data-aos="zoom-in"
-                    data-aos-once="true"
-                    priority
-                    src={item.img}
-                    onClick={() => {
-                      setImageId(item.id === 1 ? Book1 : item.id === 2 ? Book2 : Book3);
-                      setTitle(item.title);
-                      setDescription(item.description);
-                      setBy(item.by);
-                    }}
-                    alt="biryani img"
-                    className="inline-block h-[100px] max-w-[100px] cursor-pointer object-contain duration-200 hover:scale-110"
-                    data-testid="Books"
-                  />
-                ))}
-              </div>
+              ))}
             </div>
           </div>
         </div>
       </div>
+    </div>
   );
 };
 

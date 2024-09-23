@@ -1,7 +1,7 @@
 type HeaderItemType = {
-    id: number;
-    link: string;
-    name: string;
-  };
+  id: number;
+  link: string;
+  name: string;
+};
 
-export default HeaderItemType
+export default HeaderItemType;

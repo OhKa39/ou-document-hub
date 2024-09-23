@@ -21,7 +21,9 @@ const FailSignUp = () => {
             <div className="rounded-md bg-red-100 p-3 text-red-800">
               <p>Đường dẫn xác nhận đăng ký đã hết hạn hoặc không tồn tại</p>
             </div>
-            <Button className="w-full bg-red-500 text-white hover:bg-red-600"><Link href="/">Quay về trang chủ</Link></Button>
+            <Button className="w-full bg-red-500 text-white hover:bg-red-600">
+              <Link href="/">Quay về trang chủ</Link>
+            </Button>
           </div>
         </CardContent>
       </Card>

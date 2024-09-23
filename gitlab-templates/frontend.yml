@@ -34,8 +34,8 @@ install_packages:
     paths:
       - frontend/node_modules/
   artifacts:
-    changes:
-      - package.json
+    paths:
+      - frontend/node_modules/
 
 unit-test:
   stage: test

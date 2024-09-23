@@ -34,9 +34,9 @@ const DocumentDetails = () => {
             Buy one or buy a few and make every space where you sit more convenient. Light and easy to move around with
             removable tray top, handy for serving snacks.
           </p>
-          <h1 className="text-2xl font-semibold text-[#B30000]" data-testid="DocumentPrice">
+          <p className="text-2xl font-semibold text-[#B30000]" data-testid="DocumentPrice">
             {Number(1110000).toLocaleString('it-IT', { style: 'currency', currency: 'VND' })}
-          </h1>
+          </p>
         </div>
         <Button>Thêm vào giỏ hàng</Button>
       </div>
