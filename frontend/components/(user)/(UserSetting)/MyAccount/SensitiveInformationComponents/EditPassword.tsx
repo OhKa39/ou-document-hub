@@ -29,7 +29,9 @@ const EditPassword = () => {
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>Chỉnh sửa ngày sinh</DialogTitle>
-          <DialogDescription>Make changes to your profile here. Click save when you're done.</DialogDescription>
+          <DialogDescription>
+            Make changes to your profile here. Click save when you{`&apos;`}re done.
+          </DialogDescription>
         </DialogHeader>
         {/* <EditNameForm/> */}
         {/* <DialogFooter>

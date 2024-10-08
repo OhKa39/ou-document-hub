@@ -20,10 +20,10 @@ const EditDOB = ({ DOB }: props) => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <div className="flex h-20 lg:h-14 w-full cursor-pointer items-center gap-4 border-t-[1px] border-[#e2e8f0] text-sm font-medium text-[#444746] hover:bg-[#F6F6F6]">
-          <div className="flex min-w-[70%] h-fit flex-col gap-4 lg:flex-row">
+        <div className="flex h-20 w-full cursor-pointer items-center gap-4 border-t-[1px] border-[#e2e8f0] text-sm font-medium text-[#444746] hover:bg-[#F6F6F6] lg:h-14">
+          <div className="flex h-fit min-w-[70%] flex-col gap-4 lg:flex-row">
             <p className="mt-[3px] lg:min-w-[120px]">Ngày sinh</p>
-            <p className="lg:min-w-[420px] text-base">{DOB?.toLocaleString('vi-VN')}</p>
+            <p className="text-base lg:min-w-[420px]">{DOB?.toLocaleString('vi-VN')}</p>
           </div>
           <div className="flex w-full items-center justify-end">
             <MdKeyboardArrowRight size={40} />
@@ -33,7 +33,9 @@ const EditDOB = ({ DOB }: props) => {
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>Chỉnh sửa ngày sinh</DialogTitle>
-          <DialogDescription>Make changes to your profile here. Click save when you're done.</DialogDescription>
+          <DialogDescription>
+            Make changes to your profile here. Click save when you{`&apos;`}re done.
+          </DialogDescription>
         </DialogHeader>
         {/* <EditNameForm/> */}
         {/* <DialogFooter>

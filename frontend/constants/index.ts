@@ -45,7 +45,7 @@ export const NAVBAR_ITEMS: HeaderItemType[] = [
   {
     id: 3,
     name: 'Kênh Người Bán',
-    link: '/seller-channel',
+    link: '/seller-channel/add-document',
   },
 ];
 

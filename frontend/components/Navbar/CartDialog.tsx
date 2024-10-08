@@ -36,7 +36,7 @@ const CartDialog = () => {
               </div>
             </div>
             <Button className="mx-4 mt-2">Checkout</Button>
-            <Link className="mx-auto mt-2 font-semibold underline" href="#">
+            <Link className="mx-auto mt-2 font-semibold underline" href="/cart/process-step-1">
               View Cart
             </Link>
           </div>

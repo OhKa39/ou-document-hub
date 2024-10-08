@@ -16,7 +16,7 @@ const AdminSidebar = () => {
       </h1>
       <div className="flex flex-col">
         {ADMIN_NAV_ITEMS.map((item) => (
-          <div className="relative flex h-[50px] w-full items-center justify-center text-[14px] font-medium text-black">
+          <div key={item.id} className="relative flex h-[50px] w-full items-center justify-center text-[14px] font-medium text-black">
             {path.includes(item.link) && (
               <div className="absolute left-0 top-0 h-full w-[6px] rounded-md bg-[#0c4ca3]"></div>
             )}

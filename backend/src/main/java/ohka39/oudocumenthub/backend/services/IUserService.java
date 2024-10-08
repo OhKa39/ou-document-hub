@@ -1,6 +1,7 @@
 package ohka39.oudocumenthub.backend.services;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
 
@@ -19,5 +20,7 @@ public interface IUserService {
     public UserDTO setNameById(String userId, EditNameRequest request);
 
     public UserDTO setAvatarById(String userId, MultipartFile request) throws IOException;
+
+    public List<UserDTO> getUserList();
 
 }

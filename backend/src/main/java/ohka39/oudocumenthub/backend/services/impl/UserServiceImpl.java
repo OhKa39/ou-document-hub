@@ -167,4 +167,11 @@ public class UserServiceImpl implements IUserService, UserDetailsManager {
         userRepository.saveAndFlush(user);
         return userMapper.toUserDTO(user);
     }
+
+    @Override
+    public List<UserDTO> getUserList() {
+        List<User> users = userRepository.findAll();
+        List<UserDTO> usersDTO = users.stream().map(item -> userMapper.toUserDTO(item)).toList();
+        return usersDTO;
+    }
 }

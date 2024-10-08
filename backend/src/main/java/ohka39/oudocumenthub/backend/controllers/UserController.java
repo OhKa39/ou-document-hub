@@ -1,6 +1,7 @@
 package ohka39.oudocumenthub.backend.controllers;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,41 +30,51 @@ import ohka39.oudocumenthub.backend.services.IUserService;
 @Slf4j
 public class UserController {
 
-    private final IUserService userService;
+        private final IUserService userService;
 
-    @GetMapping
-    public ResponseEntity<ResponseDTO> getCurrentUser(Authentication auth) {
-        UserDTO userResponse = auth.getPrincipal() instanceof DefaultOAuth2User
-                ? userService.getUserById(((DefaultOAuth2User) auth.getPrincipal()).getName())
-                : userService
-                        .getUserById(((User) auth.getPrincipal()).getUserId().toString());
-        ResponseDTO response = new ResponseDTO("success", HttpStatus.OK.value(), userResponse,
-                "retrieve user successfully");
-        return ResponseEntity.ok().body(response);
-    }
-
-    @PatchMapping("/edit-name")
-    public ResponseEntity<ResponseDTO> editName(@RequestBody @Valid EditNameRequest request, Authentication auth) {
-        UserDTO userResponse = userService.setNameById(((User) auth.getPrincipal()).getUserId().toString(), request);
-
-        ResponseDTO response = new ResponseDTO("success", HttpStatus.OK.value(), userResponse,
-                "update user name successfully");
-        return ResponseEntity.ok().body(response);
-    }
-
-    @PatchMapping("/edit-avatar")
-    public ResponseEntity<ResponseDTO> editAvatar(@RequestParam("file") MultipartFile file, Authentication auth)
-            throws IOException {
-        if (file.isEmpty()) {
-            ResponseDTO response = new ResponseDTO("failed", HttpStatus.BAD_REQUEST.value(), null,
-                    "update avatar failure");
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+        @GetMapping
+        public ResponseEntity<ResponseDTO> getCurrentUser(Authentication auth) {
+                UserDTO userResponse = auth.getPrincipal() instanceof DefaultOAuth2User
+                                ? userService.getUserById(((DefaultOAuth2User) auth.getPrincipal()).getName())
+                                : userService
+                                                .getUserById(((User) auth.getPrincipal()).getUserId().toString());
+                ResponseDTO response = new ResponseDTO("success", HttpStatus.OK.value(), userResponse,
+                                "retrieve user successfully");
+                return ResponseEntity.ok().body(response);
         }
 
-        UserDTO userResponse = userService.setAvatarById(((User) auth.getPrincipal()).getUserId().toString(), file);
+        @GetMapping("/get-users")
+        public ResponseEntity<ResponseDTO> getUserList() {
+                List<UserDTO> users = userService.getUserList();
+                ResponseDTO response = new ResponseDTO("success", HttpStatus.OK.value(), users,
+                                "retrieve all user successfully");
+                return ResponseEntity.ok().body(response);
+        }
 
-        ResponseDTO response = new ResponseDTO("success", HttpStatus.OK.value(), userResponse,
-                "update user name successfully");
-        return ResponseEntity.ok().body(response);
-    }
+        @PatchMapping("/edit-name")
+        public ResponseEntity<ResponseDTO> editName(@RequestBody @Valid EditNameRequest request, Authentication auth) {
+                UserDTO userResponse = userService.setNameById(((User) auth.getPrincipal()).getUserId().toString(),
+                                request);
+
+                ResponseDTO response = new ResponseDTO("success", HttpStatus.OK.value(), userResponse,
+                                "update user name successfully");
+                return ResponseEntity.ok().body(response);
+        }
+
+        @PatchMapping("/edit-avatar")
+        public ResponseEntity<ResponseDTO> editAvatar(@RequestParam("file") MultipartFile file, Authentication auth)
+                        throws IOException {
+                if (file.isEmpty()) {
+                        ResponseDTO response = new ResponseDTO("failed", HttpStatus.BAD_REQUEST.value(), null,
+                                        "update avatar failure");
+                        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+                }
+
+                UserDTO userResponse = userService.setAvatarById(((User) auth.getPrincipal()).getUserId().toString(),
+                                file);
+
+                ResponseDTO response = new ResponseDTO("success", HttpStatus.OK.value(), userResponse,
+                                "update user name successfully");
+                return ResponseEntity.ok().body(response);
+        }
 }

@@ -49,7 +49,9 @@ const CartProcess = () => {
                     <CartItem document={document} />
                   </TableCell>
                   <TableCell className="hidden h-full w-full text-xl lg:m-auto lg:table-cell">
-                    <MinusButton />
+                    <div className="mx-auto h-[56px] w-[80px]">
+                      <MinusButton />
+                    </div>
                   </TableCell>
                   <TableCell className="hidden text-center text-xl lg:table-cell">15</TableCell>
                   <TableCell className="hidden text-center text-xl lg:table-cell">30</TableCell>

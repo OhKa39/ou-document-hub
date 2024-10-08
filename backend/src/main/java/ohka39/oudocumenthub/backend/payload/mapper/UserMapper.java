@@ -25,6 +25,7 @@ public class UserMapper {
         temp.setRoles(roles);
         temp.setPassword(passwordEncoder.encode(user.getPassword()));
         temp.setProvider(provider);
+        temp.setAvatarLink("/default-avatar-2.png");
         return temp;
     }
 
@@ -36,6 +37,7 @@ public class UserMapper {
         temp.setEmail(newUser.getEmail());
         temp.setGender(newUser.getGender());
         temp.setDateOfBirth(newUser.getDateOfBirth());
+        temp.setAvatarLink("/default-avatar-2.png");
         return temp;
     }
 

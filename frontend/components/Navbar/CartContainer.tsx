@@ -6,7 +6,7 @@ const CartContainer = () => {
   return (
     <div className="custom-scrollbar mx-4 mt-8 max-h-[300px] space-y-4 overflow-y-scroll">
       {documents.map((document) => (
-        <CartItem document={document} isSmallSize={true} />
+        <CartItem key={document.id} document={document} isSmallSize={true} />
       ))}
     </div>
   );

@@ -1,6 +1,5 @@
 default:
   image: docker:27
-  image: node:22.6.0-alpine3.19
   services:
     - docker:27-dind
   before_script:
@@ -24,6 +23,7 @@ include:
     - .base-line
 
 install_packages:
+  image: node:22.6.0-alpine3.19
   stage: install
   script:
     - cd frontend/
@@ -83,7 +83,7 @@ code-quality:
   script:
     - cd frontend/
     - sonar-scanner -Dsonar.token=$SONAR_TOKEN -Dsonar.host.url=https://sonarcloud.io/ -Dsonar.sources=.
-    
+
 build:
   stage: build
   extends:

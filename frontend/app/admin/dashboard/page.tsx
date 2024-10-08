@@ -7,8 +7,8 @@ const Dashboard = () => {
     <div className="h-full bg-[#F5F6FA] px-8">
       <p className="py-6 text-3xl font-extrabold">Dashboard</p>
       <div className="grid w-full gap-8 md:grid-cols-2 lg:grid-cols-4">
-        {DASHBOARD_ITEMS.map((item) => (
-          <div className="flex h-[161px] min-w-[262px] flex-col items-center justify-center gap-8 rounded-xl bg-white">
+        {DASHBOARD_ITEMS.map((item, index) => (
+          <div key={index} className="flex h-[161px] min-w-[262px] flex-col items-center justify-center gap-8 rounded-xl bg-white">
             <div className="mt-1 flex w-[90%] items-center justify-between gap-2">
               <div className="flex flex-col gap-4">
                 <p className="font-semibold text-[#202224]/70">{item.name}</p>

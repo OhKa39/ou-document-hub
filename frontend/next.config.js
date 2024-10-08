@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  output: 'standalone',
+  // output: 'standalone',
   async rewrites() {
     return [
       {
@@ -43,7 +43,7 @@ module.exports = withSentryConfig(module.exports, {
   // https://github.com/getsentry/sentry-webpack-plugin#options
 
   org: 'ou-vo',
-  project: 'javascript-nextjs',
+  project: 'oudocumenthub',
 
   // Only print logs for uploading source maps in CI
   silent: !process.env.CI,
