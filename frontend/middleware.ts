@@ -1,4 +1,3 @@
-import { cookies } from 'next/headers';
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import { setAuthCookies } from './actions/setAuthCookies';
@@ -25,27 +24,28 @@ function applySetCookie(req: NextRequest, res: NextResponse): void {
 
 export async function middleware(request: NextRequest) {
   const res = NextResponse.next();
-  const accessToken = request.cookies.get('accessToken')?.value;
-  const refreshToken = request.cookies.get('refreshToken')?.value;
+  let accessToken = request.cookies.get('accessToken')?.value;
+  let refreshToken = request.cookies.get('refreshToken')?.value;
+  const JSESSIONID = request.cookies.get('JSESSIONID')?.value;
 
   if (!accessToken && refreshToken) {
     const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/auth/renew-session`, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ refreshToken }),
     }).then((data) => data.json());
     // console.log(response)
     if (response.statusCode === 200) {
-      res.cookies.set('accessToken', response.data.accessToken, {
+      accessToken = response.data.accessToken;
+      refreshToken = response.data.refreshToken;
+      res.cookies.set('accessToken', accessToken!, {
         httpOnly: true,
         secure: true,
         sameSite: 'strict',
         maxAge: 60 * 10,
         path: '/',
       });
-      res.cookies.set('refreshToken', response.data.refreshToken, {
+      res.cookies.set('refreshToken', refreshToken!, {
         httpOnly: true,
         secure: true,
         sameSite: 'strict',
@@ -54,6 +54,22 @@ export async function middleware(request: NextRequest) {
       });
     } else request.cookies.clear();
     applySetCookie(request, res);
+  }
+
+  if (
+    request.nextUrl.pathname.startsWith('/oauth2') ||
+    request.nextUrl.pathname.startsWith('/sign-up') ||
+    request.nextUrl.pathname.startsWith('/sign-in') ||
+    request.nextUrl.pathname.startsWith('/verify-token')
+  ) {
+    const dataUser = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/user`, {
+      headers: {
+        ...(accessToken ? { Authorization: `Bearer ${accessToken}` } : {}),
+        Cookie: `JSESSIONID=${JSESSIONID}`,
+      },
+    });
+    // console.log(dataUser);
+    if (dataUser.ok) return NextResponse.redirect(new URL('/', request.url));
   }
   return res;
 }

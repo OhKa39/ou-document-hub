@@ -7,7 +7,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -15,7 +14,6 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.client.JdbcOAuth2AuthorizedClientService;
-import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
@@ -66,9 +64,7 @@ public class SecurityConfiguration {
 
     private final CustomOauth2LoginSuccessHandler customOauth2LoginSuccessHandler;
 
-    private final ClientRegistrationRepository clientRegistrationId;
-
-    private final JdbcTemplate jdbcTemplate;
+    private final JdbcOAuth2AuthorizedClientService jdbcOAuth2AuthorizedClientService;
 
     @Bean
     @Order(1)
@@ -99,12 +95,12 @@ public class SecurityConfiguration {
                         .requestMatchers(WHITE_LIST).permitAll()
                         .anyRequest().authenticated())
                 .oauth2Login((oauth2) -> oauth2.successHandler(customOauth2LoginSuccessHandler)
-                        .authorizedClientService(
-                                new JdbcOAuth2AuthorizedClientService(jdbcTemplate,
-                                        clientRegistrationId)))
+                        .authorizedClientService(jdbcOAuth2AuthorizedClientService))
+                // .oauth2Client(Customizer.withDefaults())
                 .exceptionHandling(handler -> handler
                         .authenticationEntryPoint(
                                 new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)));
+
         return http.build();
     }
 

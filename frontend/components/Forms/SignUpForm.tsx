@@ -20,6 +20,7 @@ import { AiOutlineLoading3Quarters } from 'react-icons/ai';
 import EmailVerification from '@/components/(auth)/sign-up/EmailVerification';
 import { useToast } from '@/hooks/use-toast';
 import { useUserStore } from '@/components/providers/UserProvider';
+import CustomSubmitButton from './CustomSubmitButton';
 
 type SchemaProps = z.infer<typeof SignUpSchema>;
 
@@ -258,21 +259,12 @@ const SignUpForm = () => {
                 )}
               />
             </div>
-            <Button
-              type="submit"
-              className="!mt-6 w-full !text-base"
-              aria-label="Submit Form"
-              disabled={form.formState.isSubmitting}
-            >
-              {form.formState.isSubmitting ? (
-                <div className="flex gap-2">
-                  <AiOutlineLoading3Quarters className="animate-spin text-white" size={20} />
-                  <span>Loading</span>
-                </div>
-              ) : (
-                <span> Đăng ký </span>
-              )}
-            </Button>
+            <CustomSubmitButton
+              isSuccess={isSuccess}
+              form={form}
+              successMessage="Đăng ký thành công"
+              defaultMessage="Đăng ký"
+            />
           </form>
         </Form>
       ) : (

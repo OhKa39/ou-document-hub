@@ -17,7 +17,9 @@ const SignUp = () => {
           src="/SignUpVideo.webm"
           className="h-full w-full object-cover"
           data-testid="SignUpVideoSection"
-        ></video>
+        >
+          <source src="/SignUpVideo.webm" type="video/webm" />
+        </video>
       </div>
       {/* sign up section */}
       <div className="mx-[10%] mt-6 pb-20 lg:mx-0 lg:ml-16 lg:mt-14 lg:w-[80%]">

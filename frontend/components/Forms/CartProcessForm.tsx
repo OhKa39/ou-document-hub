@@ -8,30 +8,13 @@ import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { CartProcessSchema } from '@/schemas/CartProcessSchema';
-
-const options = [
-  {
-    id: 1,
-    name: 'Free shipping',
-    value: 'test1',
-  },
-  {
-    id: 2,
-    name: 'Express shipping',
-    value: 'test2',
-  },
-  {
-    id: 3,
-    name: 'Pick up',
-    value: 'test3',
-  },
-];
+import { CART_PROCESS_OPTIONS } from '@/constants';
 
 const CartProcessForm = () => {
   const form = useForm<z.infer<typeof CartProcessSchema>>({
     resolver: zodResolver(CartProcessSchema),
     defaultValues: {
-      type: options[0].value,
+      type: CART_PROCESS_OPTIONS[0].value,
     },
   });
 
@@ -49,7 +32,7 @@ const CartProcessForm = () => {
             <FormControl>
               <FormItem>
                 <RadioGroup className="mt-4 w-full space-y-2" onValueChange={field.onChange} defaultValue={field.value}>
-                  {options.map((option) => (
+                  {CART_PROCESS_OPTIONS.map((option) => (
                     <FormItem
                       className="flex h-[52px] w-full items-center space-x-2 rounded-sm border-[1px] border-[#6c7275] px-2"
                       key={option.id}

@@ -1,7 +1,7 @@
 // src/stores/counter-store.ts
 import { createStore } from 'zustand/vanilla';
 
-import { persist, devtools } from 'zustand/middleware';
+import { persist, devtools, createJSONStorage } from 'zustand/middleware';
 
 import UserType from '../types/UserType';
 
@@ -57,6 +57,7 @@ export const createUserStore = (initState: UserState = defaultInitState) => {
         }),
         {
           name: 'UserStore',
+          storage: createJSONStorage(() => sessionStorage),
         }
       )
     )

@@ -39,7 +39,7 @@ public class TokenGenerator {
         JwtClaimsSet claimsSet = JwtClaimsSet.builder()
                 .issuer("OUDocumentHub")
                 .issuedAt(now)
-                .expiresAt(now.plus(5, ChronoUnit.MINUTES))
+                .expiresAt(now.plus(10, ChronoUnit.MINUTES))
                 .subject(user.getUserId().toString())
                 .build();
 

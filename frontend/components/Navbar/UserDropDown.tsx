@@ -21,16 +21,17 @@ import { getAuthCookies } from '@/actions/getAuthCookies';
 // import CustomFetch from '@/utils/CustomFetch';
 import Image from 'next/image';
 import { UserState } from '@/store/UserStore';
+import Link from 'next/link';
 
 const UserDropDown = ({ isAuthenticated, user }: UserState) => {
   const { logOut } = useUserStore((state) => state);
   const router = useRouter();
 
   return (
-    <div className="hidden md:block">
+    <div className="hidden lg:block">
       {!user || !isAuthenticated ? (
         <HiOutlineUserCircle
-          size="28"
+          size="30"
           data-testid="User"
           className="cursor-pointer"
           onClick={() => router.push('/sign-in')}
@@ -38,13 +39,8 @@ const UserDropDown = ({ isAuthenticated, user }: UserState) => {
       ) : (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <div className="relative flex h-7 w-7 cursor-pointer items-center justify-center rounded-full bg-rose-500 text-white">
-              {!user!.avatarLink ? (
-                // <div className="flex h-7 w-7 items-center justify-center rounded-full bg-rose-500 text-white cursor-pointer">
-                <p>{user!.firstName.charAt(0)}</p>
-              ) : (
-                <Image className="absolute h-full w-full" src={user!.avatarLink!} alt="UserAvatar" />
-              )}
+            <div className="relative flex h-[30px] w-[30px] cursor-pointer items-center justify-center overflow-hidden rounded-full text-white">
+              <Image className="absolute left-0 top-0 object-cover" src={user!.avatarLink!} alt="UserAvatar" fill />
             </div>
           </DropdownMenuTrigger>
           <DropdownMenuContent className="z-[100] w-56">
@@ -52,17 +48,22 @@ const UserDropDown = ({ isAuthenticated, user }: UserState) => {
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
               <DropdownMenuItem>
-                Profile
+                <Link href="/my-account/information">Thông tin tài khoản</Link>
                 <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
               </DropdownMenuItem>
               <DropdownMenuItem>
-                Billing
+                <Link href="#">Lịch sử giao dịch</Link>
                 <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
               </DropdownMenuItem>
-              <DropdownMenuItem>
-                Settings
-                <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
-              </DropdownMenuItem>
+              {user.roles.includes('ROLE_ADMIN') ||
+                (user.roles.includes('ROLE_GODADMIN') && (
+                  <DropdownMenuItem>
+                    <Link href="/admin/dashboard" target="_blank">
+                      Admin dashboard
+                    </Link>
+                    <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
+                  </DropdownMenuItem>
+                ))}
               <DropdownMenuItem>
                 Keyboard shortcuts
                 <DropdownMenuShortcut>⌘K</DropdownMenuShortcut>
@@ -70,7 +71,7 @@ const UserDropDown = ({ isAuthenticated, user }: UserState) => {
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuItem onClick={() => logOut()}>
-              Log out
+              Đăng xuất
               <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
             </DropdownMenuItem>
           </DropdownMenuContent>

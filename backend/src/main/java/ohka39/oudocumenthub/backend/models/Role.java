@@ -38,7 +38,7 @@ public class Role implements Serializable {
 	private UUID roleId;
 
 	@Enumerated(EnumType.STRING)
-	@Column(length = 20, unique = true)
+	@Column(name = "role_name", length = 20, unique = true)
 	private ERole name;
 
 	@ManyToMany(mappedBy = "roles")

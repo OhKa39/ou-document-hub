@@ -1,26 +1,8 @@
 import CartProcess from '@/components/(user)/Cart/CartProcess';
-import ShoppingProcessType from '@/types/ShoppingProcessType';
+import { PROCESS_STEPS } from '@/constants';
 import { notFound } from 'next/navigation';
 import React from 'react';
 import { TiTick } from 'react-icons/ti';
-
-const processSteps: ShoppingProcessType[] = [
-  {
-    id: 1,
-    step: 'Xử lý giỏ hàng',
-    link: '#',
-  },
-  {
-    id: 2,
-    step: 'Thông tin thanh toán',
-    link: '#',
-  },
-  {
-    id: 3,
-    step: 'Hoàn tất thanh toán',
-    link: '#',
-  },
-];
 
 type props = {
   params: { processStep: string };
@@ -43,7 +25,7 @@ const Cart = ({ params }: props) => {
       <h1 className="text-center text-4xl font-semibold">Giỏ hàng</h1>
       {/* process viewing */}
       <div className="scrollbar-hide mt-10 flex w-full gap-6 overflow-x-scroll lg:items-center lg:justify-center lg:overflow-x-hidden">
-        {processSteps.map((step) => (
+        {PROCESS_STEPS.map((step) => (
           <div
             key={step.id}
             className={`${step.id === stepSplit! ? 'border-b-2 border-b-[#23262F]' : step.id < stepSplit ? 'border-b-2 border-b-[var(--secondary-green)]' : ''} flex w-[256px] shrink-0 items-start gap-4 pb-6`}
@@ -56,7 +38,7 @@ const Cart = ({ params }: props) => {
             <h2
               className={`${step.id === stepSplit! ? 'text-[#23262F]' : step.id < stepSplit ? 'text-[var(--secondary-green)]' : 'text-[#B1B5C3]'} my-auto text-[18px] font-semibold text-[#23262F]`}
             >
-              {step.step}
+              {step.name}
             </h2>
           </div>
         ))}

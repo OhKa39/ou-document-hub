@@ -1,0 +1,47 @@
+import React from 'react';
+import { Button } from '@/components/ui/button';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog';
+import { MdKeyboardArrowRight } from 'react-icons/md';
+import EditNameForm from '@/components/Forms/EditNameForm';
+
+type props = {
+  DOB: Date | undefined;
+};
+
+const EditDOB = ({ DOB }: props) => {
+  return (
+    <Dialog>
+      <DialogTrigger asChild>
+        <div className="flex h-20 lg:h-14 w-full cursor-pointer items-center gap-4 border-t-[1px] border-[#e2e8f0] text-sm font-medium text-[#444746] hover:bg-[#F6F6F6]">
+          <div className="flex min-w-[70%] h-fit flex-col gap-4 lg:flex-row">
+            <p className="mt-[3px] lg:min-w-[120px]">Ngày sinh</p>
+            <p className="lg:min-w-[420px] text-base">{DOB?.toLocaleString('vi-VN')}</p>
+          </div>
+          <div className="flex w-full items-center justify-end">
+            <MdKeyboardArrowRight size={40} />
+          </div>
+        </div>
+      </DialogTrigger>
+      <DialogContent className="sm:max-w-[425px]">
+        <DialogHeader>
+          <DialogTitle>Chỉnh sửa ngày sinh</DialogTitle>
+          <DialogDescription>Make changes to your profile here. Click save when you're done.</DialogDescription>
+        </DialogHeader>
+        {/* <EditNameForm/> */}
+        {/* <DialogFooter>
+          <Button type="submit">Lưu thay đổi</Button>
+        </DialogFooter> */}
+      </DialogContent>
+    </Dialog>
+  );
+};
+
+export default EditDOB;

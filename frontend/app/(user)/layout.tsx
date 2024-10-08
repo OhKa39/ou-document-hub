@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
-import './globals.css';
+import '../globals.css';
 import Navbar from '@/components/Navbar/Navbar';
 import Footer from '@/components/Footer';
 import { UserStoreProvider } from '@/components/providers/UserProvider';
@@ -10,7 +10,7 @@ import { Toaster } from '@/components/ui/toaster';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'Hệ thống quản lý tài liệu OU',
+  title: 'OUDocumentHub - Hệ thống quản lý tài liệu OU',
   description: 'ĐÒ ÁN NGÀNH - KHÓA LUẬN TỐT NGHIỆP - ĐỀ TÀI: HỆ THỐNG QUẢN LÝ TÀI LIỆU',
 };
 

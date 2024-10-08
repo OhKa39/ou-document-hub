@@ -14,27 +14,30 @@ import Image from 'next/image';
 import documents from '@/__mocks__/data/documents';
 import { IoCloseSharp } from 'react-icons/io5';
 
-import { Label } from '@/components/ui/label';
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import { Button } from '@/components/ui/button';
 import CartProcessForm from '@/components/Forms/CartProcessForm';
+import MinusButton from './MinusButton';
+import CartItem from './CartItem';
 
 const CartProcess = () => {
   return (
     <div className="mt-10 flex h-fit w-full flex-col gap-16 lg:mt-20 lg:flex-row">
       {/* List of order document */}
-      <div className="custom-scrollbar max-h-[482px] w-full overflow-y-scroll lg:min-w-[643px]">
-        <Table>
+      <div className="custom-scrollbar max-h-[482px] w-full overflow-x-hidden overflow-y-scroll lg:min-w-[643px]">
+        <Table className="max-w-full overflow-x-hidden">
           <TableHeader>
-            <TableRow className="border-b-[1px] border-[#6c7275]">
-              <TableHead className="w-full text-2xl font-semibold text-black lg:w-[316px] lg:text-xl">
+            <TableRow className="max-w-full border-b-[1px] border-[#6c7275]">
+              <TableHead className="w-full text-2xl font-semibold text-black lg:w-[316px] lg:text-[18px]">
                 Tài liệu
               </TableHead>
-              <TableHead className="hidden text-center text-xl font-semibold text-black lg:table-cell">
-                Số lượng
+              <TableHead className="hidden text-center text-[18px] font-semibold text-black lg:table-cell lg:w-[120px]">
+                Còn lại
               </TableHead>
-              <TableHead className="hidden text-center text-xl font-semibold text-black lg:table-cell">Giá</TableHead>
-              <TableHead className="hidden text-center text-xl font-semibold text-black lg:table-cell">Tổng</TableHead>
+              <TableHead className="hidden text-center text-[18px] font-semibold text-black lg:table-cell">
+                Giá
+              </TableHead>
+              <TableHead className="hidden text-center text-[18px] font-semibold text-black lg:table-cell">
+                Tổng
+              </TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -42,29 +45,12 @@ const CartProcess = () => {
               //   .filter((item) => item.id < 3)
               .map((document) => (
                 <TableRow key={document.id}>
-                  <TableCell className="w-full lg:w-[316px]">
-                    <div className="flex gap-4">
-                      {/* image section */}
-                      <div className="relative h-[104px] min-w-[88px] bg-[#F3F5F7]">
-                        <Image
-                          fill
-                          src={document.image}
-                          className="absolute top-2 h-[75%] w-[75%]"
-                          style={{ objectFit: 'contain' }}
-                          alt="Image Document"
-                        />
-                      </div>
-                      <div className="flex flex-col gap-2 text-base">
-                        <p className="text-ellipsis font-semibold text-black">{document.name}</p>
-                        <p>Số lượng còn lại: 9</p>
-                        <div className="flex cursor-pointer items-center gap-2">
-                          <IoCloseSharp size={16} />
-                          <p className="font-semibold text-[var(--neutral-04)]">Xóa</p>
-                        </div>
-                      </div>
-                    </div>
+                  <TableCell className="max-w-full lg:max-w-[316px]">
+                    <CartItem document={document} />
                   </TableCell>
-                  <TableCell className="hidden text-center text-xl lg:table-cell"></TableCell>
+                  <TableCell className="hidden h-full w-full text-xl lg:m-auto lg:table-cell">
+                    <MinusButton />
+                  </TableCell>
                   <TableCell className="hidden text-center text-xl lg:table-cell">15</TableCell>
                   <TableCell className="hidden text-center text-xl lg:table-cell">30</TableCell>
                 </TableRow>

@@ -1,64 +1,10 @@
 'use client';
 import Link from 'next/link';
-import React, { useState } from 'react';
-import { IconType } from 'react-icons';
-import { IoClose, IoHeartOutline, IoMailOutline, IoMenuOutline } from 'react-icons/io5';
-import { AiOutlineMessage } from 'react-icons/ai';
+import { useState } from 'react';
+import { IoClose, IoMenuOutline } from 'react-icons/io5';
 import { Button } from '@/components/ui/button';
 import HeaderItemType from '@/types/HeaderItemType';
-
-const menuItems: HeaderItemType[] = [
-  {
-    id: 1,
-    link: '#',
-    name: 'Kho Tài Liệu',
-  },
-  {
-    id: 2,
-    link: '#',
-    name: 'Kênh Người Bán',
-  },
-  {
-    id: 3,
-    link: '#',
-    name: 'Tìm Kiếm',
-  },
-  {
-    id: 4,
-    link: '#',
-    name: 'Thông Tin Cá Nhân',
-  },
-  {
-    id: 5,
-    link: '#',
-    name: 'Thống Kê',
-  },
-];
-
-type subMenuItemType = HeaderItemType & {
-  icon: IconType;
-};
-
-const subMenuItems: subMenuItemType[] = [
-  {
-    id: 1,
-    link: '#',
-    name: 'Hòm thư phản hồi',
-    icon: IoMailOutline,
-  },
-  {
-    id: 2,
-    link: '#',
-    name: 'Tin nhắn',
-    icon: AiOutlineMessage,
-  },
-  {
-    id: 3,
-    link: '#',
-    name: 'Tài liệu yêu thích',
-    icon: IoHeartOutline,
-  },
-];
+import { MENU_ITEMS, SUB_MENU_ITEMS } from '@/constants';
 
 const ResponsiveMenu = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -68,13 +14,13 @@ const ResponsiveMenu = () => {
       <IoMenuOutline
         size="28"
         data-testid="MenuOpen"
-        className={`cursor-pointer md:hidden`}
+        className={`cursor-pointer lg:hidden`}
         onClick={() => setIsOpen(!isOpen)}
       />
       {isOpen && (
-        <div className="fixed -left-2 top-0 z-[998] h-screen w-screen backdrop-blur-md backdrop-brightness-75 backdrop-filter md:hidden">
+        <div className="fixed -left-2 top-0 z-[998] h-screen w-screen backdrop-blur-md backdrop-brightness-75 backdrop-filter lg:hidden">
           <div
-            className={`z-[999] ${isOpen ? 'flex' : 'hidden'} fixed left-0 top-0 h-screen w-[90%] flex-col overflow-hidden bg-[var(--neutral-01)] sm:overflow-y-auto md:hidden`}
+            className={`z-[999] ${isOpen ? 'flex' : 'hidden'} fixed left-0 top-0 h-screen w-[90%] flex-col overflow-hidden bg-[var(--neutral-01)] sm:overflow-y-auto lg:hidden`}
           >
             {/* CloseButton */}
             <IoClose
@@ -90,7 +36,7 @@ const ResponsiveMenu = () => {
               <h1 className="mt-[16px] text-[24px] font-bold text-[#0c4ca3]">OUDocumentHub</h1>
               {/* Section 1 */}
               <ul className="mt-4 flex min-h-[200px] flex-col gap-4">
-                {menuItems.map((item: HeaderItemType) => (
+                {MENU_ITEMS.map((item: HeaderItemType) => (
                   <li
                     data-testid="MenuResponsiveItem"
                     key={item.id}
@@ -102,7 +48,7 @@ const ResponsiveMenu = () => {
               </ul>
               {/* Section 2 */}
               <div className="mt-16 flex flex-col justify-center">
-                {subMenuItems.map((item, index) => (
+                {SUB_MENU_ITEMS.map((item, index) => (
                   <Link key={index} href={item.link} className="py-auto flex h-[40px] items-center justify-between">
                     <h3 className="text-base" data-testid="SubmenuItem">
                       {item.name}

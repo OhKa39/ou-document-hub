@@ -14,8 +14,10 @@ import { useForm } from 'react-hook-form';
 import { loginAccount } from '@/actions/loginAccount';
 import { useRouter } from 'next/navigation';
 import { SignInSchema } from '@/schemas/SignInSchema';
+import { TiTick } from 'react-icons/ti';
 
 import { z } from 'zod';
+import CustomSubmitButton from './CustomSubmitButton';
 
 type SchemaProps = z.infer<typeof SignInSchema>;
 
@@ -38,6 +40,7 @@ const SignInForm = () => {
 
     switch (dataResponse.statusCode) {
       case 200:
+        setIsSuccess(true);
         router.replace('/');
         signIn(dataResponse.data);
         break;
@@ -45,6 +48,16 @@ const SignInForm = () => {
         form.setError('password', {
           type: 'manual',
           message: 'Sai tài khoản hoặc mặt khẩu',
+        });
+        form.setError('email', {
+          type: 'manual',
+          message: '',
+        });
+        break;
+      case 403:
+        form.setError('password', {
+          type: 'manual',
+          message: 'Tài khoản của bạn chưa được kích hoạt',
         });
         form.setError('email', {
           type: 'manual',
@@ -62,6 +75,7 @@ const SignInForm = () => {
   }
 
   const [isShowPassword, setIsShowPassword] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(submitForm)} className="space-y-4">
@@ -121,21 +135,12 @@ const SignInForm = () => {
             </FormItem>
           )}
         />
-        <Button
-          type="submit"
-          className="!mt-6 w-full !text-base"
-          aria-label="Submit Form"
-          disabled={form.formState.isSubmitting}
-        >
-          {form.formState.isSubmitting ? (
-            <div className="flex gap-2">
-              <AiOutlineLoading3Quarters className="animate-spin text-white" size={20} />
-              <span>Loading</span>
-            </div>
-          ) : (
-            <span> Đăng nhập </span>
-          )}
-        </Button>
+        <CustomSubmitButton
+          isSuccess={isSuccess}
+          form={form}
+          successMessage="Đăng nhập thành công"
+          defaultMessage="Đăng nhập"
+        />
       </form>
     </Form>
   );

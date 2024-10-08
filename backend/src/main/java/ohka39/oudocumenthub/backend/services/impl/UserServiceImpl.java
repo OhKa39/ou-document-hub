@@ -1,19 +1,31 @@
 package ohka39.oudocumenthub.backend.services.impl;
 
+import java.io.IOException;
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.text.MessageFormat;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.model.Bucket;
+import com.amazonaws.services.s3.model.DeleteObjectRequest;
+import com.amazonaws.services.s3.model.ListBucketsPaginatedRequest;
+import com.amazonaws.services.s3.model.ListBucketsPaginatedResult;
+import com.amazonaws.services.s3.model.PutObjectRequest;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,6 +37,7 @@ import ohka39.oudocumenthub.backend.models.Role;
 import ohka39.oudocumenthub.backend.models.User;
 import ohka39.oudocumenthub.backend.payload.DTO.UserDTO;
 import ohka39.oudocumenthub.backend.payload.mapper.UserMapper;
+import ohka39.oudocumenthub.backend.payload.requests.EditNameRequest;
 import ohka39.oudocumenthub.backend.payload.requests.SignUpRequest;
 import ohka39.oudocumenthub.backend.repositories.RoleRepository;
 import ohka39.oudocumenthub.backend.repositories.UserRepository;
@@ -40,6 +53,11 @@ public class UserServiceImpl implements IUserService, UserDetailsManager {
     private final RoleRepository roleRepository;
 
     private final UserMapper userMapper;
+
+    private final AmazonS3 s3Client;
+
+    @Value("${aws.s3.bucket-name}")
+    private String BUCKET_NAME;
 
     @Override
     public void createUser(UserDetails user) {
@@ -96,12 +114,57 @@ public class UserServiceImpl implements IUserService, UserDetailsManager {
     }
 
     @Override
-    @Cacheable(value = "users")
+    @Cacheable(value = "users", key = "#userId")
     public UserDTO getUserById(String userId) {
         User user = userRepository.findById(UUID.fromString(userId)).orElseThrow(() -> {
             throw new EntityNotFoundException(userId, 1000);
         });
 
+        return userMapper.toUserDTO(user);
+    }
+
+    @Override
+    @CachePut(value = "users", key = "#userId")
+    public UserDTO setNameById(String userId, EditNameRequest request) {
+        User user = userRepository.findById(UUID.fromString(userId))
+                .orElseThrow(() -> {
+                    throw new EntityNotFoundException("user with not found", 1000);
+                });
+        user.setLastName(request.getLastName());
+        user.setFirstName(request.getFirstName());
+        userRepository.saveAndFlush(user);
+        return userMapper.toUserDTO(user);
+    }
+
+    @Override
+    @CachePut(value = "users", key = "#userId")
+    public UserDTO setAvatarById(String userId, MultipartFile request) throws IOException {
+        User user = userRepository.findById(UUID.fromString(userId))
+                .orElseThrow(() -> {
+                    throw new EntityNotFoundException("user with not found", 1000);
+                });
+        log.info("image: {}", request);
+        // Generate a temporary local file to upload to S3
+        Path tempFile = Files.createTempFile("upload-", request.getOriginalFilename());
+        request.transferTo(tempFile.toFile());
+
+        // Create S3 PutObjectRequest
+        PutObjectRequest putObjectRequest = new PutObjectRequest(BUCKET_NAME,
+                "user-avatar-images/" + request.getOriginalFilename(), tempFile.toFile());
+
+        // Upload the file to S3
+        s3Client.deleteObject(new DeleteObjectRequest(BUCKET_NAME,
+                "user-avatar-images" + user.getAvatarLink().split("user-avatar-images")[1]));
+
+        s3Client.putObject(putObjectRequest);
+
+        // Delete temporary file
+        Files.delete(tempFile);
+
+        URL url = s3Client.getUrl(BUCKET_NAME, "user-avatar-images/" + request.getOriginalFilename());
+        log.info("url: {}", url.toExternalForm());
+        user.setAvatarLink(url.toExternalForm());
+        userRepository.saveAndFlush(user);
         return userMapper.toUserDTO(user);
     }
 }
