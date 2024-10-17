@@ -58,3 +58,10 @@ VALUES (
         '4ec8a330-50d9-4cd7-9cfd-dd85b00e2ed8',
         'aac945b3-8d51-4f4e-8e6c-44f3e6aef6d4'
     )
+
+INSERT INTO
+    user_role (user_id, role_id)
+VALUES (
+        '4ec8a330-50d9-4cd7-9cfd-dd85b00e2ed8',
+        '8fe542ea-0dba-4b36-8501-6ef0a2982df1'
+    )

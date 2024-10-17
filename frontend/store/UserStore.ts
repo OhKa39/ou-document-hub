@@ -4,6 +4,7 @@ import { createStore } from 'zustand/vanilla';
 import { persist, devtools, createJSONStorage } from 'zustand/middleware';
 
 import UserType from '../types/UserType';
+import { GET_USER_ENDPOINT, LOGOUT_ENDPOINT } from '@/constants/api_endpoint';
 
 export type UserState = {
   isAuthenticated: boolean;
@@ -31,7 +32,7 @@ export const createUserStore = (initState: UserState = defaultInitState) => {
         (set) => ({
           ...initState,
           logOut: async () => {
-            await fetch(`/api/v1/auth/logout`, { method: 'POST', credentials: 'include' });
+            await fetch(LOGOUT_ENDPOINT, { method: 'POST', credentials: 'include' });
             set(initState);
           },
           setUser: (data) =>
@@ -41,7 +42,7 @@ export const createUserStore = (initState: UserState = defaultInitState) => {
               user: data,
             })),
           signIn: async (data) => {
-            const dataUser = await fetch(`/api/v1/user`, {
+            const dataUser = await fetch(GET_USER_ENDPOINT, {
               headers: { Authorization: `Bearer ${data.accessToken}` },
             }).then((data) => data.json());
             // console.log(dataUser)

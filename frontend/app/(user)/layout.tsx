@@ -6,6 +6,7 @@ import Footer from '@/components/Footer';
 import { UserStoreProvider } from '@/components/providers/UserProvider';
 import ReactQueryProvider from '@/components/providers/ReactQueryProvider';
 import { Toaster } from '@/components/ui/toaster';
+import OutsideButton from '@/components/OutsideButton/OutsideButton';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -27,6 +28,7 @@ export default function RootLayout({
             <Toaster />
             <Navbar />
             {children}
+            <OutsideButton />
             <Footer />
           </UserStoreProvider>
         </ReactQueryProvider>

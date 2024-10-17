@@ -36,10 +36,10 @@ const ResponsiveMenu = () => {
               <h1 className="mt-[16px] text-[24px] font-bold text-[#0c4ca3]">OUDocumentHub</h1>
               {/* Section 1 */}
               <ul className="mt-4 flex min-h-[200px] flex-col gap-4">
-                {MENU_ITEMS.map((item: HeaderItemType) => (
+                {MENU_ITEMS.map((item: HeaderItemType, index) => (
                   <li
                     data-testid="MenuResponsiveItem"
-                    key={item.id}
+                    key={index}
                     className="text-base font-semibold text-primary duration-300"
                   >
                     <Link href={`${item.link}`}>{item.name}</Link>

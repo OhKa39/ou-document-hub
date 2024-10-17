@@ -7,7 +7,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { Input } from '@/components/ui/input';
 import { Button } from '../ui/button';
 import { AiOutlineLoading3Quarters } from 'react-icons/ai';
-import { editUserName } from '@/actions/editUserName';
+import { editUserName } from '@/actions/users';
 import CustomSubmitButton from './CustomSubmitButton';
 import { useUserStore } from '../providers/UserProvider';
 

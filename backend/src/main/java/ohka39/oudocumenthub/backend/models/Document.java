@@ -7,22 +7,34 @@ import java.util.UUID;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.PrimaryKeyJoinColumn;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+import ohka39.oudocumenthub.backend.enums.EDocumentStatus;
+import ohka39.oudocumenthub.backend.enums.EDocumentTag;
+import ohka39.oudocumenthub.backend.enums.EDocumentType;
 
 @Entity
 @Table(name = "documents")
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
 public class Document {
 
@@ -31,14 +43,17 @@ public class Document {
     @Column(name = "document_id")
     private UUID documentId;
 
-    @Column(name = "document_type", nullable = false)
-    private Integer documentType;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "document_type")
+    private EDocumentType documentType;
 
-    @Column(name = "created_by", nullable = false)
-    private UUID createdBy;
+    @Column(name = "document_name", length = 255)
+    private String name;
 
-    @Column(name = "status", length = 20)
-    private String status;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status")
+    @Builder.Default
+    private EDocumentStatus status = EDocumentStatus.Not_Verified;
 
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)
@@ -54,22 +69,30 @@ public class Document {
     @Column(name = "short_url", length = 255)
     private String shortUrl;
 
-    @Column(name = "tag", length = 10)
-    private String tag;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "tag")
+    @Builder.Default
+    private EDocumentTag tag = EDocumentTag.New;
 
     @Column(name = "price")
     private BigDecimal price;
 
-    @Column(name = "stock")
-    private Integer stock;
-
     @Column(name = "thumbnail_url", length = 255)
     private String thumbnailUrl;
 
-    @Column(name = "faculty_id")
-    private UUID facultyId;
+    @ManyToOne
+    @JoinColumn(name = "faculty_id", nullable = false)
+    private Faculty faculty;
+
+    @OneToOne(mappedBy = "document", cascade = CascadeType.ALL)
+    @PrimaryKeyJoinColumn
+    private OnlineDocument onlineDocument;
+
+    @OneToOne(mappedBy = "document", cascade = CascadeType.ALL)
+    @PrimaryKeyJoinColumn
+    private PaperDocument paperDocument;
 
     @ManyToOne
-    // @JoinColumn(name = "faculty_id", nullable = false)
-    private Faculty faculty;
+    @JoinColumn(name = "created_by", nullable = false)
+    private User user;
 }

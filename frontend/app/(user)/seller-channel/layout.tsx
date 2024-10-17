@@ -6,7 +6,7 @@ export default function SellerChannelLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className="flex flex-col lg:flex-row">
+    <div className="min-h-screen flex flex-col lg:flex-row">
       <SellerChannelSidebar />
       {children}
     </div>

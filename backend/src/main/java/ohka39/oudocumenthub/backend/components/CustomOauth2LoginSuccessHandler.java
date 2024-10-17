@@ -162,7 +162,7 @@ public class CustomOauth2LoginSuccessHandler extends SavedRequestAwareAuthentica
 				.filter(ele -> "ACCOUNT".equals(ele.getMetadata().getSource().getType())).toList();
 		List<Gender> gender = res.getGenders().stream()
 				.filter(ele -> "PROFILE".equals(ele.getMetadata().getSource().getType())).toList();
-				log.info("gender {}", gender);
+		log.info("gender {}", gender);
 		Map<Object, Object> converter = new HashMap<>();
 		converter.put("gender", gender.get(0).getFormattedValue().toString());
 		converter.put("dob", dob.get(0).getDate().toString());

@@ -1,10 +1,10 @@
 package ohka39.oudocumenthub.backend.advices;
 
-import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import lombok.extern.slf4j.Slf4j;
 import ohka39.oudocumenthub.backend.exceptions.EntityAlreadyExistsException;
 import ohka39.oudocumenthub.backend.exceptions.EntityNotFoundException;
+import ohka39.oudocumenthub.backend.exceptions.FileIsEmptyException;
 import ohka39.oudocumenthub.backend.payload.DTO.ResponseDTO;
 
 @Slf4j
@@ -37,6 +38,13 @@ public class GlobalExceptionHandler {
         ResponseDTO responseEntity = new ResponseDTO("failed", HttpStatus.BAD_REQUEST.value(), errorMapper,
                 "validation failed");
 
+        return responseEntity.makeTemplate();
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(FileIsEmptyException.class)
+    public Map<String, Object> handleFileIsEmptyException(FileIsEmptyException ex) {
+        ResponseDTO responseEntity = new ResponseDTO("failed", ex.getStatusCode(), null, ex.getMessage());
         return responseEntity.makeTemplate();
     }
 

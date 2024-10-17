@@ -1,4 +1,4 @@
-package ohka39.oudocumenthub.backend.services;
+package ohka39.oudocumenthub.backend.services.interfaces;
 
 import java.util.UUID;
 

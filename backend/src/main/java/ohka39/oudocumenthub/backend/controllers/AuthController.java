@@ -25,8 +25,8 @@ import ohka39.oudocumenthub.backend.payload.DTO.UserDTO;
 import ohka39.oudocumenthub.backend.payload.requests.RenewSessionRequest;
 import ohka39.oudocumenthub.backend.payload.requests.SignInRequest;
 import ohka39.oudocumenthub.backend.payload.requests.SignUpRequest;
-import ohka39.oudocumenthub.backend.services.ITokenService;
-import ohka39.oudocumenthub.backend.services.IUserService;
+import ohka39.oudocumenthub.backend.services.interfaces.ITokenService;
+import ohka39.oudocumenthub.backend.services.interfaces.IUserService;
 
 @RestController
 @RequiredArgsConstructor

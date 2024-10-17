@@ -36,8 +36,9 @@ CREATE TABLE IF NOT EXISTS "user_role" (
 
 CREATE TABLE IF NOT EXISTS "documents" (
     "document_id" uuid PRIMARY KEY,
-    "document_type" int,
+    "document_type" varchar(20),
     "created_by" uuid,
+    "document_name" varchar(255),
     "status" varchar(20),
     "created_at" timestamp DEFAULT (now()),
     "updated_at" timestamp,
@@ -45,7 +46,6 @@ CREATE TABLE IF NOT EXISTS "documents" (
     "short_url" varchar(255),
     "tag" varchar(10),
     "price" money,
-    "stock" int,
     "thumbnail_url" varchar(255),
     "faculty_id" uuid
 );
@@ -70,24 +70,22 @@ CREATE TABLE IF NOT EXISTS "document_images" (
 );
 
 CREATE TABLE IF NOT EXISTS "online_documents" (
-    "document_id" uuid,
-    "document_type" int DEFAULT 1,
+    "document_id" uuid PRIMARY KEY,
+    "document_type" varchar(20) DEFAULT 'Online',
     "file_type" varchar(30),
-    "file_url" varchar(255),
-    PRIMARY KEY (
-        "document_id",
-        "document_type"
-    )
+    "file_url" varchar(255)
 );
 
 CREATE TABLE IF NOT EXISTS "paper_documents" (
-    "document_type" int DEFAULT 2,
-    "ship_address_id" uuid,
+    "document_type" varchar(20) DEFAULT 'Paper',
+    "document_id" uuid primary key,
+    "stock" int
+);
+
+CREATE TABLE "paperdocument_shipaddress" (
     "document_id" uuid,
-    PRIMARY KEY (
-        "document_type",
-        "document_id"
-    )
+    "address_id" uuid,
+    PRIMARY KEY ("document_id", "address_id")
 );
 
 CREATE TABLE IF NOT EXISTS "ship_addresses" (
@@ -131,6 +129,10 @@ CREATE TABLE IF NOT EXISTS "orders" (
 
 CREATE UNIQUE INDEX ON "roles" ("role_name");
 
+CREATE UNIQUE INDEX ON "faculties" ("faculty_name");
+
+CREATE UNIQUE INDEX ON "ship_addresses" ("address_name");
+
 ALTER TABLE "cards"
 ADD FOREIGN KEY ("created_by") REFERENCES "users" ("user_id");
 
@@ -158,32 +160,17 @@ ADD FOREIGN KEY ("created_by") REFERENCES "users" ("user_id");
 ALTER TABLE "document_images"
 ADD FOREIGN KEY ("document_id") REFERENCES "documents" ("document_id");
 
-ALTER TABLE "documents"
-DROP CONSTRAINT IF EXISTS "online_documents_documents";
-
-ALTER TABLE "documents"
-ADD CONSTRAINT "online_documents_documents" FOREIGN KEY (
-    "document_id",
-    "document_type"
-) REFERENCES "online_documents" (
-    "document_id",
-    "document_type"
-);
+ALTER TABLE "online_documents"
+ADD FOREIGN KEY ("document_id") REFERENCES "documents" ("document_id");
 
 ALTER TABLE "paper_documents"
-ADD FOREIGN KEY ("ship_address_id") REFERENCES "ship_addresses" ("address_id");
+ADD FOREIGN KEY ("document_id") REFERENCES "documents" ("document_id");
 
-ALTER TABLE "documents"
-DROP CONSTRAINT IF EXISTS "paper_documents_documents";
+ALTER TABLE "paperdocument_shipaddress"
+ADD FOREIGN KEY ("document_id") REFERENCES "paper_documents" ("document_id");
 
-ALTER TABLE "documents"
-ADD CONSTRAINT "paper_documents_documents" FOREIGN KEY (
-    "document_id",
-    "document_type"
-) REFERENCES "paper_documents" (
-    "document_id",
-    "document_type"
-);
+ALTER TABLE "paperdocument_shipaddress"
+ADD FOREIGN KEY ("address_id") REFERENCES "ship_addresses" ("address_id");
 
 ALTER TABLE "order_items"
 ADD FOREIGN KEY ("document_id") REFERENCES "documents" ("document_id");

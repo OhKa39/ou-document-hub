@@ -15,12 +15,12 @@ import { Calendar } from '@/components/ui/calendar';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import PasswordStrengthBar from '@/components/(auth)/sign-up/PasswordStrengthBar';
 import { SignUpSchema } from '@/schemas/SignUpSchema';
-import { createAccount } from '@/actions/createAccount';
 import { AiOutlineLoading3Quarters } from 'react-icons/ai';
 import EmailVerification from '@/components/(auth)/sign-up/EmailVerification';
 import { useToast } from '@/hooks/use-toast';
 import { useUserStore } from '@/components/providers/UserProvider';
 import CustomSubmitButton from './CustomSubmitButton';
+import { createAccount } from '@/actions/auth';
 
 type SchemaProps = z.infer<typeof SignUpSchema>;
 

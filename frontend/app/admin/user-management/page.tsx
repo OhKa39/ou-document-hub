@@ -4,9 +4,10 @@ import ServerFetch from '@/utils/ServerFetch';
 import { UserState } from '@/store/UserStore';
 import UserType from '@/types/UserType';
 import Image from 'next/image';
+import { GET_USERS_ENDPOINT } from '@/constants/api_endpoint';
 
 const fetchUsers = async () => {
-  const users = await ServerFetch('/api/v1/user/get-users').then((data) => data.json());
+  const users = await ServerFetch(GET_USERS_ENDPOINT).then((data) => data.json());
   return users;
 };
 const UserManagement = async () => {

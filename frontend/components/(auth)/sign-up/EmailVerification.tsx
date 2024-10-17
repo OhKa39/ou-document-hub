@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button';
 import { useState, useEffect } from 'react';
 import { useUserStore } from '@/components/providers/UserProvider';
 import { useToast } from '@/hooks/use-toast';
+import { RENEW_REGISTER_TOKEN_ENDPOINT } from '@/constants/api_endpoint';
 
 export default function EmailVerification() {
   const { toast } = useToast();
@@ -22,7 +23,7 @@ export default function EmailVerification() {
 
   const handleSubmit = async () => {
     if (user) {
-      const dataFetch = await fetch(`/api/v1/auth/renew-register-token?id=${user.userId}`).then((data) => data.json());
+      const dataFetch = await fetch(`${RENEW_REGISTER_TOKEN_ENDPOINT}?id=${user.userId}`).then((data) => data.json());
       switch (dataFetch.statusCode) {
         case 200:
           setTime(59);

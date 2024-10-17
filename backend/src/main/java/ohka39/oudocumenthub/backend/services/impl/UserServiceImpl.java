@@ -2,8 +2,6 @@ package ohka39.oudocumenthub.backend.services.impl;
 
 import java.io.IOException;
 import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -11,9 +9,11 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.provisioning.UserDetailsManager;
@@ -21,18 +21,17 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.model.Bucket;
 import com.amazonaws.services.s3.model.DeleteObjectRequest;
-import com.amazonaws.services.s3.model.ListBucketsPaginatedRequest;
-import com.amazonaws.services.s3.model.ListBucketsPaginatedResult;
-import com.amazonaws.services.s3.model.PutObjectRequest;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import ohka39.oudocumenthub.backend.enums.EProvider;
 import ohka39.oudocumenthub.backend.enums.ERole;
+import ohka39.oudocumenthub.backend.events.OnDeleteFile;
+import ohka39.oudocumenthub.backend.events.OnUploadFile;
 import ohka39.oudocumenthub.backend.exceptions.EntityAlreadyExistsException;
 import ohka39.oudocumenthub.backend.exceptions.EntityNotFoundException;
+import ohka39.oudocumenthub.backend.exceptions.FileIsEmptyException;
 import ohka39.oudocumenthub.backend.models.Role;
 import ohka39.oudocumenthub.backend.models.User;
 import ohka39.oudocumenthub.backend.payload.DTO.UserDTO;
@@ -41,7 +40,7 @@ import ohka39.oudocumenthub.backend.payload.requests.EditNameRequest;
 import ohka39.oudocumenthub.backend.payload.requests.SignUpRequest;
 import ohka39.oudocumenthub.backend.repositories.RoleRepository;
 import ohka39.oudocumenthub.backend.repositories.UserRepository;
-import ohka39.oudocumenthub.backend.services.IUserService;
+import ohka39.oudocumenthub.backend.services.interfaces.IUserService;
 
 @RequiredArgsConstructor
 @Service
@@ -56,8 +55,12 @@ public class UserServiceImpl implements IUserService, UserDetailsManager {
 
     private final AmazonS3 s3Client;
 
+    private final ApplicationEventPublisher eventPublisher;
+
     @Value("${aws.s3.bucket-name}")
     private String BUCKET_NAME;
+
+    private final String FOLDER_S3_LOCATION = "user-avatar-images/";
 
     @Override
     public void createUser(UserDetails user) {
@@ -141,27 +144,18 @@ public class UserServiceImpl implements IUserService, UserDetailsManager {
     public UserDTO setAvatarById(String userId, MultipartFile request) throws IOException {
         User user = userRepository.findById(UUID.fromString(userId))
                 .orElseThrow(() -> {
-                    throw new EntityNotFoundException("user with not found", 1000);
+                    throw new EntityNotFoundException("user not found", 1000);
                 });
         log.info("image: {}", request);
-        // Generate a temporary local file to upload to S3
-        Path tempFile = Files.createTempFile("upload-", request.getOriginalFilename());
-        request.transferTo(tempFile.toFile());
+        String randomFileName = UUID.randomUUID().toString();
+        eventPublisher.publishEvent(new OnUploadFile(FOLDER_S3_LOCATION + randomFileName, request));
 
-        // Create S3 PutObjectRequest
-        PutObjectRequest putObjectRequest = new PutObjectRequest(BUCKET_NAME,
-                "user-avatar-images/" + request.getOriginalFilename(), tempFile.toFile());
+        log.info("url remove: {}", user.getAvatarLink().split(FOLDER_S3_LOCATION)[1]);
+        if (!user.getAvatarLink().contains("/default-avatar-1.webp"))
+            eventPublisher.publishEvent(
+                    new OnDeleteFile(FOLDER_S3_LOCATION + user.getAvatarLink().split(FOLDER_S3_LOCATION)[1]));
 
-        // Upload the file to S3
-        s3Client.deleteObject(new DeleteObjectRequest(BUCKET_NAME,
-                "user-avatar-images" + user.getAvatarLink().split("user-avatar-images")[1]));
-
-        s3Client.putObject(putObjectRequest);
-
-        // Delete temporary file
-        Files.delete(tempFile);
-
-        URL url = s3Client.getUrl(BUCKET_NAME, "user-avatar-images/" + request.getOriginalFilename());
+        URL url = s3Client.getUrl(BUCKET_NAME, FOLDER_S3_LOCATION + randomFileName);
         log.info("url: {}", url.toExternalForm());
         user.setAvatarLink(url.toExternalForm());
         userRepository.saveAndFlush(user);

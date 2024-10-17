@@ -26,9 +26,12 @@ public class UserDTO implements Serializable {
    private String firstName;
    private EGender gender;
    private LocalDate dateOfBirth;
-   private LocalDateTime createdAt;
    private String lastName;
    private List<String> roles;
    private EProvider provider;
    private String avatarLink;
+   private LocalDateTime createdAt;
+   private LocalDateTime updatedAt;
+   private boolean isBanned;
+   private boolean isEnable;
 }

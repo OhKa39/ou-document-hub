@@ -3,6 +3,7 @@ import type { NextRequest } from 'next/server';
 import { setAuthCookies } from './actions/setAuthCookies';
 import { ResponseCookies, RequestCookies } from 'next/dist/server/web/spec-extension/cookies';
 import { ClientRequest } from 'http';
+import { GET_USER_ENDPOINT, RENEW_SESSION_ENDPOINT } from './constants/api_endpoint';
 // import ServerFetch from './utils/ServerFetch'
 
 function applySetCookie(req: NextRequest, res: NextResponse): void {
@@ -29,7 +30,7 @@ export async function middleware(request: NextRequest) {
   const JSESSIONID = request.cookies.get('JSESSIONID')?.value;
 
   if (!accessToken && refreshToken) {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/auth/renew-session`, {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}${RENEW_SESSION_ENDPOINT}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ refreshToken }),
@@ -62,7 +63,7 @@ export async function middleware(request: NextRequest) {
     request.nextUrl.pathname.startsWith('/sign-in') ||
     request.nextUrl.pathname.startsWith('/verify-token')
   ) {
-    const dataUser = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/user`, {
+    const dataUser = await fetch(`${process.env.NEXT_PUBLIC_API_URL}${GET_USER_ENDPOINT}`, {
       headers: {
         ...(accessToken ? { Authorization: `Bearer ${accessToken}` } : {}),
         Cookie: `JSESSIONID=${JSESSIONID}`,
@@ -71,5 +72,21 @@ export async function middleware(request: NextRequest) {
     // console.log(dataUser);
     if (dataUser.ok) return NextResponse.redirect(new URL('/', request.url));
   }
+
+  if (request.nextUrl.pathname.startsWith('/admin')) {
+    const dataUser = await fetch(`${process.env.NEXT_PUBLIC_API_URL}${GET_USER_ENDPOINT}`, {
+      headers: {
+        ...(accessToken ? { Authorization: `Bearer ${accessToken}` } : {}),
+        Cookie: `JSESSIONID=${JSESSIONID}`,
+      },
+    });
+    // console.log(dataUser);
+    if (dataUser.ok) {
+      const dataRes = await dataUser.json();
+      if (dataRes.data['roles'].includes('ROLE_ADMIN')) return res;
+    }
+    return NextResponse.redirect(new URL('/', request.url));
+  }
+
   return res;
 }

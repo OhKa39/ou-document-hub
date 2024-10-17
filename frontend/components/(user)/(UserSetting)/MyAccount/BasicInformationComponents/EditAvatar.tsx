@@ -14,9 +14,8 @@ import { MdKeyboardArrowRight } from 'react-icons/md';
 import EditNameForm from '@/components/Forms/EditNameForm';
 import EditGenderForm from '@/components/Forms/EditGenderForm';
 import Image from 'next/image';
-import { editAvatar } from '@/actions/editAvatar';
+import { editAvatar } from '@/actions/users';
 import { useUserStore } from '@/components/providers/UserProvider';
-import { setUser } from '@sentry/nextjs';
 
 type props = {
   avatarLink: string | undefined;
@@ -66,7 +65,7 @@ const EditAvatar = ({ avatarLink }: props) => {
           </div>
           <div className="flex w-full items-center justify-end">
             <div className="relative h-16 w-16 overflow-hidden rounded-full">
-              <Image src={avatarLink!} alt="User avatar" className="absolute left-0 top-0 object-cover" fill />
+              <Image src={avatarLink!} alt="User avatar" className="absolute left-0 top-0 object-cover" fill priority />
             </div>
           </div>
         </div>
@@ -80,7 +79,7 @@ const EditAvatar = ({ avatarLink }: props) => {
         </DialogHeader>
         <label className="relative mx-auto mt-2 h-[196px] w-[196px] cursor-pointer rounded-full" htmlFor="upload">
           <input type="file" ref={inputRef} accept="image/*" className="hidden" id="upload" onChange={handleReview} />
-          <Image src={url!} fill className="absolute" alt="User Avatar" />
+          <Image src={url!} fill className="absolute" alt="User Avatar" priority />
         </label>
         {/* <EditGenderForm gender={gender} /> */}
         <DialogFooter>

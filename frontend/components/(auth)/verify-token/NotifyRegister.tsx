@@ -4,7 +4,7 @@ import dynamic from 'next/dynamic';
 import { useQuery } from '@tanstack/react-query';
 import VerifyTokenLoading from '@/components/Loading/VerifyTokenLoading';
 import { useUserStore } from '@/components/providers/UserProvider';
-import { verifyRegisterToken } from '@/actions/verifyRegisterToken';
+import { verifyRegisterToken } from '@/actions/auth';
 
 type props = {
   verifyToken: string | string[] | undefined;

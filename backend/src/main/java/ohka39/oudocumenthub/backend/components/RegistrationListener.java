@@ -9,8 +9,8 @@ import org.springframework.stereotype.Component;
 import lombok.RequiredArgsConstructor;
 import ohka39.oudocumenthub.backend.events.OnConfirmationRegisterEvent;
 import ohka39.oudocumenthub.backend.payload.DTO.UserDTO;
-import ohka39.oudocumenthub.backend.services.ITokenService;
-import ohka39.oudocumenthub.backend.services.IUserService;
+import ohka39.oudocumenthub.backend.services.interfaces.ITokenService;
+import ohka39.oudocumenthub.backend.services.interfaces.IUserService;
 
 @Component
 @RequiredArgsConstructor

@@ -25,18 +25,18 @@ const Cart = ({ params }: props) => {
       <h1 className="text-center text-4xl font-semibold">Giỏ hàng</h1>
       {/* process viewing */}
       <div className="scrollbar-hide mt-10 flex w-full gap-6 overflow-x-scroll lg:items-center lg:justify-center lg:overflow-x-hidden">
-        {PROCESS_STEPS.map((step) => (
+        {PROCESS_STEPS.map((step, index) => (
           <div
-            key={step.id}
-            className={`${step.id === stepSplit! ? 'border-b-2 border-b-[#23262F]' : step.id < stepSplit ? 'border-b-2 border-b-[var(--secondary-green)]' : ''} flex w-[256px] shrink-0 items-start gap-4 pb-6`}
+            key={index}
+            className={`${index === stepSplit! ? 'border-b-2 border-b-[#23262F]' : index < stepSplit ? 'border-b-2 border-b-[var(--secondary-green)]' : ''} flex w-[256px] shrink-0 items-start gap-4 pb-6`}
           >
             <div
-              className={`${step.id === stepSplit! ? 'bg-[#23262F]' : step.id < stepSplit ? 'bg-[var(--secondary-green)]' : 'bg-[#B1B5C3]'} flex h-[42px] w-[42px] items-center justify-center rounded-full text-white`}
+              className={`${index === stepSplit! ? 'bg-[#23262F]' : index < stepSplit ? 'bg-[var(--secondary-green)]' : 'bg-[#B1B5C3]'} flex h-[42px] w-[42px] items-center justify-center rounded-full text-white`}
             >
-              {step.id >= stepSplit ? step.id : <TiTick size={20} />}
+              {index >= stepSplit ? index : <TiTick size={20} />}
             </div>
             <h2
-              className={`${step.id === stepSplit! ? 'text-[#23262F]' : step.id < stepSplit ? 'text-[var(--secondary-green)]' : 'text-[#B1B5C3]'} my-auto text-[18px] font-semibold text-[#23262F]`}
+              className={`${index === stepSplit! ? 'text-[#23262F]' : index < stepSplit ? 'text-[var(--secondary-green)]' : 'text-[#B1B5C3]'} my-auto text-[18px] font-semibold text-[#23262F]`}
             >
               {step.name}
             </h2>

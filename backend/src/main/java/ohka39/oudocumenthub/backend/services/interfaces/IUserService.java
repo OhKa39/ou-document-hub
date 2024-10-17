@@ -1,4 +1,4 @@
-package ohka39.oudocumenthub.backend.services;
+package ohka39.oudocumenthub.backend.services.interfaces;
 
 import java.io.IOException;
 import java.util.List;
@@ -7,7 +7,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import ohka39.oudocumenthub.backend.models.User;
 import ohka39.oudocumenthub.backend.payload.DTO.UserDTO;
-import ohka39.oudocumenthub.backend.payload.requests.EditAvatarRequest;
 import ohka39.oudocumenthub.backend.payload.requests.EditNameRequest;
 import ohka39.oudocumenthub.backend.payload.requests.SignUpRequest;
 

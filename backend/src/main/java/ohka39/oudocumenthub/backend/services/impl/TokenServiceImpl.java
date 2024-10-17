@@ -25,7 +25,7 @@ import ohka39.oudocumenthub.backend.payload.requests.SignInRequest;
 import ohka39.oudocumenthub.backend.repositories.RefreshTokenRepository;
 import ohka39.oudocumenthub.backend.repositories.RegisterTokenRepository;
 import ohka39.oudocumenthub.backend.repositories.UserRepository;
-import ohka39.oudocumenthub.backend.services.ITokenService;
+import ohka39.oudocumenthub.backend.services.interfaces.ITokenService;
 
 @Service
 @RequiredArgsConstructor

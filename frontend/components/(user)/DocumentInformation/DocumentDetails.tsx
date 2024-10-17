@@ -64,7 +64,13 @@ const DocumentDetails = () => {
             <p className="text-xl text-[var(--neutral-04)]">Người đăng: </p>
             <div className="flex items-center space-x-2">
               <div className="relative h-8 w-8 rounded-full">
-                <Image alt="User Avatar" src={user?.avatarLink!} className="absolute" fill />
+                <Image
+                  alt="User Avatar"
+                  src={user?.avatarLink!}
+                  className="absolute"
+                  fill
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                />
               </div>
               <p className="text-xl">{user?.lastName + ' ' + user?.firstName}</p>
             </div>

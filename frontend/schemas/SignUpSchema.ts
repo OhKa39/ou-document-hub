@@ -7,13 +7,15 @@ export const SignUpSchema: any = z
       .string()
       .min(1, { message: 'Họ phải tối thiểu 1 ký tự' })
       .max(40, { message: 'Họ chỉ tối đa 40 ký tự' })
-      .regex(nameValidation, { message: 'Họ không hợp lê' }),
+      .regex(nameValidation, { message: 'Họ không hợp lê' })
+      .trim(),
     firstName: z
       .string()
       .min(1, { message: 'Tên phải tối thiểu 1 ký tự' })
       .max(40, { message: 'Tên chỉ tối đa 40 ký tự' })
-      .regex(nameValidation, { message: 'Tên không hợp lệ' }),
-    email: z.string().email({ message: 'Email không đúng định dạng' }),
+      .regex(nameValidation, { message: 'Tên không hợp lệ' })
+      .trim(),
+    email: z.string().email({ message: 'Email không đúng định dạng' }).trim(),
     password: z
       .string()
       .min(8, {

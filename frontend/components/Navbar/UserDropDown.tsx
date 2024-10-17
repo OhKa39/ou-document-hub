@@ -40,7 +40,13 @@ const UserDropDown = ({ isAuthenticated, user }: UserState) => {
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <div className="relative flex h-[30px] w-[30px] cursor-pointer items-center justify-center overflow-hidden rounded-full text-white">
-              <Image className="absolute left-0 top-0 object-cover" src={user!.avatarLink!} alt="UserAvatar" fill />
+              <Image
+                className="absolute left-0 top-0 object-cover"
+                src={user!.avatarLink!}
+                alt="UserAvatar"
+                fill
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              />
             </div>
           </DropdownMenuTrigger>
           <DropdownMenuContent className="z-[100] w-56">
@@ -55,15 +61,14 @@ const UserDropDown = ({ isAuthenticated, user }: UserState) => {
                 <Link href="#">Lịch sử giao dịch</Link>
                 <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
               </DropdownMenuItem>
-              {user.roles.includes('ROLE_ADMIN') ||
-                (user.roles.includes('ROLE_GODADMIN') && (
-                  <DropdownMenuItem>
-                    <Link href="/admin/dashboard" target="_blank">
-                      Admin dashboard
-                    </Link>
-                    <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
-                  </DropdownMenuItem>
-                ))}
+              {(user.roles.includes('ROLE_ADMIN') || user.roles.includes('ROLE_GODADMIN')) && (
+                <DropdownMenuItem>
+                  <Link href="/admin/dashboard" target="_blank">
+                    Admin dashboard
+                  </Link>
+                  <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
+                </DropdownMenuItem>
+              )}
               <DropdownMenuItem>
                 Keyboard shortcuts
                 <DropdownMenuShortcut>⌘K</DropdownMenuShortcut>

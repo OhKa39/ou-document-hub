@@ -22,17 +22,17 @@ import ohka39.oudocumenthub.backend.models.User;
 import ohka39.oudocumenthub.backend.payload.DTO.ResponseDTO;
 import ohka39.oudocumenthub.backend.payload.DTO.UserDTO;
 import ohka39.oudocumenthub.backend.payload.requests.EditNameRequest;
-import ohka39.oudocumenthub.backend.services.IUserService;
+import ohka39.oudocumenthub.backend.services.interfaces.IUserService;;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/${api-route}/user")
+@RequestMapping("/${api-route}/users")
 @Slf4j
 public class UserController {
 
         private final IUserService userService;
 
-        @GetMapping
+        @GetMapping("/me")
         public ResponseEntity<ResponseDTO> getCurrentUser(Authentication auth) {
                 UserDTO userResponse = auth.getPrincipal() instanceof DefaultOAuth2User
                                 ? userService.getUserById(((DefaultOAuth2User) auth.getPrincipal()).getName())
@@ -43,7 +43,7 @@ public class UserController {
                 return ResponseEntity.ok().body(response);
         }
 
-        @GetMapping("/get-users")
+        @GetMapping
         public ResponseEntity<ResponseDTO> getUserList() {
                 List<UserDTO> users = userService.getUserList();
                 ResponseDTO response = new ResponseDTO("success", HttpStatus.OK.value(), users,
@@ -51,8 +51,9 @@ public class UserController {
                 return ResponseEntity.ok().body(response);
         }
 
-        @PatchMapping("/edit-name")
-        public ResponseEntity<ResponseDTO> editName(@RequestBody @Valid EditNameRequest request, Authentication auth) {
+        @PatchMapping("/me/name")
+        public ResponseEntity<ResponseDTO> editName(@RequestBody @Valid EditNameRequest request,
+                        Authentication auth) {
                 UserDTO userResponse = userService.setNameById(((User) auth.getPrincipal()).getUserId().toString(),
                                 request);
 
@@ -61,16 +62,13 @@ public class UserController {
                 return ResponseEntity.ok().body(response);
         }
 
-        @PatchMapping("/edit-avatar")
-        public ResponseEntity<ResponseDTO> editAvatar(@RequestParam("file") MultipartFile file, Authentication auth)
+        @PatchMapping("/me/avatar")
+        public ResponseEntity<ResponseDTO> editAvatar(@RequestParam("file") MultipartFile file,
+                        Authentication auth)
                         throws IOException {
-                if (file.isEmpty()) {
-                        ResponseDTO response = new ResponseDTO("failed", HttpStatus.BAD_REQUEST.value(), null,
-                                        "update avatar failure");
-                        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
-                }
 
-                UserDTO userResponse = userService.setAvatarById(((User) auth.getPrincipal()).getUserId().toString(),
+                UserDTO userResponse = userService.setAvatarById(
+                                ((User) auth.getPrincipal()).getUserId().toString(),
                                 file);
 
                 ResponseDTO response = new ResponseDTO("success", HttpStatus.OK.value(), userResponse,

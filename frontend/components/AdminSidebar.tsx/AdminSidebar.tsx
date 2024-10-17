@@ -15,8 +15,11 @@ const AdminSidebar = () => {
         <span className="text-[#0c4ca3]">Admin</span>Panel
       </h1>
       <div className="flex flex-col">
-        {ADMIN_NAV_ITEMS.map((item) => (
-          <div key={item.id} className="relative flex h-[50px] w-full items-center justify-center text-[14px] font-medium text-black">
+        {ADMIN_NAV_ITEMS.map((item, index) => (
+          <div
+            key={index}
+            className="relative flex h-[50px] w-full items-center justify-center text-[14px] font-medium text-black"
+          >
             {path.includes(item.link) && (
               <div className="absolute left-0 top-0 h-full w-[6px] rounded-md bg-[#0c4ca3]"></div>
             )}
@@ -30,7 +33,9 @@ const AdminSidebar = () => {
                 height={22}
                 className={`ml-4 ${path.includes(item.link) ? 'invert' : ''}`}
               />
-              <Link href={item.link}>{item.name}</Link>
+              <Link href={item.link} className="w-full">
+                {item.name}
+              </Link>
             </div>
           </div>
         ))}

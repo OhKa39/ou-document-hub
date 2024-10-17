@@ -15,17 +15,14 @@ export const GENDER = ['Male', 'Female', 'Other'];
 
 export const CART_PROCESS_OPTIONS = [
   {
-    id: 1,
     name: 'Free shipping',
     value: 'test1',
   },
   {
-    id: 2,
     name: 'Express shipping',
     value: 'test2',
   },
   {
-    id: 3,
     name: 'Pick up',
     value: 'test3',
   },
@@ -33,17 +30,14 @@ export const CART_PROCESS_OPTIONS = [
 
 export const NAVBAR_ITEMS: HeaderItemType[] = [
   {
-    id: 1,
     name: 'Trang Chủ',
     link: '/',
   },
   {
-    id: 2,
     name: 'Kho Tài Liệu',
     link: '/documents',
   },
   {
-    id: 3,
     name: 'Kênh Người Bán',
     link: '/seller-channel/add-document',
   },
@@ -51,17 +45,14 @@ export const NAVBAR_ITEMS: HeaderItemType[] = [
 
 export const PROCESS_STEPS: HeaderItemType[] = [
   {
-    id: 1,
     name: 'Xử lý giỏ hàng',
     link: '#',
   },
   {
-    id: 2,
     name: 'Thông tin thanh toán',
     link: '#',
   },
   {
-    id: 3,
     name: 'Hoàn tất thanh toán',
     link: '#',
   },
@@ -69,12 +60,10 @@ export const PROCESS_STEPS: HeaderItemType[] = [
 
 export const SOCIAL_MEDIAS: SocialMediaType[] = [
   {
-    id: 1,
     url: 'facebook',
     link: `/oauth2/authorization/facebook`,
   },
   {
-    id: 2,
     url: 'google',
     link: `/oauth2/authorization/google`,
   },
@@ -82,27 +71,22 @@ export const SOCIAL_MEDIAS: SocialMediaType[] = [
 
 export const MENU_ITEMS: HeaderItemType[] = [
   {
-    id: 1,
     link: '#',
     name: 'Kho Tài Liệu',
   },
   {
-    id: 2,
     link: '#',
     name: 'Kênh Người Bán',
   },
   {
-    id: 3,
     link: '#',
     name: 'Tìm Kiếm',
   },
   {
-    id: 4,
     link: '#',
     name: 'Thông Tin Cá Nhân',
   },
   {
-    id: 5,
     link: '#',
     name: 'Thống Kê',
   },
@@ -114,19 +98,16 @@ type subMenuItemType = HeaderItemType & {
 
 export const SUB_MENU_ITEMS: subMenuItemType[] = [
   {
-    id: 1,
     link: '#',
     name: 'Hòm thư phản hồi',
     icon: IoMailOutline,
   },
   {
-    id: 2,
     link: '#',
     name: 'Tin nhắn',
     icon: AiOutlineMessage,
   },
   {
-    id: 3,
     link: '#',
     name: 'Tài liệu yêu thích',
     icon: IoHeartOutline,
@@ -139,51 +120,53 @@ type AdminNavType = HeaderItemType & {
 
 export const ADMIN_NAV_ITEMS: AdminNavType[] = [
   {
-    id: 1,
     link: '/admin/dashboard',
     name: 'Dashboard',
     iconLink: '/Clock.svg',
   },
   {
-    id: 2,
     link: '/admin/user-management',
-    name: 'User Management',
+    name: 'Quản lý người dùng',
     iconLink: '/Team.svg',
   },
   {
-    id: 3,
-    link: '#',
-    name: 'Document Review',
+    link: '/admin/document-review',
+    name: 'Phê duyệt tài liệu',
     iconLink: '/OrderList.svg',
   },
   {
-    id: 4,
-    link: '#',
-    name: 'Document List',
+    link: '/admin/faculty-management',
+    name: 'Quản lý ngành học',
+    iconLink: '/ProductStock.svg',
+  },
+  {
+    link: '/admin/shipping-address-management',
+    name: 'Quản lý cơ sở',
+    iconLink: '/Todo.svg',
+  },
+  {
+    link: '/admin/documents',
+    name: 'Danh sách tài liệu',
     iconLink: '/Products.svg',
   },
   {
-    id: 5,
-    link: '#',
-    name: 'Inbox',
+    link: '/admin/inbox',
+    name: 'Tin nhắn',
     iconLink: '/Inbox.svg',
   },
   {
-    id: 6,
-    link: '#',
-    name: 'Feedback',
+    link: '/admin/feedbacks',
+    name: 'Phản hồi',
     iconLink: '/FeedBack.svg',
   },
   {
-    id: 7,
-    link: '#',
-    name: 'Analytics',
+    link: '/admin/analytics',
+    name: 'Phân tích & báo cáo',
     iconLink: '/Analytics.svg',
   },
   {
-    id: 8,
     link: '#',
-    name: 'Logout',
+    name: 'Đăng xuất',
     iconLink: '/LogOut.svg',
   },
 ];
@@ -211,16 +194,19 @@ export const MYACCOUNT_SIDEBAR_ITEMS: HeaderItemType[] = [
   {
     name: 'Thông tin cá nhân',
     link: '/my-account/information',
-    id: 1,
   },
   {
     name: 'Thẻ ngân hàng',
     link: '/my-account/payment-cards',
-    id: 2,
   },
   {
     name: 'Đăng xuất',
     link: '#',
-    id: 3,
   },
+];
+
+export const SELLER_SIDEBAR_ITEM: AdminNavType[] = [
+  { link: '/seller-channel/add-document', name: 'Thêm tài liệu', iconLink: '/Products.svg' },
+  { link: '/seller-channel/documents', name: 'Danh sách tài liệu', iconLink: '/OrderList.svg' },
+  { link: '/seller-channel/analytics', name: 'Phân tích & báo cáo', iconLink: '/Analytics.svg' },
 ];

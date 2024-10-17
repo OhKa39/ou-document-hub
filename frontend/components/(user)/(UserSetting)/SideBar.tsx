@@ -21,9 +21,9 @@ const SideBar = () => {
           <p className="font-semibold">Khoa Ly</p>
         </div>
         <div className="mt-8 hidden flex-col gap-3 lg:flex">
-          {MYACCOUNT_SIDEBAR_ITEMS.map((item) => (
+          {MYACCOUNT_SIDEBAR_ITEMS.map((item, index) => (
             <div
-              key={item.id}
+              key={index}
               className={`${path.includes(item.link) ? 'border-b-2 border-black text-black' : 'text-[var(--neutral-04)]'} flex h-[42px] font-semibold`}
             >
               <Link href={item.link}>{item.name}</Link>

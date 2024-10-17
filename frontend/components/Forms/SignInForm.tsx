@@ -11,7 +11,7 @@ import { useToast } from '@/hooks/use-toast';
 import { useUserStore } from '@/components/providers/UserProvider';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import { loginAccount } from '@/actions/loginAccount';
+import { loginAccount } from '@/actions/auth';
 import { useRouter } from 'next/navigation';
 import { SignInSchema } from '@/schemas/SignInSchema';
 import { TiTick } from 'react-icons/ti';
