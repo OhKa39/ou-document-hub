@@ -3,6 +3,7 @@
 import { DOCUMENT_ENDPOINT } from '@/constants/api_endpoint';
 import DocumentSchema from '@/schemas/DocumentSchema';
 import ServerFetch from '@/utils/ServerFetch';
+import { revalidatePath } from 'next/cache';
 
 export async function createDocument(data: FormData) {
   // const parsedData = DocumentSchema.safeParse(data);
@@ -25,5 +26,6 @@ export async function createDocument(data: FormData) {
       throw new Error(`Fetch error: ${error}`);
     });
 
+  revalidatePath('/seller-channel/documents');
   return { statusCode: dataResponse.statusCode, data: dataResponse.data };
 }

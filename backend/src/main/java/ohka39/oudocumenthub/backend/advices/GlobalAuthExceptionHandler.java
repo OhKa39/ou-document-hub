@@ -1,5 +1,6 @@
 package ohka39.oudocumenthub.backend.advices;
 
+import java.nio.file.AccessDeniedException;
 import java.util.Map;
 
 import org.springframework.http.HttpStatus;
@@ -91,6 +92,19 @@ public class GlobalAuthExceptionHandler {
         ResponseDTO responseEntity = new ResponseDTO("failed",
                 HttpStatus.UNAUTHORIZED.value(), null,
                 "session has expired, please log in again");
+
+        log.error("error show stack: {}", ex.getMessage());
+
+        return responseEntity.makeTemplate();
+
+    }
+
+    @ExceptionHandler(AccessDeniedException.class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public Map<String, Object> handleNonceExpiredException(AccessDeniedException ex) {
+        ResponseDTO responseEntity = new ResponseDTO("failed",
+                HttpStatus.UNAUTHORIZED.value(), null,
+                "you haven't authorize for this action");
 
         log.error("error show stack: {}", ex.getMessage());
 

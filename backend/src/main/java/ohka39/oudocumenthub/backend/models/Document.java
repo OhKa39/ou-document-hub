@@ -7,18 +7,19 @@ import java.util.UUID;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
+import jakarta.persistence.DiscriminatorColumn;
+import jakarta.persistence.DiscriminatorType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Inheritance;
+import jakarta.persistence.InheritanceType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.PrimaryKeyJoinColumn;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -36,6 +37,9 @@ import ohka39.oudocumenthub.backend.enums.EDocumentType;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Inheritance(strategy = InheritanceType.JOINED)
+// @DiscriminatorColumn(name = "document_type", discriminatorType =
+// DiscriminatorType.STRING)
 public class Document {
 
     @Id
@@ -55,6 +59,9 @@ public class Document {
     @Builder.Default
     private EDocumentStatus status = EDocumentStatus.Not_Verified;
 
+    @Column(name = "is_delete")
+    private boolean isDelete;
+
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
@@ -66,7 +73,7 @@ public class Document {
     @Column(name = "description", length = 255)
     private String description;
 
-    @Column(name = "short_url", length = 255)
+    @Column(name = "short_url", length = 255, unique = true)
     private String shortUrl;
 
     @Enumerated(EnumType.STRING)
@@ -84,13 +91,13 @@ public class Document {
     @JoinColumn(name = "faculty_id", nullable = false)
     private Faculty faculty;
 
-    @OneToOne(mappedBy = "document", cascade = CascadeType.ALL)
-    @PrimaryKeyJoinColumn
-    private OnlineDocument onlineDocument;
+    // @OneToOne(mappedBy = "document", cascade = CascadeType.ALL)
+    // @PrimaryKeyJoinColumn
+    // private OnlineDocument onlineDocument;
 
-    @OneToOne(mappedBy = "document", cascade = CascadeType.ALL)
-    @PrimaryKeyJoinColumn
-    private PaperDocument paperDocument;
+    // @OneToOne(mappedBy = "document", cascade = CascadeType.ALL)
+    // @PrimaryKeyJoinColumn
+    // private PaperDocument paperDocument;
 
     @ManyToOne
     @JoinColumn(name = "created_by", nullable = false)

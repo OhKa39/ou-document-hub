@@ -11,7 +11,7 @@ const FacultyManagementPage = async () => {
     <div className="h-full bg-[#F5F6FA] px-8">
       <p className="py-6 text-3xl font-extrabold">Quản lý ngành học</p>
       <DataTableOverview
-        data={data}
+        data={data.data?.content ?? []}
         columns={facultyColumns}
         title={'Tổng quan ngành học'}
         description={'Xem và chỉnh sửa ngành học'}

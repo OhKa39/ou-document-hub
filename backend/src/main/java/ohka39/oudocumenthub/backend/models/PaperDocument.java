@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
+import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -28,16 +29,16 @@ import ohka39.oudocumenthub.backend.enums.EDocumentType;
 @NoArgsConstructor
 @Getter
 @Setter
-public class PaperDocument {
+public class PaperDocument extends Document {
 
-    @Id
-    // @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "document_id")
-    private UUID documentId;
+    // @Id
+    // // @GeneratedValue(strategy = GenerationType.UUID)
+    // @Column(name = "document_id")
+    // private UUID documentId;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "document_type", nullable = false)
-    private EDocumentType documentType = EDocumentType.Paper; // Default to 2 as specified
+    // @Enumerated(EnumType.STRING)
+    // @Column(name = "document_type", nullable = false)
+    // private EDocumentType documentType = EDocumentType.Paper;
 
     @ManyToMany
     @JoinTable(name = "paperdocument_shipaddress", joinColumns = @JoinColumn(name = "document_id"), inverseJoinColumns = @JoinColumn(name = "address_id"))
@@ -46,9 +47,9 @@ public class PaperDocument {
     @Column(name = "stock")
     private int stock;
 
-    @OneToOne
-    @MapsId
-    @JoinColumn(name = "document_id")
-    private Document document;
+    // @OneToOne
+    // @MapsId
+    // @JoinColumn(name = "document_id")
+    // private Document document;
 
 }

@@ -1,0 +1,15 @@
+import { DOCUMENT_ENDPOINT } from '@/constants/api_endpoint';
+import ServerFetch from '@/utils/ServerFetch';
+
+export const getMyDocuments = async () => {
+  const data = await ServerFetch(`${DOCUMENT_ENDPOINT}/me`);
+  const res = await data.json();
+  return res;
+};
+
+export const getDocumentByShortUrl = async (shortUrl: string) => {
+  const data = await ServerFetch(`${DOCUMENT_ENDPOINT}/${shortUrl}`);
+  const res = await data.json();
+  return res;
+};
+

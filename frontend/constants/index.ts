@@ -1,3 +1,4 @@
+import { DOCUMENT_STATUS_ITEM_TYPE, DOCUMENT_STATUS_TYPE } from '@/types/DocumentStatusType';
 import HeaderItemType from '@/types/HeaderItemType';
 import SocialMediaType from '@/types/SocialMediaType';
 import { IconType } from 'react-icons';
@@ -171,7 +172,7 @@ export const ADMIN_NAV_ITEMS: AdminNavType[] = [
   },
 ];
 
-export const DASHBOARD_ITEMS = [
+export const DASHBOARD_ITEMS: any = [
   {
     name: 'Total User',
     iconLink: '/Icon-3.svg',
@@ -210,3 +211,12 @@ export const SELLER_SIDEBAR_ITEM: AdminNavType[] = [
   { link: '/seller-channel/documents', name: 'Danh sách tài liệu', iconLink: '/OrderList.svg' },
   { link: '/seller-channel/analytics', name: 'Phân tích & báo cáo', iconLink: '/Analytics.svg' },
 ];
+import { SiTicktick } from 'react-icons/si';
+import { PiProhibitBold } from 'react-icons/pi';
+import { MdOutlineCancel } from 'react-icons/md';
+
+export const DOCUMENT_STATUS: DOCUMENT_STATUS_TYPE = {
+  Not_Verified: { name: 'Đang chờ', icon: MdOutlineCancel },
+  Verified: { name: 'Đã xác nhận', icon: SiTicktick },
+  Decline: { name: 'Từ chối', icon: PiProhibitBold },
+};

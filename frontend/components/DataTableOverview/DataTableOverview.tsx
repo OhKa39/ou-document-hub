@@ -30,12 +30,7 @@ const DataTableOverview = ({ data, columns, description, title, AddButton, searc
         <CardDescription>{description}</CardDescription>
       </CardHeader>
       <CardContent className="space-y-2">
-        <DataTable
-          columns={columns}
-          data={data.data?.content ?? []}
-          AddButton={AddButton}
-          searchPlaceholder={searchPlaceholder}
-        />
+        <DataTable columns={columns} data={data ?? []} AddButton={AddButton} searchPlaceholder={searchPlaceholder} />
       </CardContent>
     </Card>
   );

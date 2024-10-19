@@ -1,9 +1,13 @@
 type DocumentType = {
-  id: number;
+  documentId: number;
   name: string;
-  price: number;
+  price: BigInt;
   image: any;
-  tag: string | undefined;
+  thumbnailUrl: string | undefined;
+  status: string;
+  shortUrl: string;
+  createdAt: Date;
+  updatedAt: Date;
 };
 
 export default DocumentType;

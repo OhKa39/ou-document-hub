@@ -45,7 +45,7 @@ CREATE TABLE IF NOT EXISTS "documents" (
     "description" varchar(255),
     "short_url" varchar(255),
     "tag" varchar(10),
-    "price" money,
+    "price" NUMERIC,
     "thumbnail_url" varchar(255),
     "faculty_id" uuid
 );
@@ -132,6 +132,8 @@ CREATE UNIQUE INDEX ON "roles" ("role_name");
 CREATE UNIQUE INDEX ON "faculties" ("faculty_name");
 
 CREATE UNIQUE INDEX ON "ship_addresses" ("address_name");
+
+CREATE UNIQUE INDEX short_url_1729266864455_index ON "documents" USING btree ("short_url");
 
 ALTER TABLE "cards"
 ADD FOREIGN KEY ("created_by") REFERENCES "users" ("user_id");

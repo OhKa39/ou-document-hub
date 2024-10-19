@@ -8,9 +8,14 @@ import user from '@/__mocks__/data/user';
 import MinusButton from '../Cart/MinusButton';
 import Heart from '@/public/Hearth.svg';
 
-const DocumentDetails = () => {
-  const document = documents[0];
-  const tag = documents[0].tag;
+type props = {
+  document: any;
+};
+
+const DocumentDetails = ({ document }: props) => {
+  // const document = documents[0];
+  // const tag = documents[0].tag;
+  const { tag, thumbnailUrl, createdByAvatar, description, price, createdBy } = document;
   return (
     <div className="flex h-fit flex-col lg:flex-row lg:gap-16">
       {/* image section */}
@@ -25,11 +30,10 @@ const DocumentDetails = () => {
             )}
           </div>
           <Image
-            src={document.image}
+            src={thumbnailUrl}
             priority
-            // fill
-            className="absolute inset-10 h-[90%] w-[90%]"
-            style={{ objectFit: 'contain' }}
+            fill
+            className="absolute inset-10 h-[90%] w-[90%] object-contain"
             alt="Document Main Image"
           />
         </div>
@@ -53,12 +57,9 @@ const DocumentDetails = () => {
             <p className="text-base text-[var(--neutral-07)]">11 người đánh giá</p>
           </div>
           <h1 className="text-5xl font-bold">Tray Table</h1>
-          <p className="text-xl text-[var(--neutral-04)]">
-            Buy one or buy a few and make every space where you sit more convenient. Light and easy to move around with
-            removable tray top, handy for serving snacks.
-          </p>
+          <p className="text-xl text-[var(--neutral-04)]">{description}</p>
           <p className="text-2xl font-semibold text-[#B30000]" data-testid="DocumentPrice">
-            {Number(1110000).toLocaleString('it-IT', { style: 'currency', currency: 'VND' })}
+            {Number(price).toLocaleString('it-IT', { style: 'currency', currency: 'VND' })}
           </p>
           <div className="flex flex-col space-y-2">
             <p className="text-xl text-[var(--neutral-04)]">Người đăng: </p>
@@ -66,13 +67,13 @@ const DocumentDetails = () => {
               <div className="relative h-8 w-8 rounded-full">
                 <Image
                   alt="User Avatar"
-                  src={user?.avatarLink!}
+                  src={createdByAvatar}
                   className="absolute"
                   fill
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 />
               </div>
-              <p className="text-xl">{user?.lastName + ' ' + user?.firstName}</p>
+              <p className="text-xl">{createdBy}</p>
             </div>
           </div>
           <div className="mt-4 flex flex-col space-y-4">

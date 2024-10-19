@@ -3,6 +3,7 @@ package ohka39.oudocumenthub.backend.models;
 import java.util.UUID;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -23,15 +24,15 @@ import ohka39.oudocumenthub.backend.enums.EDocumentType;
 @Getter
 @Setter
 @NoArgsConstructor
-public class OnlineDocument {
-    @Id
-    @Column(name = "document_id", nullable = false)
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID documentId;
+public class OnlineDocument extends Document {
+    // @Id
+    // @Column(name = "document_id", nullable = false)
+    // @GeneratedValue(strategy = GenerationType.UUID)
+    // private UUID documentId;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "document_type", nullable = false)
-    private EDocumentType documentType = EDocumentType.Online; // Default to 1 as specified
+    // @Enumerated(EnumType.STRING)
+    // @Column(name = "document_type", nullable = false)
+    // private EDocumentType documentType = EDocumentType.Online;
 
     @Column(name = "file_type")
     private String fileType;
@@ -39,8 +40,8 @@ public class OnlineDocument {
     @Column(name = "file_url")
     private String fileUrl;
 
-    @OneToOne
-    @MapsId
-    @JoinColumn(name = "document_id")
-    private Document document;
+    // @OneToOne
+    // @MapsId
+    // @JoinColumn(name = "document_id")
+    // private Document document;
 }

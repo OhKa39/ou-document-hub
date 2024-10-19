@@ -4,6 +4,7 @@ import java.text.MessageFormat;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -16,7 +17,6 @@ import org.springframework.stereotype.Component;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import ohka39.oudocumenthub.backend.models.Role;
 import ohka39.oudocumenthub.backend.models.User;
 import ohka39.oudocumenthub.backend.payload.DTO.TokenDTO;
 
@@ -41,6 +41,9 @@ public class TokenGenerator {
                 .issuedAt(now)
                 .expiresAt(now.plus(10, ChronoUnit.MINUTES))
                 .subject(user.getUserId().toString())
+                .claim("roles", user.getRoles().stream()
+                        .map(role -> role.getName().toString()) // This should output "ROLE_GODADMIN"
+                        .collect(Collectors.toList()))
                 .build();
 
         return accessTokenEncoder.encode(JwtEncoderParameters.from(claimsSet)).getTokenValue();
