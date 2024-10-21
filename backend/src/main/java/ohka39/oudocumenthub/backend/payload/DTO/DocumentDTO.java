@@ -1,5 +1,6 @@
 package ohka39.oudocumenthub.backend.payload.DTO;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -16,7 +17,8 @@ import ohka39.oudocumenthub.backend.enums.EDocumentType;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public abstract class DocumentDTO {
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public abstract class DocumentDTO implements Serializable {
     private UUID documentId;
     private EDocumentType documentType;
     private String name;
@@ -24,18 +26,11 @@ public abstract class DocumentDTO {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private String shortUrl;
-    @JsonInclude(JsonInclude.Include.NON_NULL)
     private String description;
-    @JsonInclude(JsonInclude.Include.NON_NULL)
     private EDocumentTag tag;
     private BigDecimal price;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
     private String thumbnailUrl;
     private String facultyName;
+    private UserDTO user;
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private String createdBy;
-
-    private String createdByAvatar;
 }

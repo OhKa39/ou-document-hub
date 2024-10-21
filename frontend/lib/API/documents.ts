@@ -13,3 +13,14 @@ export const getDocumentByShortUrl = async (shortUrl: string) => {
   return res;
 };
 
+export const getDocumentsByAdmin = async () => {
+  const data = await ServerFetch(`${DOCUMENT_ENDPOINT}/admin`);
+  const res = await data.json();
+  return res;
+};
+
+export const getDocuments = async () => {
+  const data = await ServerFetch(`${DOCUMENT_ENDPOINT}`);
+  const res = await data.json();
+  return res;
+};

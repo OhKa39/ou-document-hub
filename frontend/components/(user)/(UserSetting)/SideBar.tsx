@@ -15,7 +15,9 @@ const SideBar = () => {
         <div className="flex flex-col items-center space-y-2">
           {/* avatar */}
           <div className="relative h-20 w-20 overflow-hidden rounded-full bg-white">
-            <Image src={user?.avatarLink!} fill className="absolute object-cover" alt="User Avatar" />
+            {user?.avatarLink && (
+              <Image src={user?.avatarLink!} fill className="absolute object-cover" alt="User Avatar" />
+            )}
             {/* <Image src={'/camera-icon.png'} width={30} height={30} className="absolute bottom-0 right-0" alt="icon" /> */}
           </div>
           <p className="font-semibold">Khoa Ly</p>

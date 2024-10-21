@@ -24,7 +24,7 @@ type props = {
 const EditAvatar = ({ avatarLink }: props) => {
   const inputRef = useRef(null);
   const { setUser } = useUserStore((state) => state);
-  const [url, setUrl] = useState<string | undefined>(avatarLink);
+  const [url, setUrl] = useState<string>(avatarLink!);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const handleReview = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -35,7 +35,7 @@ const EditAvatar = ({ avatarLink }: props) => {
   const handleDialogClose = (open: boolean) => {
     setIsDialogOpen(open);
     if (!open) {
-      setUrl(avatarLink); // Reset imageSrc when dialog is closed
+      setUrl(avatarLink!); // Reset imageSrc when dialog is closed
     }
   };
 
@@ -65,7 +65,9 @@ const EditAvatar = ({ avatarLink }: props) => {
           </div>
           <div className="flex w-full items-center justify-end">
             <div className="relative h-16 w-16 overflow-hidden rounded-full">
-              <Image src={avatarLink!} alt="User avatar" className="absolute left-0 top-0 object-cover" fill priority />
+              {url && (
+                <Image src={url!} alt="User avatar" className="absolute left-0 top-0 object-cover" fill priority />
+              )}
             </div>
           </div>
         </div>
@@ -79,7 +81,7 @@ const EditAvatar = ({ avatarLink }: props) => {
         </DialogHeader>
         <label className="relative mx-auto mt-2 h-[196px] w-[196px] cursor-pointer rounded-full" htmlFor="upload">
           <input type="file" ref={inputRef} accept="image/*" className="hidden" id="upload" onChange={handleReview} />
-          <Image src={url!} fill className="absolute" alt="User Avatar" priority />
+          {url && <Image src={url!} fill className="absolute" alt="User Avatar" priority />}
         </label>
         {/* <EditGenderForm gender={gender} /> */}
         <DialogFooter>

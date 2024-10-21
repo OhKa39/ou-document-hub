@@ -13,11 +13,13 @@ public interface IDocumentService {
 
     public List<DocumentDTO> getDocumentsCreatedByMe(String userId);
 
-    public List<DocumentDTO> getDocuments();
+    public List<DocumentDTO> getDocumentsByAdmin();
 
     public void reviewDocument(String id, String status);
 
     public void deleteDocument(String id);
 
     public DocumentDTO getDocumentByShortUrl(String shortUrl);
+
+    public List<DocumentDTO> getDocuments();
 }

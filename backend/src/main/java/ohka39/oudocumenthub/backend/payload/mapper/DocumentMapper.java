@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.io.FilenameUtils;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeMap;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -28,25 +29,25 @@ import ohka39.oudocumenthub.backend.utils.WordProcess;
 public class DocumentMapper {
     private final ModelMapper modelMapper;
 
+    private final UserMapper userMapper;
+
     public DocumentDTO toDocumentDTO(Document entity) {
         if (entity.getDocumentType() == EDocumentType.Online) {
             OnlineDocument onlDocument = (OnlineDocument) entity;
             OnlineDocumentDTO temp = modelMapper.map(onlDocument, OnlineDocumentDTO.class);
             temp.setFacultyName(onlDocument.getFaculty().getFacultyName());
-            temp.setCreatedBy(onlDocument.getUser().getLastName() + " " + onlDocument.getUser().getFirstName());
-            temp.setCreatedByAvatar(onlDocument.getUser().getAvatarLink());
-            temp.setOnlineFile(onlDocument.getFileUrl());
-            temp.setFileType(onlDocument.getFileType());
+            temp.setUser(userMapper.toUserDocumentDetailDTO(entity.getUser()));
+            // temp.setOnlineFile(onlDocument.getFileUrl());
+            // temp.setFileType(onlDocument.getFileType());
             return temp;
         } else {
             PaperDocument paperDocument = (PaperDocument) entity;
             PaperDocumentDTO temp = modelMapper.map(paperDocument, PaperDocumentDTO.class);
             temp.setFacultyName(paperDocument.getFaculty().getFacultyName());
-            temp.setCreatedBy(paperDocument.getUser().getLastName() + " " + paperDocument.getUser().getFirstName());
-            temp.setStock(paperDocument.getStock());
-            temp.setCreatedByAvatar(paperDocument.getUser().getAvatarLink());
+            // temp.setStock(paperDocument.getStock());
             temp.setShipAddresses(
                     paperDocument.getShipAddresses().stream().map(item -> item.getAddressName()).toList());
+            temp.setUser(userMapper.toUserDocumentDetailDTO(entity.getUser()));
             return temp;
         }
     };

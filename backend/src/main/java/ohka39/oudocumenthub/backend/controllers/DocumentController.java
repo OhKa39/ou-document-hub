@@ -53,12 +53,21 @@ public class DocumentController {
                 return ResponseEntity.status(HttpStatus.OK).body(response);
         }
 
+        @GetMapping("/admin")
+        public ResponseEntity<ResponseDTO> getDocumentsByAdmin() {
+                List<DocumentDTO> document = documentService
+                                .getDocumentsByAdmin();
+                ResponseDTO response = new ResponseDTO("success", HttpStatus.OK.value(), document,
+                                "get documents successfully");
+                return ResponseEntity.status(HttpStatus.OK).body(response);
+        }
+
         @GetMapping
         public ResponseEntity<ResponseDTO> getDocuments() {
                 List<DocumentDTO> document = documentService
                                 .getDocuments();
                 ResponseDTO response = new ResponseDTO("success", HttpStatus.OK.value(), document,
-                                "get documents created by me successfully");
+                                "get documents successfully");
                 return ResponseEntity.status(HttpStatus.OK).body(response);
         }
 

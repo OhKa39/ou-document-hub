@@ -7,11 +7,37 @@ import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { MdKeyboardArrowRight } from 'react-icons/md';
 import { useUserStore } from '@/components/providers/UserProvider';
-import EditName from './BasicInformationComponents/EditName';
-import EditDOB from './BasicInformationComponents/EditDOB';
-import EditGender from './BasicInformationComponents/EditGender';
-import EditAvatar from './BasicInformationComponents/EditAvatar';
+import dynamic from 'next/dynamic';
 // import user from '@/__mocks__/data/user';
+
+const EditAvatar = dynamic(
+  () => import('@/components/(user)/(UserSetting)/MyAccount/BasicInformationComponents/EditAvatar'),
+  {
+    loading: () => <div>Loading...</div>,
+    // ssr: false,
+  }
+);
+
+const EditName = dynamic(
+  () => import('@/components/(user)/(UserSetting)/MyAccount/BasicInformationComponents/EditName'),
+  {
+    loading: () => <div>Loading...</div>,
+  }
+);
+
+const EditDOB = dynamic(
+  () => import('@/components/(user)/(UserSetting)/MyAccount/BasicInformationComponents/EditDOB'),
+  {
+    loading: () => <div>Loading...</div>,
+  }
+);
+
+const EditGender = dynamic(
+  () => import('@/components/(user)/(UserSetting)/MyAccount/BasicInformationComponents/EditGender'),
+  {
+    loading: () => <div>Loading...</div>,
+  }
+);
 
 const BasicInformation = () => {
   const { user } = useUserStore((state) => state);

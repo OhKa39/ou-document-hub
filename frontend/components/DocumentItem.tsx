@@ -1,11 +1,13 @@
 'use client';
-import React from 'react';
+import React, { useCallback } from 'react';
 import { Button } from './ui/button';
 import Image from 'next/image';
 import { IoHeartOutline } from 'react-icons/io5';
 import { Rating } from 'react-simple-star-rating';
 import Link from 'next/link';
 import DocumentType from '@/types/DocumentType';
+import { useCartStore } from './providers/CartProvider';
+import debounce from 'debounce';
 
 type ComponentType = {
   resolutionMobile?: Array<number>;
@@ -14,10 +16,27 @@ type ComponentType = {
 
 type props = ComponentType & DocumentType;
 
-const DocumentItem = ({ id, name, price, image, tag, resolutionMobile, resolutionPC }: props) => {
+const DocumentItem = ({
+  documentId,
+  name,
+  price,
+  image,
+  tag,
+  resolutionMobile,
+  resolutionPC,
+  thumbnailUrl,
+  shortUrl,
+}: props) => {
   const SCALE_MOBILE = resolutionMobile ?? [412, 231]; //hxw with default value
   const SCALE_PC = resolutionPC ?? [459, 262];
 
+  const { addItem, postItem } = useCartStore((state) => state);
+
+  const handleAddToCart = (documentId: string) => {
+    addItem({ itemId: documentId, quantity: 1 });
+
+    postItem();
+  };
   return (
     <div className="container" data-testid="DocumentItem">
       <style jsx>{`
@@ -51,19 +70,15 @@ const DocumentItem = ({ id, name, price, image, tag, resolutionMobile, resolutio
           </div>
         </div>
         {/* document image */}
-        <div
-          className={`absolute left-1/2 top-1/2 h-[75%] -translate-x-1/2 -translate-y-[55%] shadow-xl md:h-[80%]`}
-          style={{
-            aspectRatio: image.width / image.height,
-          }}
-        >
+        <div className={`absolute left-1/2 top-1/2 h-[80%] w-full -translate-x-1/2 -translate-y-1/2 md:h-[85%]`}>
           <Image
-            src={image}
+            src={thumbnailUrl}
             alt="Document Image"
             fill
             // priority
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             draggable={false}
+            className="drop-shadow-md"
             style={{ objectFit: 'contain' }}
             data-testid="DocumentImage"
           />
@@ -73,6 +88,7 @@ const DocumentItem = ({ id, name, price, image, tag, resolutionMobile, resolutio
           className="absolute bottom-2 left-1/2 hidden w-[88%] -translate-x-1/2 group-hover:block md:w-[84%]"
           data-testid="AddToCart"
           aria-label="Add To Cart"
+          onClick={() => handleAddToCart(documentId)}
         >
           Thêm vào giỏ
         </Button>
@@ -91,10 +107,10 @@ const DocumentItem = ({ id, name, price, image, tag, resolutionMobile, resolutio
           className="overflow-hidden text-ellipsis text-base font-semibold md:text-[18px] lg:w-[80%]"
           data-testid="DocumentName"
         >
-          <Link href="#">{name}</Link>
+          <Link href={`/${shortUrl}`}>{name}</Link>
         </p>
         <p className="text-sm font-semibold text-[#B30000] md:text-base" data-testid="DocumentPrice">
-          {price.toLocaleString('it-IT', { style: 'currency', currency: 'VND' })}
+          {Number(price).toLocaleString('it-IT', { style: 'currency', currency: 'VND' })}
         </p>
       </div>
     </div>

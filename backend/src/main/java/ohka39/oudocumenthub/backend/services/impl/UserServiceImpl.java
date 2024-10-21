@@ -112,7 +112,7 @@ public class UserServiceImpl implements IUserService, UserDetailsManager {
         createUser(newUser);
 
         // Perform the actual mapping
-        return userMapper.toUserDTO(newUser);
+        return userMapper.toCurrentUserDTO(newUser);
 
     }
 
@@ -123,7 +123,7 @@ public class UserServiceImpl implements IUserService, UserDetailsManager {
             throw new EntityNotFoundException(userId, 1000);
         });
 
-        return userMapper.toUserDTO(user);
+        return userMapper.toCurrentUserDTO(user);
     }
 
     @Override
@@ -136,7 +136,7 @@ public class UserServiceImpl implements IUserService, UserDetailsManager {
         user.setLastName(request.getLastName());
         user.setFirstName(request.getFirstName());
         userRepository.saveAndFlush(user);
-        return userMapper.toUserDTO(user);
+        return userMapper.toCurrentUserDTO(user);
     }
 
     @Override
@@ -159,13 +159,13 @@ public class UserServiceImpl implements IUserService, UserDetailsManager {
         log.info("url: {}", url.toExternalForm());
         user.setAvatarLink(url.toExternalForm());
         userRepository.saveAndFlush(user);
-        return userMapper.toUserDTO(user);
+        return userMapper.toCurrentUserDTO(user);
     }
 
     @Override
     public List<UserDTO> getUserList() {
         List<User> users = userRepository.findAll();
-        List<UserDTO> usersDTO = users.stream().map(item -> userMapper.toUserDTO(item)).toList();
+        List<UserDTO> usersDTO = users.stream().map(item -> userMapper.toAdminUserDTO(item)).toList();
         return usersDTO;
     }
 }

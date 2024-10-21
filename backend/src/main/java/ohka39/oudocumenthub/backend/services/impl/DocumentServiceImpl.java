@@ -5,6 +5,9 @@ import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -59,6 +62,7 @@ public class DocumentServiceImpl implements IDocumentService {
         private final ApplicationEventPublisher eventPublisher;
 
         @Override
+        // @CachePut(value = "document", key = "#result.shortUrl")
         public DocumentDTO createDocument(DocumentRequest request, MultipartFile image, MultipartFile onlineFile,
                         String userId) {
                 User user = userRepository.findById(UUID.fromString(userId))
@@ -104,7 +108,7 @@ public class DocumentServiceImpl implements IDocumentService {
         }
 
         @Override
-        public List<DocumentDTO> getDocuments() {
+        public List<DocumentDTO> getDocumentsByAdmin() {
                 List<DocumentDTO> documents = documentRepository.findAll().stream()
                                 .map(item -> documentMapper.toDocumentDTO(item)).toList();
                 return documents;
@@ -114,7 +118,11 @@ public class DocumentServiceImpl implements IDocumentService {
         public void reviewDocument(String id, String status) {
                 Document document = documentRepository.findById(UUID.fromString(id))
                                 .orElseThrow(() -> new EntityNotFoundException("document not found", 1007));
-                document.setStatus(EDocumentStatus.valueOf(status));
+                EDocumentStatus statusChange = EDocumentStatus.valueOf(status) != EDocumentStatus.Verified
+                                ? EDocumentStatus.Verified
+                                : EDocumentStatus.Decline;
+
+                document.setStatus(statusChange);
                 documentRepository.saveAndFlush(document);
         }
 
@@ -138,10 +146,22 @@ public class DocumentServiceImpl implements IDocumentService {
         }
 
         @Override
+        // @Caching(cacheable = @Cacheable(value = "document", key = "#shortUrl"), put =
+        // {
+        // @CachePut(value = "document", key = "#result.documentId"),
+        // @CachePut(value = "document", key = "#result.shortUrl") })
         public DocumentDTO getDocumentByShortUrl(String shortUrl) {
                 Document document = documentRepository.findByShortUrl(shortUrl)
                                 .orElseThrow(() -> new EntityNotFoundException("document not found", 1007));
                 return documentMapper.toDocumentDTO(document);
+        }
+
+        @Override
+        public List<DocumentDTO> getDocuments() {
+                List<DocumentDTO> documents = documentRepository
+                                .findAllByIsDeleteFalseAndStatus(EDocumentStatus.Verified).stream()
+                                .map(item -> documentMapper.toDocumentDTO(item)).toList();
+                return documents;
         }
 
 }

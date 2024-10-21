@@ -211,12 +211,11 @@ export const SELLER_SIDEBAR_ITEM: AdminNavType[] = [
   { link: '/seller-channel/documents', name: 'Danh sách tài liệu', iconLink: '/OrderList.svg' },
   { link: '/seller-channel/analytics', name: 'Phân tích & báo cáo', iconLink: '/Analytics.svg' },
 ];
-import { SiTicktick } from 'react-icons/si';
 import { PiProhibitBold } from 'react-icons/pi';
-import { MdOutlineCancel } from 'react-icons/md';
+import { MdOutlineCancel, MdOutlineDone, MdOutlineAutoMode } from 'react-icons/md';
 
 export const DOCUMENT_STATUS: DOCUMENT_STATUS_TYPE = {
-  Not_Verified: { name: 'Đang chờ', icon: MdOutlineCancel },
-  Verified: { name: 'Đã xác nhận', icon: SiTicktick },
-  Decline: { name: 'Từ chối', icon: PiProhibitBold },
+  Not_Verified: { name: 'Đang chờ', icon: MdOutlineAutoMode },
+  Verified: { name: 'Đã xác nhận', icon: MdOutlineDone },
+  Decline: { name: 'Từ chối', icon: MdOutlineCancel },
 };

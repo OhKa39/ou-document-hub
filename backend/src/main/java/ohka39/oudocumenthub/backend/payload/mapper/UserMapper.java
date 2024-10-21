@@ -41,9 +41,33 @@ public class UserMapper {
         return temp;
     }
 
-    public UserDTO toUserDTO(User user) {
+    public UserDTO toAdminUserDTO(User user) {
         UserDTO temp = modelMapper.map(user, UserDTO.class);
         temp.setRoles(user.getRoles().stream().map(Role::getName).map(Object::toString).toList());
+        return temp;
+    }
+
+    public UserDTO toCurrentUserDTO(User user) {
+        UserDTO temp = UserDTO.builder()
+                .userId(user.getUserId())
+                .avatarLink(user.getAvatarLink())
+                .firstName(user.getFirstName())
+                .lastName(user.getLastName())
+                .dateOfBirth(user.getDateOfBirth())
+                .roles(user.getRoles().stream().map(Role::getName).map(Object::toString).toList())
+                .email(user.getEmail())
+                .build();
+        return temp;
+    }
+
+    public UserDTO toUserDocumentDetailDTO(User user) {
+        UserDTO temp = UserDTO.builder()
+                .userId(user.getUserId())
+                .gender(user.getGender())
+                .avatarLink(user.getAvatarLink())
+                .firstName(user.getFirstName())
+                .lastName(user.getLastName())
+                .build();
         return temp;
     }
 }

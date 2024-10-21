@@ -29,3 +29,17 @@ export async function createDocument(data: FormData) {
   revalidatePath('/seller-channel/documents');
   return { statusCode: dataResponse.statusCode, data: dataResponse.data };
 }
+
+export async function reviewDocument(documentID: string, status: string) {
+  const dataResponse = await ServerFetch(`${DOCUMENT_ENDPOINT}/admin/${documentID}?status=${status}`, {
+    method: 'PATCH',
+    // headers: {
+    //   'Content-Type': 'application/json',
+    // },
+  }).catch((error) => {
+    throw new Error(`Fetch error: ${error}`);
+  });
+
+  revalidatePath('/admin/document-review');
+  return dataResponse;
+}

@@ -6,6 +6,7 @@ import Footer from '@/components/Footer';
 import { UserStoreProvider } from '@/components/providers/UserProvider';
 import ReactQueryProvider from '@/components/providers/ReactQueryProvider';
 import { Toaster } from '@/components/ui/toaster';
+import { CartStoreProvider } from '@/components/providers/CartProvider';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -24,10 +25,12 @@ export default function AuthLayout({
       <body className={inter.className}>
         <ReactQueryProvider>
           <UserStoreProvider>
-            <Toaster />
-            <Navbar />
-            <main className="max-w-[1544px] 2xl:mx-auto">{children}</main>
-            <Footer />
+            <CartStoreProvider>
+              <Toaster />
+              <Navbar />
+              <main className="max-w-[1544px] 2xl:mx-auto">{children}</main>
+              <Footer />
+            </CartStoreProvider>
           </UserStoreProvider>
         </ReactQueryProvider>
       </body>
