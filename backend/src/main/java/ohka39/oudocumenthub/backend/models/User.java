@@ -26,6 +26,8 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.PrimaryKeyJoinColumn;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -101,6 +103,14 @@ public class User implements UserDetails {
     @Builder.Default
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
     private Set<Document> documents = new HashSet<>();
+
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "user")
+    @PrimaryKeyJoinColumn
+    private Cart cart;
+
+    @OneToOne(fetch = FetchType.EAGER, mappedBy = "user")
+    @PrimaryKeyJoinColumn
+    private SellerInformation sellerInformation;
 
     @Override
     public boolean isAccountNonExpired() {

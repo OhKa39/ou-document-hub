@@ -1,4 +1,12 @@
+import DocumentType from './DocumentType';
+
 type CartItemType = {
-    itemId: string,
-    quantity: number
-}
+  documentId: string;
+  quantity: number;
+  itemId?: string;
+  createdAt?: Date;
+  updatedAt?: Date;
+  price: bigint;
+};
+
+export default CartItemType;

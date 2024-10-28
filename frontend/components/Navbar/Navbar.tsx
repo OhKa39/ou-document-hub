@@ -15,6 +15,9 @@ import NavbarButtonLoading from '../Loading/NavbarButtonLoading';
 import CartDialog from './CartDialog';
 import { GET_USER_ENDPOINT } from '@/constants/api_endpoint';
 import useGetCurrentUser from '@/hooks/useGetCurrentUser';
+import dynamic from 'next/dynamic';
+
+// const CartDialog = dynamic(() => import('./CartDialog'));
 
 const Navbar = () => {
   const router = useRouter();
@@ -29,11 +32,11 @@ const Navbar = () => {
   }, [data, setUser]);
 
   return (
-    <nav className="relative z-[999] flex h-[4rem] max-w-[1536px] items-center justify-between px-12 py-4 shadow-lg md:px-8 lg:px-32 2xl:mx-auto">
+    <nav className="relative z-[999] flex h-[4rem] max-w-[1536px] items-center justify-between px-8 py-4 shadow-lg md:px-8 lg:px-32 2xl:mx-auto">
       {/*Logo*/}
       <div className="flex items-center justify-center space-x-2 lg:space-x-0">
         <ResponsiveMenu />
-        <h1 className="font-Poppins cursor-pointer text-2xl font-bold text-[#0c4ca3]">
+        <h1 className="font-Poppins cursor-pointer text-xl font-bold text-[#0c4ca3] lg:text-2xl">
           <Link href="/">OUDocumentHub</Link>
         </h1>
       </div>

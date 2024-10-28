@@ -15,3 +15,7 @@ export const FACULTY_ENDPOINT = '/api/v1/faculties';
 export const SHIPPING_ADDRESS_ENDPOINT = '/api/v1/shipping-addresses';
 
 export const DOCUMENT_ENDPOINT = '/api/v1/documents';
+
+export const CART_ENDPOINT = '/api/v1/cart';
+
+export const PAYMENT_ENDPOINT = '/api/v1/payments';

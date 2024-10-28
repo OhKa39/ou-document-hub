@@ -8,7 +8,7 @@ const PaymentPage = () => {
       <div className="flex justify-between font-bold">
         <p>Thẻ ngân hàng</p>
         <Link className="flex items-center gap-2" href="/my-account/payment-cards/add-payment">
-          <CiCirclePlus size={20} />
+          <CiCirclePlus size={24} />
           <p>Thêm thẻ ngân hàng</p>
         </Link>
       </div>

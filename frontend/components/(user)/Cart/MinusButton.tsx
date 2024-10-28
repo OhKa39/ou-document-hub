@@ -1,17 +1,38 @@
 'use client';
+import { useCartStore } from '@/components/providers/CartProvider';
+import { useUserStore } from '@/components/providers/UserProvider';
 import { Input } from '@/components/ui/input';
 import { useState } from 'react';
 import { HiMiniMinus } from 'react-icons/hi2';
 import { IoAddSharp } from 'react-icons/io5';
 
-const MinusButton = () => {
-  const [value, setValue] = useState(0);
+type props = {
+  value: number;
+  isInputDisable: boolean;
+  documentId: string;
+  price: bigint;
+  setValue: any;
+  isInPageDetail?: boolean;
+};
+const MinusButton = ({ setValue, price, documentId, value, isInputDisable, isInPageDetail = false }: props) => {
+  const { addItem, subtractItem, postItem } = useCartStore((state) => state);
+  const { isAuthenticated } = useUserStore((state) => state);
+
   const handleIncrement = () => {
     setValue(value + 1);
+    if (!isInPageDetail) {
+      addItem({ documentId, quantity: 1, price });
+      postItem(isAuthenticated);
+    }
   };
   const handleDecrement = () => {
     if (value > 0) {
       setValue(value - 1);
+      // subtract
+      if (!isInPageDetail) {
+        subtractItem({ documentId, quantity: 1, price });
+        postItem(isAuthenticated);
+      }
     }
   };
   return (
@@ -23,6 +44,7 @@ const MinusButton = () => {
         value={value}
         onChange={(e) => setValue(parseInt(e.target.value) || 0)}
         min={0}
+        disabled={isInputDisable}
       />
       <IoAddSharp
         className="absolute left-1/2 h-full w-[33%] translate-x-1/2 cursor-pointer"

@@ -9,6 +9,7 @@ type UserType = {
   roles: string[];
   provider: string;
   avatarLink: string;
+  sellerInformationDTO?: SellerInformationType;
 } | null;
 
 export default UserType;

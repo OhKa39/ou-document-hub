@@ -3,8 +3,7 @@ import UserType from './UserType';
 type DocumentType = {
   documentId: string;
   name: string;
-  price: BigInt;
-  image: any;
+  price: bigint;
   thumbnailUrl: string;
   status: string;
   shortUrl: string;

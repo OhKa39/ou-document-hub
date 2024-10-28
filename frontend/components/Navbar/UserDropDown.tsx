@@ -22,10 +22,17 @@ import { getAuthCookies } from '@/actions/getAuthCookies';
 import Image from 'next/image';
 import { UserState } from '@/store/UserStore';
 import Link from 'next/link';
+import { useCartStore } from '../providers/CartProvider';
 
 const UserDropDown = ({ isAuthenticated, user }: UserState) => {
   const { logOut } = useUserStore((state) => state);
+  const {resetCart} = useCartStore(state=>state);
   const router = useRouter();
+
+  const handleLogout = () => {
+    logOut();
+    resetCart();
+  }
 
   return (
     <div className="hidden lg:block">
@@ -75,7 +82,7 @@ const UserDropDown = ({ isAuthenticated, user }: UserState) => {
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={() => logOut()}>
+            <DropdownMenuItem onClick={handleLogout}>
               Đăng xuất
               <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
             </DropdownMenuItem>

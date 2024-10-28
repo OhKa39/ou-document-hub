@@ -8,6 +8,8 @@ import Link from 'next/link';
 import DocumentType from '@/types/DocumentType';
 import { useCartStore } from './providers/CartProvider';
 import debounce from 'debounce';
+import { useUserStore } from './providers/UserProvider';
+import ToVietnameseCurrency from '@/utils/ToVietnameseCurrency';
 
 type ComponentType = {
   resolutionMobile?: Array<number>;
@@ -20,7 +22,6 @@ const DocumentItem = ({
   documentId,
   name,
   price,
-  image,
   tag,
   resolutionMobile,
   resolutionPC,
@@ -31,11 +32,12 @@ const DocumentItem = ({
   const SCALE_PC = resolutionPC ?? [459, 262];
 
   const { addItem, postItem } = useCartStore((state) => state);
+  const { isAuthenticated } = useUserStore((state) => state);
 
   const handleAddToCart = (documentId: string) => {
-    addItem({ itemId: documentId, quantity: 1 });
+    addItem({ documentId: documentId, quantity: 1, price });
 
-    postItem();
+    postItem(isAuthenticated);
   };
   return (
     <div className="container" data-testid="DocumentItem">
@@ -110,7 +112,7 @@ const DocumentItem = ({
           <Link href={`/${shortUrl}`}>{name}</Link>
         </p>
         <p className="text-sm font-semibold text-[#B30000] md:text-base" data-testid="DocumentPrice">
-          {Number(price).toLocaleString('it-IT', { style: 'currency', currency: 'VND' })}
+          {ToVietnameseCurrency(price)}
         </p>
       </div>
     </div>

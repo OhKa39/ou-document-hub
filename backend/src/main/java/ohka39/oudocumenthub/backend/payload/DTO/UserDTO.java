@@ -34,4 +34,5 @@ public class UserDTO implements Serializable {
    private LocalDateTime updatedAt;
    private Boolean isBanned;
    private Boolean isEnable;
+   private SellerInformationDTO sellerInformationDTO;
 }

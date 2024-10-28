@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -63,6 +64,7 @@ public class DocumentController {
         }
 
         @GetMapping
+        @PreAuthorize("permitAll")
         public ResponseEntity<ResponseDTO> getDocuments() {
                 List<DocumentDTO> document = documentService
                                 .getDocuments();
@@ -77,9 +79,19 @@ public class DocumentController {
                 return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
         }
 
-        @GetMapping("/{shortUrl}")
+        @GetMapping("/url/{shortUrl}")
+        @PreAuthorize("permitAll")
         public ResponseEntity<ResponseDTO> getDocumentByShortUrl(@PathVariable String shortUrl) {
                 DocumentDTO document = documentService.getDocumentByShortUrl(shortUrl);
+                ResponseDTO response = new ResponseDTO("success", HttpStatus.OK.value(), document,
+                                "get document by url successfully");
+                return ResponseEntity.status(HttpStatus.OK).body(response);
+        }
+
+        @GetMapping("/{id}")
+        @PreAuthorize("permitAll")
+        public ResponseEntity<ResponseDTO> getDocumentById(@PathVariable String id) {
+                DocumentDTO document = documentService.getDocumentById(id);
                 ResponseDTO response = new ResponseDTO("success", HttpStatus.OK.value(), document,
                                 "get document by url successfully");
                 return ResponseEntity.status(HttpStatus.OK).body(response);

@@ -2,17 +2,22 @@ package ohka39.oudocumenthub.backend.models;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorColumn;
 import jakarta.persistence.DiscriminatorType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -20,6 +25,9 @@ import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.PrimaryKeyJoinColumn;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -90,6 +98,10 @@ public class Document {
     @ManyToOne
     @JoinColumn(name = "faculty_id", nullable = false)
     private Faculty faculty;
+
+    @Builder.Default
+    @OneToMany(mappedBy = "document", fetch = FetchType.LAZY, orphanRemoval = true, cascade = CascadeType.ALL)
+    private Set<CartItem> cartItems = new HashSet<>();
 
     // @OneToOne(mappedBy = "document", cascade = CascadeType.ALL)
     // @PrimaryKeyJoinColumn

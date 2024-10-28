@@ -28,15 +28,15 @@ const Cart = ({ params }: props) => {
         {PROCESS_STEPS.map((step, index) => (
           <div
             key={index}
-            className={`${index === stepSplit! ? 'border-b-2 border-b-[#23262F]' : index < stepSplit ? 'border-b-2 border-b-[var(--secondary-green)]' : ''} flex w-[256px] shrink-0 items-start gap-4 pb-6`}
+            className={`${index + 1 === stepSplit! ? 'border-b-2 border-b-[#23262F]' : index + 1 < stepSplit ? 'border-b-2 border-b-[var(--secondary-green)]' : ''} flex w-[256px] shrink-0 items-start gap-4 pb-6`}
           >
             <div
-              className={`${index === stepSplit! ? 'bg-[#23262F]' : index < stepSplit ? 'bg-[var(--secondary-green)]' : 'bg-[#B1B5C3]'} flex h-[42px] w-[42px] items-center justify-center rounded-full text-white`}
+              className={`${index + 1 === stepSplit! ? 'bg-[#23262F]' : index + 1 < stepSplit ? 'bg-[var(--secondary-green)]' : 'bg-[#B1B5C3]'} flex h-[42px] w-[42px] items-center justify-center rounded-full text-white`}
             >
-              {index >= stepSplit ? index : <TiTick size={20} />}
+              {index + 1 >= stepSplit ? index + 1 : <TiTick size={20} />}
             </div>
             <h2
-              className={`${index === stepSplit! ? 'text-[#23262F]' : index < stepSplit ? 'text-[var(--secondary-green)]' : 'text-[#B1B5C3]'} my-auto text-[18px] font-semibold text-[#23262F]`}
+              className={`${index + 1 === stepSplit! ? 'text-[#23262F]' : index + 1 < stepSplit ? 'text-[var(--secondary-green)]' : 'text-[#B1B5C3]'} my-auto text-[18px] font-semibold text-[#23262F]`}
             >
               {step.name}
             </h2>

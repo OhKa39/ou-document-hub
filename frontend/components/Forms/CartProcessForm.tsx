@@ -9,18 +9,26 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { CartProcessSchema } from '@/schemas/CartProcessSchema';
 import { CART_PROCESS_OPTIONS } from '@/constants';
+import useGetShippingAddresses from '@/hooks/useGetShippingAddresses';
+import ShippingAddressType from '@/types/ShippingAddressType';
+import toTitleCase from '@/utils/ToTitleCase';
 
 const CartProcessForm = () => {
+  const { data, isLoading, isError } = useGetShippingAddresses();
+  console.log(data);
+  const addresses = data?.data.content;
   const form = useForm<z.infer<typeof CartProcessSchema>>({
     resolver: zodResolver(CartProcessSchema),
     defaultValues: {
-      type: CART_PROCESS_OPTIONS[0].value,
+      type: 'abc',
     },
   });
 
   function onSubmit(data: z.infer<typeof CartProcessSchema>) {
     console.log(data);
   }
+
+  if (isLoading) return <p>Loading...</p>;
 
   return (
     <Form {...form}>
@@ -32,15 +40,15 @@ const CartProcessForm = () => {
             <FormControl>
               <FormItem>
                 <RadioGroup className="mt-4 w-full space-y-2" onValueChange={field.onChange} defaultValue={field.value}>
-                  {CART_PROCESS_OPTIONS.map((option) => (
+                  {addresses.map((option: ShippingAddressType) => (
                     <FormItem
                       className="flex h-[52px] w-full items-center space-x-2 rounded-sm border-[1px] border-[#6c7275] px-2"
-                      key={option.id}
+                      key={option.addressId}
                     >
                       <FormControl>
-                        <RadioGroupItem value={option.value} id={option.value} />
+                        <RadioGroupItem value={option.addressId} id={option.addressId} />
                       </FormControl>
-                      <FormLabel className="!mx-3 !my-0">{option.name}</FormLabel>
+                      <FormLabel className="!mx-3 !my-0">{toTitleCase(option.addressName)}</FormLabel>
                     </FormItem>
                   ))}
                 </RadioGroup>

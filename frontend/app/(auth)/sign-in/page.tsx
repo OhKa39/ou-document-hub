@@ -6,7 +6,7 @@ const SignIn = () => {
   return (
     <div className="grid h-fit grid-rows-1 lg:grid-cols-2 lg:grid-rows-none">
       {/* image section */}
-      <div>
+      <div className="w-full">
         {/* <Image alt='SignIn thumbnail' fill src={SignInThumbnail}/> */}
         <video
           playsInline
@@ -14,11 +14,11 @@ const SignIn = () => {
           loop
           muted
           preload="auto"
-          src="/SignInVideo.webm"
           className="h-full w-full object-cover"
           data-testid="SignInVideoSection"
         >
           <source src="/SignInVideo.webm" type="video/webm" />
+          <source src="/SignInVideo.mp4" type="video/mp4" />
         </video>
       </div>
       {/* sign up section */}

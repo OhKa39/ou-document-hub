@@ -21,5 +21,7 @@ public interface IDocumentService {
 
     public DocumentDTO getDocumentByShortUrl(String shortUrl);
 
+    public DocumentDTO getDocumentById(String Id);
+
     public List<DocumentDTO> getDocuments();
 }

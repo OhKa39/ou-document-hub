@@ -1,3 +1,20 @@
+CREATE TABLE if NOT exists "oauth2_authorized_client" (
+    "client_registration_id" varchar(100) NOT NULL,
+    "principal_name" varchar(200) NOT NULL,
+    "access_token_type" varchar(100) NOT NULL,
+    "access_token_value" text NOT NULL,
+    "access_token_issued_at" timestamp without time zone NOT NULL,
+    "access_token_expires_at" timestamp without time zone NOT NULL,
+    "access_token_scopes" varchar(1000) DEFAULT NULL::character varying,
+    "refresh_token_value" text,
+    "refresh_token_issued_at" timestamp without time zone,
+    "created_at" timestamp without time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (
+        "client_registration_id",
+        "principal_name"
+    )
+);
+
 CREATE TABLE IF NOT EXISTS "users" (
     "user_id" uuid PRIMARY KEY,
     "email" varchar(255) NOT NULL,
@@ -12,6 +29,15 @@ CREATE TABLE IF NOT EXISTS "users" (
     "is_enable" bool DEFAULT false,
     "date_of_birth" date,
     "provider" varchar(20)
+);
+
+CREATE TABLE if NOT EXISTS "seller_information" (
+    "user_id" uuid PRIMARY KEY,
+    "created_at" timestamp DEFAULT (now()),
+    "updated_at" timestamp,
+    "merchant_id" varchar(100),
+    "is_verified" boolean DEFAULT (false),
+    "account_type" VARCHAR(100)
 );
 
 CREATE TABLE IF NOT EXISTS "cards" (
@@ -107,7 +133,8 @@ CREATE TABLE IF NOT EXISTS "order_items" (
 );
 
 CREATE TABLE IF NOT EXISTS "cart_items" (
-    "document_id" uuid PRIMARY KEY,
+    "item_id" uuid PRIMARY KEY,
+    "document_id" uuid,
     "quantity" int,
     "created_at" timestamp DEFAULT (now()),
     "updated_at" timestamp,
@@ -134,6 +161,9 @@ CREATE UNIQUE INDEX ON "faculties" ("faculty_name");
 CREATE UNIQUE INDEX ON "ship_addresses" ("address_name");
 
 CREATE UNIQUE INDEX short_url_1729266864455_index ON "documents" USING btree ("short_url");
+
+ALTER TABLE "seller_information"
+ADD FOREIGN KEY ("user_id") REFERENCES "users" ("user_id");
 
 ALTER TABLE "cards"
 ADD FOREIGN KEY ("created_by") REFERENCES "users" ("user_id");
@@ -184,7 +214,7 @@ ALTER TABLE "cart_items"
 ADD FOREIGN KEY ("document_id") REFERENCES "documents" ("document_id");
 
 ALTER TABLE "cart_items"
-ADD FOREIGN KEY ("cart_id") REFERENCES "cart" ("cart_id");
+ADD FOREIGN KEY ("cart_id") REFERENCES "cart" ("user_id");
 
 ALTER TABLE "cart"
 ADD FOREIGN KEY ("user_id") REFERENCES "users" ("user_id");

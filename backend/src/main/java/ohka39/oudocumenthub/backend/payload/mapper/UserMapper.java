@@ -9,7 +9,9 @@ import org.springframework.stereotype.Component;
 import lombok.RequiredArgsConstructor;
 import ohka39.oudocumenthub.backend.enums.EProvider;
 import ohka39.oudocumenthub.backend.models.Role;
+import ohka39.oudocumenthub.backend.models.SellerInformation;
 import ohka39.oudocumenthub.backend.models.User;
+import ohka39.oudocumenthub.backend.payload.DTO.SellerInformationDTO;
 import ohka39.oudocumenthub.backend.payload.DTO.UserDTO;
 import ohka39.oudocumenthub.backend.payload.requests.SignUpRequest;
 
@@ -48,8 +50,10 @@ public class UserMapper {
     }
 
     public UserDTO toCurrentUserDTO(User user) {
+
         UserDTO temp = UserDTO.builder()
                 .userId(user.getUserId())
+                .gender(user.getGender())
                 .avatarLink(user.getAvatarLink())
                 .firstName(user.getFirstName())
                 .lastName(user.getLastName())
@@ -57,6 +61,15 @@ public class UserMapper {
                 .roles(user.getRoles().stream().map(Role::getName).map(Object::toString).toList())
                 .email(user.getEmail())
                 .build();
+        if (user.getSellerInformation() != null) {
+            SellerInformation informationTemp = user.getSellerInformation();
+            SellerInformationDTO informationDTO = SellerInformationDTO.builder()
+                    .accountType(informationTemp.getAccountType())
+                    .merchantId(informationTemp.getMerchantId())
+                    .isVerified(informationTemp.isVerified())
+                    .build();
+            temp.setSellerInformationDTO(informationDTO);
+        }
         return temp;
     }
 

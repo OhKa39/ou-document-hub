@@ -8,7 +8,7 @@ export const getMyDocuments = async () => {
 };
 
 export const getDocumentByShortUrl = async (shortUrl: string) => {
-  const data = await ServerFetch(`${DOCUMENT_ENDPOINT}/${shortUrl}`);
+  const data = await ServerFetch(`${DOCUMENT_ENDPOINT}/url/${shortUrl}`);
   const res = await data.json();
   return res;
 };
@@ -21,6 +21,12 @@ export const getDocumentsByAdmin = async () => {
 
 export const getDocuments = async () => {
   const data = await ServerFetch(`${DOCUMENT_ENDPOINT}`);
+  const res = await data.json();
+  return res;
+};
+
+export const getDocumentById = async (id: string) => {
+  const data = await ServerFetch(`${DOCUMENT_ENDPOINT}/${id}`);
   const res = await data.json();
   return res;
 };

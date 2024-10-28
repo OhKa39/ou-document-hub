@@ -1,5 +1,6 @@
 package ohka39.oudocumenthub.backend.payload.DTO;
 
+import java.io.Serializable;
 import java.util.List;
 
 import lombok.AllArgsConstructor;
@@ -11,6 +12,6 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class CartDTO {
+public class CartDTO implements Serializable {
     List<CartItemDTO> cartItems;
 }

@@ -16,7 +16,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           <Link
             href={`/${documentUrl}`}
             scroll={false}
-            className={`border-b-2 px-1 py-4 text-sm font-medium ${
+            className={`border-b-2 px-1 py-4 text-base font-medium ${
               !segment
                 ? 'border-blue-500 text-blue-600'
                 : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700'
@@ -27,7 +27,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           <Link
             href={`/${documentUrl}/comments`}
             scroll={false}
-            className={`border-b-2 px-1 py-4 text-sm font-medium ${
+            className={`border-b-2 px-1 py-4 text-base font-medium ${
               segment === 'comments'
                 ? 'border-blue-500 text-blue-600'
                 : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700'
@@ -38,7 +38,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           <Link
             href={`/${documentUrl}/reviews`}
             scroll={false}
-            className={`border-b-2 px-1 py-4 text-sm font-medium ${
+            className={`border-b-2 px-1 py-4 text-base font-medium ${
               segment === 'reviews'
                 ? 'border-blue-500 text-blue-600'
                 : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700'

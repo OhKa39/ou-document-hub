@@ -73,6 +73,7 @@ export async function middleware(request: NextRequest) {
     if (dataUser.ok) return NextResponse.redirect(new URL('/', request.url));
   }
 
+  //admin
   if (request.nextUrl.pathname.startsWith('/admin')) {
     const dataUser = await fetch(`${process.env.NEXT_PUBLIC_API_URL}${GET_USER_ENDPOINT}`, {
       headers: {
@@ -86,6 +87,20 @@ export async function middleware(request: NextRequest) {
       if (dataRes.data['roles'].includes('ROLE_ADMIN')) return res;
     }
     return NextResponse.redirect(new URL('/', request.url));
+  }
+
+  //guest
+  if (request.nextUrl.pathname.startsWith('/seller-channel') || request.nextUrl.pathname.startsWith('/my-account')) {
+    const dataUser = await fetch(`${process.env.NEXT_PUBLIC_API_URL}${GET_USER_ENDPOINT}`, {
+      headers: {
+        ...(accessToken ? { Authorization: `Bearer ${accessToken}` } : {}),
+        Cookie: `JSESSIONID=${JSESSIONID}`,
+      },
+    });
+    // console.log(dataUser);
+    if (!dataUser.ok) {
+      return NextResponse.redirect(new URL('/sign-in', request.url));
+    }
   }
 
   return res;

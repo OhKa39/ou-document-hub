@@ -36,7 +36,7 @@ const DocumentMultiCarousel = () => {
         Tài Liệu Mới
       </h1>
       <div className="mt-6">
-        <Carousel
+        {/* <Carousel
           responsive={responsive}
           // ssr
           swipeable
@@ -61,7 +61,7 @@ const DocumentMultiCarousel = () => {
           {documents.map((item) => (
             <DocumentItem key={item.id} {...item} data-testid="DocumentItem" />
           ))}
-        </Carousel>
+        </Carousel> */}
       </div>
     </div>
   );

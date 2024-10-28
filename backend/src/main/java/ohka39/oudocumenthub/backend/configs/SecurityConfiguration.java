@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.core.annotation.Order;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -51,7 +52,14 @@ public class SecurityConfiguration {
                         "/swagger-ui.html",
                         "/login/**",
                         "/oauth2/**",
-                        "/actuator/health/**"
+                        "/actuator/health/**",
+                        "/api/v1/webhook/paypal",
+        };
+
+        private final String[] GUEST_WHITE_LIST = {
+                        "/api/v1/documents/{id}",
+                        "/api/v1/documents/url/{shortUrl}",
+                        "/api/v1/documents",
         };
 
         @Value("${frontend.url}")
@@ -78,6 +86,7 @@ public class SecurityConfiguration {
                                 .securityMatcher(new RequestHeaderRequestMatcher("Authorization"))
                                 .authorizeHttpRequests((authorize) -> authorize
                                                 .requestMatchers(WHITE_LIST).permitAll()
+                                                .requestMatchers(HttpMethod.GET, GUEST_WHITE_LIST).permitAll()
                                                 .anyRequest().authenticated())
                                 .oauth2ResourceServer(
                                                 (oauth2) -> oauth2.jwt((jwt) -> jwt
@@ -96,6 +105,7 @@ public class SecurityConfiguration {
                                 .cors(AbstractHttpConfigurer::disable)
                                 .authorizeHttpRequests((authorize) -> authorize
                                                 .requestMatchers(WHITE_LIST).permitAll()
+                                                .requestMatchers(HttpMethod.GET, GUEST_WHITE_LIST).permitAll()
                                                 .anyRequest().authenticated())
                                 .oauth2Login((oauth2) -> oauth2.successHandler(customOauth2LoginSuccessHandler)
                                                 .authorizedClientService(jdbcOAuth2AuthorizedClientService))
