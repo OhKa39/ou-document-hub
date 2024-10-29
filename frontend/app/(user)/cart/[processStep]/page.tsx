@@ -1,4 +1,5 @@
 import CartProcess from '@/components/(user)/Cart/CartProcess';
+import TransactionProcess from '@/components/(user)/Cart/TransactionProcess';
 import { PROCESS_STEPS } from '@/constants';
 import { notFound } from 'next/navigation';
 import React from 'react';
@@ -44,7 +45,9 @@ const Cart = ({ params }: props) => {
         ))}
         {/* process details */}
       </div>
-      <CartProcess />
+
+      {stepSplit === 1 && <CartProcess />}
+      {stepSplit === 2 && <TransactionProcess />}
     </div>
   );
 };

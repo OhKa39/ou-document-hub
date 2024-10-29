@@ -1,7 +1,7 @@
 import React from 'react';
 import CartItem from '../(user)/Cart/CartItem';
 import CartItemType from '@/types/CartItemType';
-import { ShoppingCart } from "lucide-react"
+import { ShoppingCart } from 'lucide-react';
 type props = {
   items: CartItemType[];
 };
@@ -9,7 +9,7 @@ type props = {
 const CartContainer = ({ items }: props) => {
   // console.log(cartItems)
   return (
-    <div className="custom-scrollbar mx-4 mt-8 max-h-[300px] min-h-[300px] space-y-4 overflow-y-scroll">
+    <div className="custom-scrollbar mx-4 mt-8 max-h-[600px] min-h-[300px] space-y-4 overflow-y-scroll">
       {items.map((cartItem: CartItemType) => (
         <CartItem key={cartItem.documentId} cartItem={cartItem} isSmallSize={true} />
       ))}
