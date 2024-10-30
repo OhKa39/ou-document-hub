@@ -12,9 +12,12 @@ import { CART_PROCESS_OPTIONS } from '@/constants';
 import useGetShippingAddresses from '@/hooks/useGetShippingAddresses';
 import ShippingAddressType from '@/types/ShippingAddressType';
 import toTitleCase from '@/utils/ToTitleCase';
+import { useCartStore } from '../providers/CartProvider';
+import ToVietnameseCurrency from '@/utils/ToVietnameseCurrency';
 
 const CartProcessForm = () => {
   const { data, isLoading, isError } = useGetShippingAddresses();
+  const { calcTotalPrice } = useCartStore((state) => state);
   console.log(data);
   const addresses = data?.data.content;
   const form = useForm<z.infer<typeof CartProcessSchema>>({
@@ -59,11 +62,11 @@ const CartProcessForm = () => {
         />
         <div className="flex w-full justify-between text-base">
           <p>Số tiền thanh toán gốc</p>
-          <p>123</p>
+          <p>{ToVietnameseCurrency(calcTotalPrice())}</p>
         </div>
         <div className="flex w-full justify-between text-xl font-semibold">
           <p>Tổng cộng</p>
-          <p>123</p>
+          <p>{ToVietnameseCurrency(calcTotalPrice())}</p>
         </div>
         <Button className="w-full" type="submit">
           Checkout

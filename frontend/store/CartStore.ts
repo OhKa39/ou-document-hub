@@ -18,7 +18,7 @@ export type CartActions = {
   subtractItem: (data: CartItemType) => void;
   syncItems: (data: CartItemType[]) => void;
   postItem: (isAuthenticated: boolean) => void;
-  calcTotalPrice: () => void;
+  calcTotalPrice: () => bigint;
 };
 
 export type CartStore = CartState & CartActions;
