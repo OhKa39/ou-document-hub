@@ -125,7 +125,7 @@ const PaymentForm = () => {
         // The merchant calls their server API to generate a vaultSetupToken
         // and return it here as a string
         const res = await getVaultToken();
-        return res.data.token;
+        return res.data.id;
       }}
     >
       <CardFields />

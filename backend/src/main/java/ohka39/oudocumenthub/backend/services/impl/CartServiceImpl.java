@@ -1,6 +1,5 @@
 package ohka39.oudocumenthub.backend.services.impl;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -8,9 +7,10 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
-import io.netty.util.HashingStrategy;
 import lombok.RequiredArgsConstructor;
 import ohka39.oudocumenthub.backend.exceptions.EntityNotFoundException;
 import ohka39.oudocumenthub.backend.models.Cart;
@@ -41,6 +41,7 @@ public class CartServiceImpl implements ICartService {
     private final CartMapper cartMapper;
 
     @Override
+    @Cacheable(value = "cart", key = "#id")
     public CartDTO getCart(String id) {
         Cart cart = cartRepository.findById(UUID.fromString(id))
                 .orElseThrow(() -> new EntityNotFoundException("Can not found cart", 1008));
@@ -54,6 +55,7 @@ public class CartServiceImpl implements ICartService {
     }
 
     @Override
+    @CachePut(value = "cart", key = "#userId")
     public CartDTO createCart(String userId, CartRequest request) {
 
         Cart cart = cartRepository.findById(UUID.fromString(userId)).orElseGet(() -> {

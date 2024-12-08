@@ -87,7 +87,7 @@ export const createCartStore = (initState: CartState = defaultInitState) => {
             );
             const data = await postItemToCart(formData);
             return data;
-          }, 5000),
+          }, 3000),
           syncItems: (data) => {
             set((state) => {
               if (!state.isSync) {

@@ -124,14 +124,6 @@ CREATE TABLE IF NOT EXISTS "faculties" (
     "faculty_name" varchar(100)
 );
 
-CREATE TABLE IF NOT EXISTS "order_items" (
-    "document_id" uuid PRIMARY KEY,
-    "quantity" int,
-    "price" money,
-    "status" varchar(50),
-    "order_id" uuid
-);
-
 CREATE TABLE IF NOT EXISTS "cart_items" (
     "item_id" uuid PRIMARY KEY,
     "document_id" uuid,
@@ -148,10 +140,24 @@ CREATE TABLE IF NOT EXISTS "cart" (
     "created_at" timestamp DEFAULT (now())
 );
 
+CREATE TABLE IF NOT EXISTS "order_items" (
+    "item_id" UUID PRIMARY KEY,
+    "document_id" uuid,
+    "quantity" int,
+    "status" varchar(50),
+    "order_id" uuid
+);
+
 CREATE TABLE IF NOT EXISTS "orders" (
     "order_id" uuid PRIMARY KEY,
+    "status" varchar(100),
+    "payment_method" varchar(100),
     "created_at" timestamp DEFAULT (now()),
-    "created_by" uuid
+    "created_by" uuid,
+    "customer_last_name" varchar(100),
+    "customer_first_name" varchar(100),
+    "customer_phone_number" varchar(20),
+    "customer_email" varchar(100)
 );
 
 CREATE UNIQUE INDEX ON "roles" ("role_name");

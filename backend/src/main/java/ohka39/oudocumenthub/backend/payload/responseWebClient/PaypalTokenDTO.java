@@ -1,4 +1,4 @@
-package ohka39.oudocumenthub.backend.payload.responseWebClient;
+package ohka39.oudocumenthub.backend.payload.ResponseWebClient;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 

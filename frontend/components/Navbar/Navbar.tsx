@@ -22,14 +22,7 @@ import dynamic from 'next/dynamic';
 const Navbar = () => {
   const router = useRouter();
 
-  const { user, isAuthenticated, setUser, logOut } = useUserStore((state) => state);
-  const { data, isLoading, isError } = useGetCurrentUser();
-
-  useEffect(() => {
-    // console.log(data);
-    if (data) setUser(data.data);
-    if (isError) logOut;
-  }, [data, setUser]);
+ 
 
   return (
     <nav className="relative z-[999] flex h-[4rem] max-w-[1536px] items-center justify-between px-8 py-4 shadow-lg md:px-8 lg:px-32 2xl:mx-auto">
@@ -61,7 +54,7 @@ const Navbar = () => {
         <div className="flex justify-between space-x-4">
           <IoSearchOutline size="30" data-testid="Search" className="button-navbar hidden cursor-pointer lg:block" />
           <IoNotificationsOutline size="30" data-testid="Notification" className="cursor-pointer" />
-          <UserDropDown user={user} isAuthenticated={isAuthenticated} />
+          <UserDropDown>
           <CartDialog />
         </div>
       )}

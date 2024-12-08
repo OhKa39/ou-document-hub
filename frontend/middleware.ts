@@ -53,7 +53,10 @@ export async function middleware(request: NextRequest) {
         maxAge: 60 * 60 * 24 * 30,
         path: '/',
       });
-    } else request.cookies.clear();
+    } else {
+      res.cookies.delete('accessToken');
+      res.cookies.delete('refreshToken');
+    }
     applySetCookie(request, res);
   }
 

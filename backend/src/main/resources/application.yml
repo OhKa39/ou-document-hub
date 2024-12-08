@@ -78,6 +78,7 @@ logging:
       springframework:
         security: DEBUG
 
+#app variable
 aws:
   s3:
     access-key: ${AWS_ACCESS_KEY}
@@ -86,7 +87,6 @@ aws:
     bucket-name: ${AWS_BUCKET_NAME}
     enabled: true
 
-#app variable
 frontend:
   url: ${FRONTEND_URL}
 

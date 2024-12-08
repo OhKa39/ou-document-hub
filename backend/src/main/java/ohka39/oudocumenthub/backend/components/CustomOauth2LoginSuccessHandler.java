@@ -39,9 +39,9 @@ import ohka39.oudocumenthub.backend.enums.EProvider;
 import ohka39.oudocumenthub.backend.enums.ERole;
 import ohka39.oudocumenthub.backend.models.Role;
 import ohka39.oudocumenthub.backend.models.User;
-import ohka39.oudocumenthub.backend.payload.responseWebClient.GoogleInformation;
-import ohka39.oudocumenthub.backend.payload.responseWebClient.GoogleInformation.Birthday;
-import ohka39.oudocumenthub.backend.payload.responseWebClient.GoogleInformation.Gender;
+import ohka39.oudocumenthub.backend.payload.ResponseWebClient.GoogleInformation;
+import ohka39.oudocumenthub.backend.payload.ResponseWebClient.GoogleInformation.Birthday;
+import ohka39.oudocumenthub.backend.payload.ResponseWebClient.GoogleInformation.Gender;
 import ohka39.oudocumenthub.backend.repositories.RoleRepository;
 import ohka39.oudocumenthub.backend.repositories.UserRepository;
 

@@ -51,9 +51,5 @@ public class CartController {
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<ResponseDTO> syncCart(String id) {
-
-        return ResponseEntity.status(HttpStatus.OK).body(null);
-    }
+    // @PostMapping("/confirm")
 }

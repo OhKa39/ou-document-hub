@@ -2,8 +2,9 @@ import { getCurrentUser } from '@/lib/API/users';
 import UserType from '@/types/UserType';
 import { useQuery } from '@tanstack/react-query';
 
-const useGetCurrentUser = () => {
-  return useQuery({
+type props = {data: UserType, statusCode: number, message: string};
+const useGetCurrentUser = ()  => {
+  return useQuery<props>({
     queryKey: ['user'],
     queryFn: getCurrentUser,
     retry: 1,

@@ -23,11 +23,21 @@ import Image from 'next/image';
 import { UserState } from '@/store/UserStore';
 import Link from 'next/link';
 import { useCartStore } from '../providers/CartProvider';
+import useGetCurrentUser from '@/hooks/useGetCurrentUser';
 
-const UserDropDown = ({ isAuthenticated, user }: UserState) => {
-  const { logOut } = useUserStore((state) => state);
+const UserDropDown = () => { 
+  const { user, isAuthenticated, setUser, logOut } = useUserStore((state) => state);
+  const { data, isLoading, isError } = useGetCurrentUser();
   const {resetCart} = useCartStore(state=>state);
   const router = useRouter();
+
+  useEffect(() => {
+    console.log(data);
+    if (data) setUser(data.data);
+    if (isError) {
+      logOut();
+    }
+  }, [data, setUser, isError]);
 
   const handleLogout = () => {
     logOut();

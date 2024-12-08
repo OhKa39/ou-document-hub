@@ -14,8 +14,10 @@ import ShippingAddressType from '@/types/ShippingAddressType';
 import toTitleCase from '@/utils/ToTitleCase';
 import { useCartStore } from '../providers/CartProvider';
 import ToVietnameseCurrency from '@/utils/ToVietnameseCurrency';
+import { useRouter } from 'next/navigation';
 
 const CartProcessForm = () => {
+  const router = useRouter();
   const { data, isLoading, isError } = useGetShippingAddresses();
   const { calcTotalPrice } = useCartStore((state) => state);
   console.log(data);
@@ -23,12 +25,13 @@ const CartProcessForm = () => {
   const form = useForm<z.infer<typeof CartProcessSchema>>({
     resolver: zodResolver(CartProcessSchema),
     defaultValues: {
-      type: 'abc',
+      type: addresses ? addresses[0].addressId : 'abc',
     },
   });
 
   function onSubmit(data: z.infer<typeof CartProcessSchema>) {
     console.log(data);
+    router.replace('/cart/process-step-2');
   }
 
   if (isLoading) return <p>Loading...</p>;

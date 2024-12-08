@@ -112,6 +112,10 @@ public class User implements UserDetails {
     @PrimaryKeyJoinColumn
     private SellerInformation sellerInformation;
 
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "createdBy")
+    @Builder.Default
+    private Set<Order> orders = new HashSet<>();
+
     @Override
     public boolean isAccountNonExpired() {
         return true;

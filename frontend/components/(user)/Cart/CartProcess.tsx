@@ -26,22 +26,22 @@ const CartProcess = () => {
   const { items } = useCartStore((state) => state);
   const [value, setValue] = useState(0);
   return (
-    <div className="mt-10 flex h-fit w-full flex-col gap-12 lg:mt-20 lg:flex-row">
+    <div className="mt-10 flex h-fit w-full flex-col gap-8 lg:mt-20 lg:flex-row">
       {/* List of order document */}
-      <div className="custom-scrollbar max-h-[482px] w-full overflow-x-hidden overflow-y-scroll lg:min-w-[643px]">
+      <div className="custom-scrollbar max-h-[482px] w-full overflow-x-hidden overflow-y-scroll lg:min-w-[680px]">
         <Table className="max-w-full overflow-x-hidden">
           <TableHeader className="overflow-x-hidden">
             <TableRow className="max-w-full border-b-[1px] border-[#6c7275]">
-              <TableHead className="w-full text-2xl font-semibold text-black lg:w-[316px] lg:text-[18px]">
+              <TableHead className="w-[316px] text-2xl font-semibold text-black lg:text-[18px]">
                 Tài liệu
               </TableHead>
-              <TableHead className="hidden text-center text-[18px] font-semibold text-black lg:table-cell lg:w-[120px]">
-                Còn lại
+              <TableHead className="hidden w-[120px] text-center text-[18px] font-semibold text-black lg:table-cell">
+                Số lượng
               </TableHead>
-              <TableHead className="hidden text-center text-[18px] font-semibold text-black lg:table-cell">
+              <TableHead className="hidden w-[120px] text-center text-[18px] font-semibold text-black lg:table-cell">
                 Giá
               </TableHead>
-              <TableHead className="hidden text-center text-[18px] font-semibold text-black lg:table-cell">
+              <TableHead className="hidden max-w-[120px] text-center text-[18px] font-semibold text-black lg:table-cell">
                 Tổng
               </TableHead>
             </TableRow>
@@ -51,10 +51,10 @@ const CartProcess = () => {
               //   .filter((item) => item.id < 3)
               .map((document: CartItemType) => (
                 <TableRow key={document.documentId}>
-                  <TableCell className="max-w-full lg:max-w-[316px]">
+                  <TableCell className="w-[316px]">
                     <CartItem cartItem={document} />
                   </TableCell>
-                  <TableCell className="hidden h-full w-full text-xl lg:m-auto lg:table-cell">
+                  <TableCell className="hidden w-[120px] h-full text-xl lg:table-cell">
                     <div className="mx-auto h-[56px] w-[80px]">
                       <MinusButton
                         setValue={setValue}
@@ -65,10 +65,10 @@ const CartProcess = () => {
                       />
                     </div>
                   </TableCell>
-                  <TableCell className="hidden text-center text-sm lg:table-cell">
+                  <TableCell className="hidden w-[120px] text-center text-sm lg:table-cell">
                     {ToVietnameseCurrency(BigInt(document.price))}
                   </TableCell>
-                  <TableCell className="hidden text-center text-sm lg:table-cell">
+                  <TableCell className="hidden max-w-[120px] text-center text-sm lg:table-cell">
                     {ToVietnameseCurrency(BigInt(document.price) * BigInt(document.quantity))}
                   </TableCell>
                 </TableRow>

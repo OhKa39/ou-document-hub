@@ -21,7 +21,7 @@ const CartItem = ({ cartItem, isSmallSize = false }: props) => {
   const document = data?.data;
   const { deleteItem, postItem } = useCartStore((state) => state);
   const { isAuthenticated } = useUserStore((state) => state);
-  const [value, setValue] = useState(cartItem.quantity ?? 0);
+  const [value, setValue] = useState(cartItem.quantity);
 
   const handleDelete = (data: CartItemType) => {
     deleteItem(data);
@@ -55,8 +55,8 @@ const CartItem = ({ cartItem, isSmallSize = false }: props) => {
             />
           </div>
           <div className="flex w-[98%] items-center justify-between">
-            <p className="text-xs lg:text-sm">Số lượng: {document!.stock}</p>
-            <p className={`text-left text-xs text-black lg:text-sm ${isSmallSize ? 'lg:block' : 'lg:hidden'}`}>
+            <p className="text-xs lg:text-base">Số lượng: {document!.stock}</p>
+            <p className={`text-left text-xs text-black lg:text-base ${isSmallSize ? 'lg:block' : 'lg:hidden'}`}>
               {ToVietnameseCurrency(document.price)}
             </p>
           </div>

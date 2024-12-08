@@ -1,4 +1,4 @@
-services:
+Pservices:
   client:
     # image: registry.gitlab.com/ohka391/oudocumenthub/frontend:latest
     # local build

@@ -16,8 +16,9 @@ const CartDialog = () => {
   const { items, calcTotalPrice, syncItems, postItem } = useCartStore((state) => state);
   const { isAuthenticated } = useUserStore((state) => state);
 
-  console.log(calcTotalPrice());
+  // console.log(calcTotalPrice());
 
+  console.log(isError)
   useEffect(() => {
     if (data) {
       const dataCart: CartItemType[] = data.data.cartItems.map((item: any) => {
@@ -65,10 +66,12 @@ const CartDialog = () => {
                 <p>{ToVietnameseCurrency(calcTotalPrice())}</p>
               </div>
             </div>
-            <Button className="mx-4 mt-2">Checkout</Button>
-            <Link className="mx-auto mt-2 font-semibold underline" href="/cart/process-step-1">
-              View Cart
-            </Link>
+            <Button className="mx-4 mt-2">
+              {' '}
+              <Link className="m-auto w-full font-semibold underline" href="/cart/process-step-1">
+                Checkout
+              </Link>
+            </Button>
           </div>
         </div>
       )}

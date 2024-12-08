@@ -3,7 +3,6 @@ package ohka39.oudocumenthub.backend.configs;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import lombok.NoArgsConstructor;
@@ -21,5 +20,11 @@ public class WebclientConfig {
     @Qualifier("GooglePeopleApis")
     public WebClient getWebclientGooglePeople() {
         return WebClient.create("https://people.googleapis.com");
+    }
+
+    @Bean
+    @Qualifier("ExchangeRate")
+    public WebClient getWebClientExchangeRate() {
+        return WebClient.create("https://v6.exchangerate-api.com/");
     }
 }
