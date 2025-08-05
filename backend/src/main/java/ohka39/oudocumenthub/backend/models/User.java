@@ -14,6 +14,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -44,7 +45,6 @@ import ohka39.oudocumenthub.backend.enums.EProvider;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-// @EqualsAndHashCode(exclude = { "userId" })
 public class User implements UserDetails {
 
     @Id
@@ -89,12 +89,14 @@ public class User implements UserDetails {
     @Builder.Default
     private boolean isBanned = false;
 
+    @Column(name = "is_online")
+    @Builder.Default
+    private boolean isOnline = false;
+
     @Column(name = "provider")
     @Enumerated(EnumType.STRING)
     private EProvider provider;
 
-    // @Column(name = "roles")
-    // @Enumerated(EnumType.STRING)
     @Builder.Default
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
@@ -115,6 +117,10 @@ public class User implements UserDetails {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "createdBy")
     @Builder.Default
     private Set<Order> orders = new HashSet<>();
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL)
+    @Builder.Default
+    private Set<ChatRoomUser> chatRoomUsers = new HashSet<>();
 
     @Override
     public boolean isAccountNonExpired() {

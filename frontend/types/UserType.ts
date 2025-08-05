@@ -10,6 +10,8 @@ type UserType = {
   provider: string;
   avatarLink: string;
   sellerInformationDTO?: SellerInformationType;
+  isVerified?: boolean;
+  isSeller?: boolean;
 } | null;
 
 export default UserType;

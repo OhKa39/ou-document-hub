@@ -35,8 +35,8 @@ const DocumentMultiCarousel = () => {
       <h1 className="text-3xl font-bold md:text-3xl" data-testid="Title">
         Tài Liệu Mới
       </h1>
-      <div className="mt-6">
-        {/* <Carousel
+      <div className="-ml-8 mt-6">
+        <Carousel
           responsive={responsive}
           // ssr
           swipeable
@@ -51,7 +51,6 @@ const DocumentMultiCarousel = () => {
           renderDotsOutside
           containerClass="w-full"
           customDot={<CustomDot />}
-          itemClass="mr-20 lg:mr-12"
           customLeftArrow={<CustomLeftArrow />}
           customRightArrow={<CustomRightArrow />}
           data-testid="carousel"
@@ -61,7 +60,7 @@ const DocumentMultiCarousel = () => {
           {documents.map((item) => (
             <DocumentItem key={item.id} {...item} data-testid="DocumentItem" />
           ))}
-        </Carousel> */}
+        </Carousel>
       </div>
     </div>
   );

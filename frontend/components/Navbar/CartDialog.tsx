@@ -9,6 +9,7 @@ import CartItemType from '@/types/CartItemType';
 import { useCartStore } from '../providers/CartProvider';
 import { useUserStore } from '../providers/UserProvider';
 import ToVietnameseCurrency from '@/utils/ToVietnameseCurrency';
+import { useRouter } from 'next/navigation';
 
 const CartDialog = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -16,18 +17,30 @@ const CartDialog = () => {
   const { items, calcTotalPrice, syncItems, postItem } = useCartStore((state) => state);
   const { isAuthenticated } = useUserStore((state) => state);
 
+  const router = useRouter();
   // console.log(calcTotalPrice());
 
-  console.log(isError)
+  console.log(isError);
   useEffect(() => {
     if (data) {
-      const dataCart: CartItemType[] = data.data.cartItems.map((item: any) => {
-        return { documentId: item.document.documentId, price: item.document.price, quantity: item.quantity };
-      });
+      const dataCart: CartItemType[] = data.data.cartItems.map((item: any) => ({
+        documentId: item.document.documentId,
+        price: item.document.price,
+        quantity: item.quantity,
+      }));
       syncItems(dataCart);
-      postItem(isAuthenticated);
     }
   }, [data]);
+
+  useEffect(() => {
+    if (isAuthenticated && items.length > 0) {
+      postItem(true);
+    }
+  }, [isAuthenticated, items]);
+  const handleClick = () => {
+    if (!isAuthenticated) router.push('/sign-in');
+    setIsOpen(!isOpen);
+  };
 
   return (
     <div>
@@ -66,8 +79,7 @@ const CartDialog = () => {
                 <p>{ToVietnameseCurrency(calcTotalPrice())}</p>
               </div>
             </div>
-            <Button className="mx-4 mt-2">
-              {' '}
+            <Button className="mx-4 mt-2" onClick={handleClick}>
               <Link className="m-auto w-full font-semibold underline" href="/cart/process-step-1">
                 Checkout
               </Link>

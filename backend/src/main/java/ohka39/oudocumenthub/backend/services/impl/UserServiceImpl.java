@@ -23,8 +23,10 @@ import org.springframework.web.multipart.MultipartFile;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.DeleteObjectRequest;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import ohka39.oudocumenthub.backend.enums.EGender;
 import ohka39.oudocumenthub.backend.enums.EProvider;
 import ohka39.oudocumenthub.backend.enums.ERole;
 import ohka39.oudocumenthub.backend.events.OnDeleteFile;
@@ -36,6 +38,7 @@ import ohka39.oudocumenthub.backend.models.Role;
 import ohka39.oudocumenthub.backend.models.User;
 import ohka39.oudocumenthub.backend.payload.DTO.UserDTO;
 import ohka39.oudocumenthub.backend.payload.mapper.UserMapper;
+import ohka39.oudocumenthub.backend.payload.requests.EditGenderRequest;
 import ohka39.oudocumenthub.backend.payload.requests.EditNameRequest;
 import ohka39.oudocumenthub.backend.payload.requests.SignUpRequest;
 import ohka39.oudocumenthub.backend.repositories.RoleRepository;
@@ -150,14 +153,27 @@ public class UserServiceImpl implements IUserService, UserDetailsManager {
         String randomFileName = UUID.randomUUID().toString();
         eventPublisher.publishEvent(new OnUploadFile(FOLDER_S3_LOCATION + randomFileName, request));
 
-        log.info("url remove: {}", user.getAvatarLink().split(FOLDER_S3_LOCATION)[1]);
-        if (!user.getAvatarLink().contains("/default-avatar-1.webp"))
+        if (user.getAvatarLink() != null && user.getAvatarLink().contains(FOLDER_S3_LOCATION)) {
+            log.info("url remove: {}", user.getAvatarLink().split(FOLDER_S3_LOCATION)[1]);
             eventPublisher.publishEvent(
                     new OnDeleteFile(FOLDER_S3_LOCATION + user.getAvatarLink().split(FOLDER_S3_LOCATION)[1]));
+        }
 
         URL url = s3Client.getUrl(BUCKET_NAME, FOLDER_S3_LOCATION + randomFileName);
         log.info("url: {}", url.toExternalForm());
         user.setAvatarLink(url.toExternalForm());
+        userRepository.saveAndFlush(user);
+        return userMapper.toCurrentUserDTO(user);
+    }
+
+    @Override
+    @CachePut(value = "users", key = "#userId")
+    public UserDTO setGenderById(String userId, EditGenderRequest request) {
+        User user = userRepository.findById(UUID.fromString(userId))
+                .orElseThrow(() -> {
+                    throw new EntityNotFoundException("user not found", 1000);
+                });
+        user.setGender(EGender.valueOf(request.getGender()));
         userRepository.saveAndFlush(user);
         return userMapper.toCurrentUserDTO(user);
     }

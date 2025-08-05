@@ -12,7 +12,7 @@ import { useUserStore } from '@/components/providers/UserProvider';
 
 export default function PayPalIntegration() {
   const { setUser, user } = useUserStore((state) => state);
-  const [isVerified, setIsVerified] = useState(!!user?.sellerInformationDTO?.merchantId);
+  const [isVerified, setIsVerified] = useState(!user?.sellerInformationDTO?.merchantId);
 
   const param = useSearchParams();
   console.log(param);
@@ -22,6 +22,11 @@ export default function PayPalIntegration() {
 
   useEffect(() => {
     const fetchData = async () => {
+      if (!userId || !merchantId || !accountType) {
+        console.log('Missing required parameters:', { userId, merchantId, accountType });
+        return;
+      }
+
       const res = await ServerFetch(
         `${PAYMENT_ENDPOINT}/customer/seller-onboard-status?user_id=${userId}&merchant_id=${merchantId}&account_type=${accountType}`
       );
@@ -29,10 +34,16 @@ export default function PayPalIntegration() {
         const data = await res.json();
         setUser(data.data);
         if (data.data?.merchantId) setIsVerified(true);
+      } else {
+        console.error('Failed to fetch seller onboarding status:', res.status);
       }
     };
-    if (merchantId && !user?.sellerInformationDTO?.merchantId) fetchData();
-  }, []);
+
+    // Only fetch if merchantId exists and user doesn't already have a merchantId
+    if (merchantId && !user?.sellerInformationDTO?.merchantId) {
+      fetchData();
+    }
+  }, [userId, merchantId, accountType, user?.sellerInformationDTO?.merchantId]); // Add dependencies
 
   return (
     <Card className="w-full">

@@ -9,6 +9,8 @@ import { usePathname } from 'next/navigation';
 const SideBar = () => {
   const path = usePathname();
   const { user } = useUserStore((state) => state);
+  console.log('Sidebar user:', user); // Debug log
+
   return (
     <div className="h-[288px] w-full bg-[var(--neutral-02)] lg:h-fit lg:min-h-[496px] lg:w-fit lg:min-w-[262px]">
       <div className="p-3">
@@ -16,11 +18,16 @@ const SideBar = () => {
           {/* avatar */}
           <div className="relative h-20 w-20 overflow-hidden rounded-full bg-white">
             {user?.avatarLink && (
-              <Image src={user?.avatarLink!} fill className="absolute object-cover" alt="User Avatar" />
+              <Image
+                src={user?.avatarLink ? `${user.avatarLink}?v=${Date.now()}` : '/default-avatar.png'}
+                fill
+                className="absolute object-cover"
+                alt="User Avatar"
+                key={user?.avatarLink || 'default'} // Force re-render on avatarLink change
+              />
             )}
-            {/* <Image src={'/camera-icon.png'} width={30} height={30} className="absolute bottom-0 right-0" alt="icon" /> */}
           </div>
-          <p className="font-semibold">Khoa Ly</p>
+          <p className="font-semibold">{user?.lastName! + ' ' + user?.firstName!}</p>
         </div>
         <div className="mt-8 hidden flex-col gap-3 lg:flex">
           {MYACCOUNT_SIDEBAR_ITEMS.map((item, index) => (

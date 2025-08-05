@@ -12,6 +12,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { reviewDocument } from '@/actions/documents';
+import Link from 'next/link';
 
 type props = {
   document: any;
@@ -20,7 +21,12 @@ type props = {
 const handleDeleteDocument = async (id: string) => {};
 
 const handleReviewDocument = async (id: string, status: string) => {
-  const data = reviewDocument(id, status);
+  try {
+    await reviewDocument(id, status);
+    // Optional: refresh the page or show a toast
+  } catch (error) {
+    console.error('Review error:', error);
+  }
 };
 
 const DocumentCellDropdown = ({ document }: props) => {
@@ -39,6 +45,9 @@ const DocumentCellDropdown = ({ document }: props) => {
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem onClick={() => handleDeleteDocument(document.documentId)}>Xóa tài liệu</DropdownMenuItem>
+        <DropdownMenuItem>
+          <Link href={`/documents/${document.shortUrl}`} target="_blank">{`Xem tài liệu`}</Link>
+        </DropdownMenuItem>
         <DropdownMenuItem
           onClick={() => handleReviewDocument(document.documentId, document.status)}
         >{`${document.status === 'Verified' ? 'Hủy phê duyệt tài liệu' : 'Phê duyệt tài liệu'}`}</DropdownMenuItem>

@@ -1,4 +1,5 @@
 import CartProcess from '@/components/(user)/Cart/CartProcess';
+import SuccessPage from '@/components/(user)/Cart/SuccessPage';
 import TransactionProcess from '@/components/(user)/Cart/TransactionProcess';
 import { PROCESS_STEPS } from '@/constants';
 import { notFound } from 'next/navigation';
@@ -48,6 +49,7 @@ const Cart = ({ params }: props) => {
 
       {stepSplit === 1 && <CartProcess />}
       {stepSplit === 2 && <TransactionProcess />}
+      {stepSplit === 3 && <SuccessPage />}
     </div>
   );
 };

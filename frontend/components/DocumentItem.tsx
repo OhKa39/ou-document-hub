@@ -109,7 +109,7 @@ const DocumentItem = ({
           className="overflow-hidden text-ellipsis text-base font-semibold md:text-[18px] lg:w-[80%]"
           data-testid="DocumentName"
         >
-          <Link href={`/${shortUrl}`}>{name}</Link>
+          <Link href={`/documents/${shortUrl}`}>{name}</Link>
         </p>
         <p className="text-sm font-semibold text-[#B30000] md:text-base" data-testid="DocumentPrice">
           {ToVietnameseCurrency(price)}

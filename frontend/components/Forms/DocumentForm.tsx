@@ -1,6 +1,6 @@
 'use client';
 import DocumentSchema from '@/schemas/DocumentSchema';
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 
 import * as z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -18,6 +18,10 @@ import toTitleCase from '@/utils/ToTitleCase';
 import { createDocument } from '@/actions/documents';
 import { useToast } from '../ui/use-toast';
 import CustomSubmitButton from './CustomSubmitButton';
+import { useDropzone } from 'react-dropzone';
+import { useDocumentDraftStore } from '../providers/DocumentDraftProvider';
+import { useRouter } from 'next/navigation';
+import fileToBase64 from '@/utils/FileToBase64';
 
 type props = {
   faculties: FacultyType[];
@@ -27,6 +31,8 @@ type props = {
 const DocumentForm = ({ faculties, shippingAddresses }: props) => {
   const [documentType, setDocumentType] = useState<'Online' | 'Paper' | null>('Paper');
   const [isSuccess, setIsSuccess] = useState(false);
+  const { setFormData } = useDocumentDraftStore((state) => state);
+  const router = useRouter();
 
   const { toast } = useToast();
   const form = useForm<z.infer<typeof DocumentSchema>>({
@@ -43,69 +49,221 @@ const DocumentForm = ({ faculties, shippingAddresses }: props) => {
 
   async function onSubmit(data: z.infer<typeof DocumentSchema>) {
     console.log(data);
-    const { name, description, price, faculty, documentType, image } = data;
-
-    // Create a new FormData object
-    const formDataToSend = new FormData();
-
-    const paper =
-      documentType === 'Paper' ? { stock: data['stock'], shippingAddresses: data['shippingAddresses'] } : {};
-
-    // Add the JSON part
-    const documentData = {
-      name,
-      description,
-      price,
-      faculty,
-      documentType,
-      ...paper,
+    const { thumbnail, ...rest } = data;
+    const newThumbnail = await fileToBase64(thumbnail);
+    const galleryImages = [];
+    for (const image in data.galleryImages) {
+      const newImage = await fileToBase64(data.galleryImages[image]);
+      galleryImages.push(newImage);
+    }
+    const newData = {
+      ...rest,
+      thumbnail: newThumbnail,
+      galleryImages,
     };
-    formDataToSend.append('document', new Blob([JSON.stringify(documentData)], { type: 'application/json' }));
 
-    // Add the file parts
-    if (image) {
-      formDataToSend.append('image', image);
-    }
-    if (documentType === 'Online' && data.onlineFile) {
-      formDataToSend.append('onlineFile', data.onlineFile);
-    }
-    const res = await createDocument(formDataToSend);
+    setFormData(newData);
+    router.push('/documents/document-preview');
 
-    switch (res.statusCode) {
-      case 201:
-        form.reset();
-        setIsSuccess(true);
-        toast({
-          variant: 'success',
-          title: 'Thành công',
-          description: 'Đã thêm tài liệu thành công',
-        });
-        break;
-      default:
-        toast({
-          variant: 'destructive',
-          title: 'Thông báo lỗi',
-          description: 'Đã có lỗi xảy ra',
-        });
-        break;
-    }
+    //
+    // // Create a new FormData object
+    // const formDataToSend = new FormData();
+    //
+    // const paper =
+    //   documentType === 'Paper' ? { stock: data['stock'], shippingAddresses: data['shippingAddresses'] } : {};
+    //
+    // // Add the JSON part
+    // const documentData = {
+    //   name,
+    //   description,
+    //   price,
+    //   faculty,
+    //   documentType,
+    //   ...paper,
+    // };
+    // formDataToSend.append('document', new Blob([JSON.stringify(documentData)], { type: 'application/json' }));
+    //
+    // // Add the file parts
+    // if (image) {
+    //   formDataToSend.append('image', image);
+    // }
+    // if (documentType === 'Online' && data.onlineFile) {
+    //   formDataToSend.append('onlineFile', data.onlineFile);
+    // }
+    // const res = await createDocument(formDataToSend);
+    //
+    // switch (res.statusCode) {
+    //   case 202:
+    //     form.reset();
+    //     setIsSuccess(true);
+    //     toast({
+    //       variant: 'success',
+    //       title: 'Thành công',
+    //       description: 'Đã thêm tài liệu thành công',
+    //     });
+    //     break;
+    //   default:
+    //     toast({
+    //       variant: 'destructive',
+    //       title: 'Thông báo lỗi',
+    //       description: 'Đã có lỗi xảy ra',
+    //     });
+    //     break;
+    // }
   }
+  // Dropzone component for single file (thumbnail, onlineFile)
+  const DropzoneInput = ({
+    onChange,
+    accept,
+    maxSize,
+    label,
+    description,
+    value,
+  }: {
+    onChange: (file: File | undefined) => void;
+    accept: Record<string, string[]>;
+    maxSize: number;
+    value: File;
+    label: string;
+    description: string;
+  }) => {
+    const onDrop = useCallback(
+      (acceptedFiles: File[]) => {
+        if (acceptedFiles.length > 0) {
+          onChange(acceptedFiles[0]);
+        } else {
+          onChange(undefined);
+        }
+      },
+      [onChange]
+    );
 
+    const { acceptedFiles, getRootProps, getInputProps, isDragActive } = useDropzone({
+      onDrop,
+      accept,
+      maxFiles: 1,
+      maxSize,
+    });
+
+    return (
+      <FormItem>
+        <FormLabel>{label}</FormLabel>
+        <FormControl>
+          <div
+            {...getRootProps()}
+            className={`cursor-pointer rounded-md border-2 border-dashed p-4 text-center ${
+              isDragActive ? 'border-blue-500 bg-blue-50' : 'border-gray-300'
+            }`}
+          >
+            <input {...getInputProps()} />
+            <p>{isDragActive ? 'Thả tệp vào đây...' : 'Kéo và thả tệp vào đây hoặc nhấp để chọn tệp'}</p>
+          </div>
+        </FormControl>
+        <FormDescription>{description}</FormDescription>
+        <FormMessage />
+        {value && (
+          <div className="mt-2">
+            <p>
+              Selected file: {value.name} ({(value.size / 1024).toFixed(2)} KB)
+            </p>
+          </div>
+        )}
+      </FormItem>
+    );
+  };
+
+  // Dropzone component for multiple files (galleryImages)
+  const MultiDropzoneInput = ({
+    onChange,
+    accept,
+    maxSize,
+    maxFiles,
+    label,
+    description,
+    value,
+  }: {
+    onChange: (files: File[]) => void;
+    accept: Record<string, string[]>;
+    value: File[];
+    maxSize: number;
+    maxFiles: number;
+    label: string;
+    description: string;
+  }) => {
+    const onDrop = useCallback(
+      (acceptedFiles: File[]) => {
+        onChange(acceptedFiles);
+      },
+      [onChange]
+    );
+
+    const { getRootProps, getInputProps, isDragActive } = useDropzone({
+      onDrop,
+      accept,
+      maxFiles,
+      maxSize,
+    });
+
+    return (
+      <FormItem>
+        <FormLabel>{label}</FormLabel>
+        <FormControl>
+          <div
+            {...getRootProps()}
+            className={`cursor-pointer rounded-md border-2 border-dashed p-4 text-center ${
+              isDragActive ? 'border-blue-500 bg-blue-50' : 'border-gray-300'
+            }`}
+          >
+            <input {...getInputProps()} />
+            <p>{isDragActive ? 'Thả các tệp vào đây...' : 'Kéo và thả các tệp vào đây hoặc nhấp để chọn tệp'}</p>
+          </div>
+        </FormControl>
+        <FormDescription>{description}</FormDescription>
+        <FormMessage />
+        {value?.length > 0 && (
+          <ul className="mt-2">
+            {value.map((file, index) => (
+              <li key={index} className="mb-1">
+                <p>
+                  {file.name} ({(file.size / 1024).toFixed(2)} KB)
+                </p>
+              </li>
+            ))}
+          </ul>
+        )}
+      </FormItem>
+    );
+  };
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
         <FormField
           control={form.control}
-          name="image"
+          name="thumbnail"
           render={({ field }) => (
-            <FormItem>
-              <FormLabel>Hình ảnh</FormLabel>
-              <FormControl>
-                <Input type="file" accept="image/*" onChange={(e) => field.onChange(e.target.files?.[0])} />
-              </FormControl>
-              <FormDescription>Chọn hình ảnh cho tài liệu (tối đa 5MB).</FormDescription>
-              <FormMessage />
-            </FormItem>
+            <DropzoneInput
+              value={field.value}
+              onChange={field.onChange}
+              accept={{ 'image/*': [] }}
+              maxSize={5000000} // 5MB
+              label="Hình ảnh"
+              description="Chọn hình ảnh cho tài liệu (tối đa 5MB)."
+            />
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="galleryImages"
+          render={({ field }) => (
+            <MultiDropzoneInput
+              value={field.value}
+              onChange={field.onChange}
+              accept={{ 'image/*': [] }}
+              maxSize={5000000} // 5MB per file
+              maxFiles={10} // Max 10 images
+              label="Ảnh bộ sưu tập"
+              description="Thêm nhiều ảnh hiển thị dưới ảnh chính (tối đa 10 ảnh, mỗi ảnh < 5MB)."
+            />
           )}
         />
         <FormField
@@ -215,13 +373,18 @@ const DocumentForm = ({ faculties, shippingAddresses }: props) => {
             control={form.control}
             name="onlineFile"
             render={({ field }) => (
-              <FormItem>
-                <FormLabel>Tệp tài liệu online</FormLabel>
-                <FormControl>
-                  <Input type="file" onChange={(e) => field.onChange(e.target.files?.[0])} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
+              <DropzoneInput
+                value={field.value}
+                onChange={field.onChange}
+                accept={{
+                  'application/pdf': [],
+                  'ms-word': [],
+                  'application/vnd.openxmlformats-officedocument.wordprocessingml.document': [],
+                }}
+                maxSize={12000000} // 120MB
+                label="Tài liệu"
+                description="Chọn tài liệu (tối đa 120MB)."
+              />
             )}
           />
         )}

@@ -28,12 +28,36 @@
 	</scm>
 	<properties>
 		<java.version>21</java.version>
+    <db.username>${spring.datasource.username}</db.username>
+    <db.password>${spring.datasource.password}</db.password>
+    <db.url>${spring.datasource.url}</db.url>
 	</properties>
 	<dependencies>
-		<!-- <dependency>
+		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-elasticsearch</artifactId>
-		</dependency> -->
+		</dependency>
+    <dependency>
+        <groupId>org.flywaydb</groupId>
+        <artifactId>flyway-core</artifactId>
+        <version>11.4.0</version>
+    </dependency>
+    <dependency>
+        <groupId>org.apache.httpcomponents</groupId>
+        <artifactId>httpclient</artifactId>
+        <version>4.5.14</version>
+    </dependency>
+    <dependency>
+      <groupId>org.flywaydb</groupId>
+      <artifactId>flyway-database-postgresql</artifactId>
+      <version>11.4.0</version>
+      <scope>runtime</scope>
+    </dependency>
+    <dependency>
+        <groupId>org.flywaydb</groupId>
+        <artifactId>flyway-maven-plugin</artifactId>
+        <version>11.4.0</version>
+    </dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-websocket</artifactId>
@@ -102,12 +126,18 @@
 			<artifactId>spring-boot-devtools</artifactId>
 			<scope>runtime</scope>
    			<optional>true</optional>
-    	</dependency>
+    </dependency>
 		<dependency>
-			<groupId>org.projectlombok</groupId>
-			<artifactId>lombok</artifactId>
-			<optional>true</optional>
-		</dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+      <version>1.18.36</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+      <version>2.0.16</version>
+    </dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
@@ -149,6 +179,16 @@
 					</excludes>
 				</configuration>
 			</plugin>
+      <plugin>
+        <groupId>org.flywaydb</groupId>
+        <artifactId>flyway-maven-plugin</artifactId>
+        <version>11.4.0</version>
+        <configuration>
+          <url>jdbc:postgresql://localhost:5432/OUDocumentHub_db</url>
+          <user>documenthub_db</user>
+          <password>1234567890</password>
+        </configuration>
+      </plugin>
 			<plugin>
         <groupId>org.jacoco</groupId>
         <artifactId>jacoco-maven-plugin</artifactId>

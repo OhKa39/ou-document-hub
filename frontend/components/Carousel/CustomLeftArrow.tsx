@@ -1,7 +1,7 @@
 const CustomLeftArrow = ({ onClick }: { onClick?: any }) => (
   <button
     onClick={() => onClick()}
-    className="absolute left-0 top-[30%] z-10 rounded-full bg-white bg-opacity-50 p-2 shadow-md transition-all hover:bg-opacity-75"
+    className="absolute left-0 top-[40%] z-10 rounded-full bg-white bg-opacity-50 p-2 shadow-md transition-all hover:bg-opacity-75"
     aria-label="Move To Left"
   >
     <svg

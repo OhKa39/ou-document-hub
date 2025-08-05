@@ -1,6 +1,9 @@
+// backend/src/main/java/ohka39/oudocumenthub/backend/services/interfaces/IDocumentService.java
 package ohka39.oudocumenthub.backend.services.interfaces;
 
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 import org.springframework.web.multipart.MultipartFile;
 
@@ -8,20 +11,25 @@ import ohka39.oudocumenthub.backend.payload.DTO.DocumentDTO;
 import ohka39.oudocumenthub.backend.payload.requests.DocumentRequest;
 
 public interface IDocumentService {
-    public DocumentDTO createDocument(DocumentRequest request, MultipartFile image, MultipartFile onlineFile,
-            String userId);
+    DocumentDTO createDocument(DocumentRequest request, MultipartFile image, MultipartFile onlineFile,
+            String userId, List<MultipartFile> galleryImages);
 
-    public List<DocumentDTO> getDocumentsCreatedByMe(String userId);
+    List<DocumentDTO> getDocumentsCreatedByMe(String userId);
 
-    public List<DocumentDTO> getDocumentsByAdmin();
+    List<DocumentDTO> getDocumentsByAdmin();
 
-    public void reviewDocument(String id, String status);
+    Map<String, Object> getDocuments(Integer minPrice, Integer maxPrice, String faculty, String documentType,
+            Integer rating, List<String> addresses, String sort, int page, int size);
 
-    public void deleteDocument(String id);
+    void reviewDocument(String id, String status);
 
-    public DocumentDTO getDocumentByShortUrl(String shortUrl);
+    void deleteDocument(String id);
 
-    public DocumentDTO getDocumentById(String Id);
+    DocumentDTO getDocumentByShortUrl(String shortUrl);
 
-    public List<DocumentDTO> getDocuments();
+    DocumentDTO getDocumentById(String id);
+
+    Map<String, List<Map<String, Object>>> getSearchSuggestions(String prefix, String category, int size);
+
+    Map<String, List<Map<String, Object>>> search(String query, String category, int page, int size);
 }

@@ -9,7 +9,7 @@ const MyAccount = () => {
       {/* Basic Information */}
       <BasicInformation />
       <SensitiveInformation />
-      <PayPalIntegration/>
+      <PayPalIntegration />
     </div>
   );
 };

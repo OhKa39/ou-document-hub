@@ -8,9 +8,8 @@ public class PaypalException extends RuntimeException {
     private long statusCode;
     private PaypalExceptionDTO exceptionDTO;
 
-    public PaypalException(String message, long statusCode, PaypalExceptionDTO exceptionDTO) {
+    public PaypalException(String message, long statusCode) {
         super(message);
         this.statusCode = statusCode;
-        this.exceptionDTO = exceptionDTO;
     }
 }

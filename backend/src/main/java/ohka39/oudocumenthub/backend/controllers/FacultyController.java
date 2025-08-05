@@ -43,8 +43,8 @@ public class FacultyController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-    // @PreAuthorize("hasAuthority('GODADMIN')")
     @GetMapping
+    @PreAuthorize("permitAll")
     public ResponseEntity<ResponseDTO> retrieveFaculty(Pageable pageable) {
         Page<FacultyDTO> data = facultyService.getFaculties(pageable);
         ResponseDTO response = new ResponseDTO("success", HttpStatus.OK.value(), data,

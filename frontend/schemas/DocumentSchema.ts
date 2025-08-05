@@ -21,7 +21,7 @@ const myUnion = z.discriminatedUnion('documentType', [
 
 const DocumentSchema = z
   .object({
-    image: z.instanceof(File).refine((file) => file.size <= 5000000 && file.size >= 0, {
+    thumbnail: z.instanceof(File).refine((file) => file.size <= 5000000 && file.size >= 0, {
       message: 'Hình ảnh không được để trồng và nhỏ hơn 5 MB',
     }),
     name: z
@@ -32,6 +32,14 @@ const DocumentSchema = z
           message: 'Tên tài liệu phải ít nhất 2 ký tự',
         })
       ),
+    galleryImages: z
+      .array(
+        z.instanceof(File).refine((file) => file.size <= 5000000, {
+          message: 'Mỗi ảnh trong bộ sưu tập phải nhỏ hơn 5 MB',
+        })
+      )
+      .min(1, { message: 'Tải lên ít nhất 1 ảnh cho bộ sưu tập' })
+      .max(10, { message: 'Tối đa 10 ảnh cho bộ sưu tập' }),
     description: z
       .string()
       .transform((value) => NormalizeSpace(value))
@@ -41,10 +49,10 @@ const DocumentSchema = z
         })
       ),
     price: z.number().nonnegative({
-      message: 'Gía tài liệu phải > 0',
+      message: 'Giá tài liệu phải > 0',
     }),
     faculty: z.string({
-      required_error: 'Ngành học không được để trồng',
+      required_error: 'Ngành học không được để trống',
     }),
   })
   .and(myUnion);

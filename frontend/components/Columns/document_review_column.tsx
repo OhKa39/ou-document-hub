@@ -40,14 +40,6 @@ const DocumentReviewColumn: ColumnDef<DocumentType>[] = [
   {
     accessorKey: 'name',
     header: ({ column }) => <DataTableColumnHeader column={column} title="Tên tài liệu" />,
-    cell: ({ row }) => {
-      const name = row.getValue('name') as string;
-      return (
-        <p>
-          <Link href={`/${row.original.shortUrl}`}>{toTitleCase(name)}</Link>
-        </p>
-      );
-    },
   },
   {
     accessorKey: 'documentType',

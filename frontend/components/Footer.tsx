@@ -25,6 +25,7 @@ const headerItems: HeaderItemType[] = [
     name: 'About website',
   },
 ];
+
 const Footer = () => {
   return (
     <div className="flex min-h-[665px] max-w-[1536px] justify-center bg-[var(--neutral-07)] lg:min-h-[249px] 2xl:mx-auto">

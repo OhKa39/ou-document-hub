@@ -5,16 +5,17 @@ type DocumentType = {
   name: string;
   price: bigint;
   thumbnailUrl: string;
-  status: string;
-  shortUrl: string;
-  createdAt: Date;
-  updatedAt: Date;
-  tag: string;
+  status?: string;
+  shortUrl?: string;
+  createdAt?: Date;
+  updatedAt?: Date;
+  tag?: string;
   stock?: number;
-  user: UserType;
-  documentType: string;
-  description: string;
-  facultyName: string;
+  user?: UserType;
+  documentType?: string;
+  description?: string;
+  facultyName?: string;
+  galleryImages?: string[];
 };
 
 export default DocumentType;

@@ -4,10 +4,10 @@ import ServerFetch from '@/utils/ServerFetch';
 import { UserState } from '@/store/UserStore';
 import UserType from '@/types/UserType';
 import Image from 'next/image';
-import { GET_USERS_ENDPOINT } from '@/constants/api_endpoint';
+import { USER_ENDPOINT } from '@/constants/api_endpoint';
 
 const fetchUsers = async () => {
-  const users = await ServerFetch(GET_USERS_ENDPOINT).then((data) => data.json());
+  const users = await ServerFetch(USER_ENDPOINT).then((data) => data.json());
   return users;
 };
 const UserManagement = async () => {

@@ -7,18 +7,24 @@ spring:
     username: ${POSTGRES_USER}
     password: ${POSTGRES_PASSWORD}
 
+  elasticsearch:
+    rest:
+      uris: ${ELASTIC_URL}
+      username: ${ELASTIC_USERNAME}
+      password: ${ELASTIC_PASSWORD}
+
+  flyway:
+    driverClassName: org.postgresql.Driver
+    enabled: true
+    baseline-on-migrate: true
+    placeholders.database: PostgreSQL16
+
   jpa:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
     show-sql: true
     hibernate.ddl-auto: none
-    defer-datasource-initialization: ${IS_INITDB}
-
-  sql:
-    init:
-      schema-locations: classpath:/schema.sql
-      mode: ${IS_RUNDB_SCRIPT}
 
   data:
     redis:

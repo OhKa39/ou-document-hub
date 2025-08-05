@@ -16,13 +16,14 @@ import CartDialog from './CartDialog';
 import { GET_USER_ENDPOINT } from '@/constants/api_endpoint';
 import useGetCurrentUser from '@/hooks/useGetCurrentUser';
 import dynamic from 'next/dynamic';
+import { SearchDialog } from './SearchDialog';
 
 // const CartDialog = dynamic(() => import('./CartDialog'));
 
 const Navbar = () => {
-  const router = useRouter();
-
- 
+  const { data, isLoading, isError, error } = useGetCurrentUser();
+  console.log('isLOading' + isLoading);
+  console.log('isError' + isLoading);
 
   return (
     <nav className="relative z-[999] flex h-[4rem] max-w-[1536px] items-center justify-between px-8 py-4 shadow-lg md:px-8 lg:px-32 2xl:mx-auto">
@@ -46,15 +47,13 @@ const Navbar = () => {
           </li>
         ))}
       </ul>
-      {/*Button Items*/}
       {isLoading ? (
-        // <VscLoading size={28} className="animate-spin" />
         <NavbarButtonLoading />
       ) : (
         <div className="flex justify-between space-x-4">
-          <IoSearchOutline size="30" data-testid="Search" className="button-navbar hidden cursor-pointer lg:block" />
+          <SearchDialog />
           <IoNotificationsOutline size="30" data-testid="Notification" className="cursor-pointer" />
-          <UserDropDown>
+          <UserDropDown data={data} isError={isError} error={error} />
           <CartDialog />
         </div>
       )}

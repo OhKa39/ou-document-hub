@@ -2,6 +2,7 @@ package ohka39.oudocumenthub.backend.models;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -102,6 +103,10 @@ public class Document {
     @Builder.Default
     @OneToMany(mappedBy = "document", fetch = FetchType.LAZY, orphanRemoval = true, cascade = CascadeType.ALL)
     private Set<CartItem> cartItems = new HashSet<>();
+
+    @Builder.Default
+    @OneToMany(mappedBy = "document", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<DocumentImage> galleryImages = new HashSet<>();
 
     // @OneToOne(mappedBy = "document", cascade = CascadeType.ALL)
     // @PrimaryKeyJoinColumn

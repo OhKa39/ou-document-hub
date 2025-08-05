@@ -1,10 +1,8 @@
 'use client';
 import { Button } from '@/components/ui/button';
-import React, { useState } from 'react';
+import React, { useState, useEffect, useTransition } from 'react';
 import { Rating } from 'react-simple-star-rating';
-import documents from '@/__mocks__/data/documents';
 import Image from 'next/image';
-import user from '@/__mocks__/data/user';
 import MinusButton from '../Cart/MinusButton';
 import Heart from '@/public/Hearth.svg';
 import { MdOutlineReport } from 'react-icons/md';
@@ -15,38 +13,95 @@ import { useUserStore } from '@/components/providers/UserProvider';
 import { notFound } from 'next/navigation';
 import ToVietnameseCurrency from '@/utils/ToVietnameseCurrency';
 import { useCartStore } from '@/components/providers/CartProvider';
+import Carousel from 'react-multi-carousel';
+import CustomDot from '@/components/Carousel/CustomDot';
+import CustomLeftArrow from '@/components/Carousel/CustomLeftArrow';
+import CustomRightArrow from '@/components/Carousel/CustomRightArrow';
+import Book1 from '@/public/Book1.webp';
+import Book2 from '@/public/Book2.webp';
+import Book3 from '@/public/Book3.webp';
+import 'react-multi-carousel/lib/styles.css';
 
-type props = {
+type Props = {
   document: DocumentType;
 };
+const testData = [Book1, Book2, Book3, Book2, Book1, Book3];
 
-const DocumentDetails = ({ document }: props) => {
-  // const document = documents[0];
-  // const tag = documents[0].tag;
-  const { user: currentUser } = useUserStore((state) => state);
+const DocumentDetails = ({ document }: Props) => {
+  const { user: currentUser, isAuthenticated } = useUserStore((state) => state);
+  const { items, addItem, postItem } = useCartStore((state) => state);
+  const [isUserLoading, setIsUserLoading] = useState(true);
+  const [value, setValue] = useState(0);
+  const [isPending, startTransition] = useTransition();
+  const [currentImage, setCurrentImage] = useState(document.thumbnailUrl);
+  console.log('document: ', document);
+
   const { tag, thumbnailUrl, description, price, user, status, name, documentType, documentId, facultyName, stock } =
     document;
-  if (status !== 'Verified') {
-    if (!currentUser?.roles.includes('ROLE_ADMIN') && currentUser?.userId !== user?.userId) notFound();
-  }
-  const { items, addItem, postItem } = useCartStore((state) => state);
-  const { isAuthenticated } = useUserStore((state) => state);
+
+  // Effect to check user loading state and trigger notFound
+  useEffect(() => {
+    if (isAuthenticated === false || currentUser !== null) {
+      setIsUserLoading(false);
+    }
+
+    // Check for notFound after hydration
+    if (!isUserLoading && status !== 'Verified') {
+      if (!currentUser || (!currentUser.roles?.includes('ROLE_ADMIN') && currentUser.userId !== user?.userId)) {
+        console.log('Triggering notFound');
+        startTransition(() => {
+          notFound();
+        });
+      }
+    }
+  }, [isAuthenticated, currentUser, isUserLoading, status, user]);
+
+  // Initialize cart item after hooks
   const cartItem = items.find((item) => item.documentId === documentId);
 
-  const [value, setValue] = useState(cartItem?.quantity ?? 0);
+  // Update value when cartItem changes
+  useEffect(() => {
+    if (cartItem?.quantity) {
+      setValue(cartItem.quantity);
+    }
+  }, [cartItem]);
+
+  // Early return after all hooks
+  if (isUserLoading || isPending) {
+    return <div>Loading document information...</div>;
+  }
 
   const handleAddToCart = () => {
+    if (currentUser?.userId === user?.userId) {
+      return;
+    }
     if (value > 0) {
       addItem({ documentId, price, quantity: value });
       postItem(isAuthenticated);
     }
   };
+  const responsive = {
+    desktop: {
+      breakpoint: { max: 3000, min: 1024 },
+      items: 3,
+      slidesToSlide: 1, // optional, default to 1.
+    },
+    tablet: {
+      breakpoint: { max: 1024, min: 640 },
+      items: 2,
+      slidesToSlide: 1, // optional, default to 1.
+    },
+    mobile: {
+      breakpoint: { max: 640, min: 0 },
+      items: 2,
+      slidesToSlide: 2, // optional, default to 1.
+    },
+  };
 
   return (
     <div className="flex h-fit flex-col lg:flex-row lg:gap-16">
-      {/* image section */}
-      <div className="flex w-full flex-col gap-4 lg:min-w-[542px]">
-        {/* main image */}
+      {/* Image section */}
+      <div className="w-full gap-4 lg:min-w-[542px]">
         <div className="relative h-[450px] w-full bg-[#F3F5F7] sm:h-[550px] lg:h-[729px]">
           <div className="absolute left-8 top-8 z-[99] w-[25%] overflow-hidden bg-white text-center text-xl drop-shadow-md lg:left-10 lg:top-10 lg:w-[15%] lg:text-2xl">
             {tag && (
@@ -56,22 +111,47 @@ const DocumentDetails = ({ document }: props) => {
             )}
           </div>
           <div className="relative mx-auto h-full w-[80%]">
-            <Image src={thumbnailUrl} priority fill className="object-contain" alt="Document Main Image" />
+            <Image src={currentImage} priority fill className="object-contain" alt="Document Main Image" />
           </div>
         </div>
-        {/* image list */}
-        <div className="hidden gap-4 lg:flex"></div>
+        <div className="mt-4 w-full">
+          <Carousel
+            responsive={responsive}
+            draggable
+            showDots={false}
+            arrows
+            containerClass="carousel-container"
+            itemClass="h-[167px] px-2"
+            partialVisible={false}
+            rewindWithAnimation
+            customDot={<CustomDot />}
+            customLeftArrow={<CustomLeftArrow />}
+            customRightArrow={<CustomRightArrow />}
+          >
+            {testData.map((image, index) => (
+              <div key={index} className="relative h-full w-full bg-white">
+                <Image
+                  src={image}
+                  priority
+                  fill
+                  className="object-contain hover:cursor-pointer"
+                  alt="Carousel"
+                  onClick={() => {
+                    setCurrentImage(image.src);
+                  }}
+                />
+              </div>
+            ))}
+          </Carousel>
+        </div>
       </div>
-      {/* details section */}
+      {/* Details section */}
       <div className="flex w-full flex-col">
-        {/* header */}
         <div className="flex flex-col gap-4">
-          {/* status section */}
           <DocumentStatus
             isVerified={status === 'Verified'}
             className="mt-4 h-[35px] w-[55%] sm:w-[45%] lg:mt-0 lg:w-[35%]"
           />
-          {/* star section */}
           <div className="flex justify-between">
             <div className="flex flex-col gap-1 lg:flex-row lg:items-end lg:gap-4">
               <Rating
@@ -97,13 +177,13 @@ const DocumentDetails = ({ document }: props) => {
               <div className="relative h-8 w-8 rounded-full">
                 <Image
                   alt="User Avatar"
-                  src={user!.avatarLink}
+                  src={user?.avatarLink || '/default-avatar.png'}
                   className="absolute"
                   fill
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 />
               </div>
-              <p className="text-xl">{user!.lastName + ' ' + user!.firstName}</p>
+              <p className="text-xl">{(user?.lastName || '') + ' ' + (user?.firstName || '')}</p>
             </div>
           </div>
           <div className="flex flex-col space-y-2">
@@ -146,7 +226,7 @@ const DocumentDetails = ({ document }: props) => {
               </div>
               <div className="flex gap-10">
                 <p className="w-[30%] text-[var(--neutral-04)]">Ngành học</p>
-                <p className="w-full">{toTitleCase(facultyName)}</p>
+                <p className="w-full">{toTitleCase(facultyName!)}</p>
               </div>
             </div>
           </div>

@@ -10,9 +10,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
-import { MdKeyboardArrowRight } from 'react-icons/md';
-import EditNameForm from '@/components/Forms/EditNameForm';
-import EditGenderForm from '@/components/Forms/EditGenderForm';
 import Image from 'next/image';
 import { editAvatar } from '@/actions/users';
 import { useUserStore } from '@/components/providers/UserProvider';
@@ -29,13 +26,13 @@ const EditAvatar = ({ avatarLink }: props) => {
 
   const handleReview = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (!!file && file!.size > 0) setUrl(URL.createObjectURL(file!));
+    if (file && file.size > 0) setUrl(URL.createObjectURL(file));
   };
 
   const handleDialogClose = (open: boolean) => {
     setIsDialogOpen(open);
-    if (!open) {
-      setUrl(avatarLink!); // Reset imageSrc when dialog is closed
+    if (!open && url !== avatarLink) {
+      setUrl(avatarLink!);
     }
   };
 
@@ -43,16 +40,17 @@ const EditAvatar = ({ avatarLink }: props) => {
     const file = inputRef.current.files[0];
     const formData = new FormData();
     formData.append('file', file);
-    // console.log(file);
 
     const response = await editAvatar(formData);
+    console.log('API Response:', response); // Debug log
 
     switch (response.statusCode) {
       case 200:
         setUser(response.data);
+        setUrl(response.data.avatarLink); // Update preview URL
+        setIsDialogOpen(false); // Close dialog
         break;
     }
-    // console.log(response);
   };
 
   return (
@@ -66,7 +64,7 @@ const EditAvatar = ({ avatarLink }: props) => {
           <div className="flex w-full items-center justify-end">
             <div className="relative h-16 w-16 overflow-hidden rounded-full">
               {url && (
-                <Image src={url!} alt="User avatar" className="absolute left-0 top-0 object-cover" fill priority />
+                <Image src={url} alt="User avatar" className="absolute left-0 top-0 object-cover" fill priority />
               )}
             </div>
           </div>
@@ -81,9 +79,8 @@ const EditAvatar = ({ avatarLink }: props) => {
         </DialogHeader>
         <label className="relative mx-auto mt-2 h-[196px] w-[196px] cursor-pointer rounded-full" htmlFor="upload">
           <input type="file" ref={inputRef} accept="image/*" className="hidden" id="upload" onChange={handleReview} />
-          {url && <Image src={url!} fill className="absolute" alt="User Avatar" priority />}
+          {url && <Image src={url} fill className="absolute" alt="User Avatar" priority />}
         </label>
-        {/* <EditGenderForm gender={gender} /> */}
         <DialogFooter>
           <Button type="button" onClick={() => handleClick(inputRef)}>
             Lưu thay đổi

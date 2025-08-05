@@ -1,4 +1,3 @@
-// src/stores/counter-store.ts
 import { createStore } from 'zustand/vanilla';
 
 import { persist, devtools, createJSONStorage } from 'zustand/middleware';
@@ -9,6 +8,7 @@ import { GET_USER_ENDPOINT, LOGOUT_ENDPOINT } from '@/constants/api_endpoint';
 export type UserState = {
   isAuthenticated: boolean;
   user: UserType;
+  showLoginDialog: boolean;
 };
 
 export type UserActions = {
@@ -16,6 +16,7 @@ export type UserActions = {
   logOut: () => void;
   signIn: (data: any) => void;
   signUp: (data: UserType) => void;
+  setShowLoginDialog: (data: boolean) => void;
 };
 
 export type UserStore = UserState & UserActions;
@@ -23,6 +24,7 @@ export type UserStore = UserState & UserActions;
 export const defaultInitState: UserState = {
   isAuthenticated: false,
   user: null,
+  showLoginDialog: false,
 };
 
 export const createUserStore = (initState: UserState = defaultInitState) => {
@@ -54,6 +56,9 @@ export const createUserStore = (initState: UserState = defaultInitState) => {
           },
           signUp: (data) => {
             set({ user: data });
+          },
+          setShowLoginDialog: (data) => {
+            set({ showLoginDialog: data });
           },
         }),
         {

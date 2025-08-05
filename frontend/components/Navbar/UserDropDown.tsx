@@ -7,46 +7,80 @@ import {
   DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
-  DropdownMenuPortal,
   DropdownMenuSeparator,
   DropdownMenuShortcut,
-  DropdownMenuSub,
-  DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog';
+import { Button } from '@/components/ui/button';
 import { useUserStore } from '../providers/UserProvider';
 import { useRouter } from 'next/navigation';
-import { getAuthCookies } from '@/actions/getAuthCookies';
-// import CustomFetch from '@/utils/CustomFetch';
 import Image from 'next/image';
-import { UserState } from '@/store/UserStore';
-import Link from 'next/link';
 import { useCartStore } from '../providers/CartProvider';
 import useGetCurrentUser from '@/hooks/useGetCurrentUser';
+import Link from 'next/link';
 
-const UserDropDown = () => { 
+type props = {
+  data: any;
+  isError: boolean;
+  error: any;
+};
+
+const UserDropDown = ({ data, isError, error }: props) => {
   const { user, isAuthenticated, setUser, logOut } = useUserStore((state) => state);
-  const { data, isLoading, isError } = useGetCurrentUser();
-  const {resetCart} = useCartStore(state=>state);
+  const { resetCart } = useCartStore((state) => state);
   const router = useRouter();
+  const [isSessionExpired, setIsSessionExpired] = useState(false);
 
   useEffect(() => {
-    console.log(data);
-    if (data) setUser(data.data);
-    if (isError) {
+    if (data && data.statusCode === 200) {
+      setUser(data.data);
+      setIsSessionExpired(false); // Close dialog if session is valid
+    } else if (isError) {
+      if (isAuthenticated) {
+        setIsSessionExpired(true);
+        resetCart();
+      }
       logOut();
     }
-  }, [data, setUser, isError]);
+  }, [data, isError, error, setUser, logOut, resetCart, router]);
 
   const handleLogout = () => {
-    logOut();
-    resetCart();
-  }
+    try {
+      logOut(); // Clear user state
+      resetCart(); // Clear cart
+      setIsSessionExpired(false); // Close dialog
+      // Wait a moment before navigating
+      setTimeout(() => {
+        router.push('/sign-in');
+      }, 50);
+    } catch (err) {
+      console.error('Logout navigation error:', err);
+    }
+  };
+
+  const handleDialogClose = () => {
+    setIsSessionExpired(false); // Close dialog
+    try {
+      // Wait a moment before navigating
+      setTimeout(() => {
+        router.push('/sign-in');
+      }, 50);
+    } catch (err) {
+      console.error('Dialog close navigation error:', err);
+    }
+  };
 
   return (
     <div className="hidden lg:block">
-      {!user || !isAuthenticated ? (
+      {!isAuthenticated ? (
         <HiOutlineUserCircle
           size="30"
           data-testid="User"
@@ -57,13 +91,17 @@ const UserDropDown = () => {
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <div className="relative flex h-[30px] w-[30px] cursor-pointer items-center justify-center overflow-hidden rounded-full text-white">
-              <Image
-                className="absolute left-0 top-0 object-cover"
-                src={user!.avatarLink!}
-                alt="UserAvatar"
-                fill
-                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-              />
+              {user?.avatarLink ? (
+                <Image
+                  className="absolute left-0 top-0 object-cover"
+                  src={user.avatarLink}
+                  alt="UserAvatar"
+                  fill
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                />
+              ) : (
+                <HiOutlineUserCircle size="30" />
+              )}
             </div>
           </DropdownMenuTrigger>
           <DropdownMenuContent className="z-[100] w-56">
@@ -75,10 +113,10 @@ const UserDropDown = () => {
                 <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
               </DropdownMenuItem>
               <DropdownMenuItem>
-                <Link href="#">Lịch sử giao dịch</Link>
+                <Link href="/orders">Lịch sử giao dịch</Link>
                 <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
               </DropdownMenuItem>
-              {(user.roles.includes('ROLE_ADMIN') || user.roles.includes('ROLE_GODADMIN')) && (
+              {(user?.roles?.includes('ROLE_ADMIN') || user?.roles?.includes('ROLE_GODADMIN')) && (
                 <DropdownMenuItem>
                   <Link href="/admin/dashboard" target="_blank">
                     Admin dashboard
@@ -86,10 +124,10 @@ const UserDropDown = () => {
                   <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
                 </DropdownMenuItem>
               )}
-              <DropdownMenuItem>
-                Keyboard shortcuts
-                <DropdownMenuShortcut>⌘K</DropdownMenuShortcut>
-              </DropdownMenuItem>
+              {/* <DropdownMenuItem> */}
+              {/*   Keyboard shortcuts */}
+              {/*   <DropdownMenuShortcut>⌘K</DropdownMenuShortcut> */}
+              {/* </DropdownMenuItem> */}
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuItem onClick={handleLogout}>
@@ -99,6 +137,21 @@ const UserDropDown = () => {
           </DropdownMenuContent>
         </DropdownMenu>
       )}
+
+      {/* Session Expired Dialog */}
+      <Dialog open={isSessionExpired} onOpenChange={setIsSessionExpired}>
+        <DialogContent className="z-[9999]">
+          <DialogHeader>
+            <DialogTitle>Phiên đăng nhập đã hết hạn</DialogTitle>
+            <DialogDescription>
+              Phiên đăng nhập của bạn đã hết hạn. Vui lòng đăng nhập lại để tiếp tục.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <Button onClick={handleDialogClose}>Đăng nhập lại</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };

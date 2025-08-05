@@ -56,7 +56,7 @@ public class GlobalExceptionHandler {
                 HttpStatus.INTERNAL_SERVER_ERROR.value(), null,
                 "something went wrong");
 
-        log.error("error show stack: {}", ex.getMessage());
+        log.error("error show stack: ", ex);
 
         return responseEntity.makeTemplate();
     }

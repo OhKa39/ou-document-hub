@@ -9,6 +9,8 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -39,10 +41,11 @@ public class Order {
     private UUID orderId;
 
     @Column(name = "status")
+    @Enumerated(EnumType.STRING)
     private EOrderStatus status;
 
-    @Column(name = "created_at")
     @CreationTimestamp
+    @Column(name = "created_at")
     private LocalDateTime createdAt;
 
     @ManyToOne
@@ -50,6 +53,7 @@ public class Order {
     private User createdBy;
 
     @Column(name = "payment_method")
+    @Enumerated(EnumType.STRING)
     private EPaymentMethod paymentMethod;
 
     @Column(name = "customer_first_name")
@@ -63,6 +67,9 @@ public class Order {
 
     @Column(name = "customer_email")
     private String customerEmail;
+
+    @Column(name = "paypal_order_id")
+    private String paypalOrderId;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "order")
     @Builder.Default

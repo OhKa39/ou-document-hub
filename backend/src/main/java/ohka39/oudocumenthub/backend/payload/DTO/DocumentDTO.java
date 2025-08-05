@@ -3,6 +3,7 @@ package ohka39.oudocumenthub.backend.payload.DTO;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -28,9 +29,10 @@ public abstract class DocumentDTO implements Serializable {
     private String shortUrl;
     private String description;
     private EDocumentTag tag;
-    private BigDecimal price;
+    private Double price;
     private String thumbnailUrl;
     private String facultyName;
+    private Double rating = 0.;
     private UserDTO user;
-
+    private List<String> galleryImageUrls = null;
 }

@@ -5,6 +5,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 import ohka39.oudocumenthub.backend.enums.EDocumentStatus;
 import ohka39.oudocumenthub.backend.models.Document;
@@ -17,4 +18,9 @@ public interface DocumentRepository extends JpaRepository<Document, UUID> {
     Optional<Document> findByShortUrl(String shortUrl);
 
     List<Document> findAllByIsDeleteFalseAndStatus(EDocumentStatus status);
+
+    long countByCreatedAtBefore(java.time.LocalDateTime dateTime);
+
+    @Query("SELECT COUNT(d) FROM Document d WHERE d.createdAt >= :start AND d.createdAt < :end")
+    long countByCreatedAtBetween(java.time.LocalDateTime start, java.time.LocalDateTime end);
 }

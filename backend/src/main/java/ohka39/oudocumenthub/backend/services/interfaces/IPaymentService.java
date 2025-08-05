@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.springframework.security.core.Authentication;
 
+import ohka39.oudocumenthub.backend.payload.DTO.OrderDTO;
 import ohka39.oudocumenthub.backend.payload.DTO.UserDTO;
 import ohka39.oudocumenthub.backend.payload.ResponseWebClient.ListPaypalSignUpSellerDTO;
 import ohka39.oudocumenthub.backend.payload.ResponseWebClient.PaypalCaptureOrderDTO;
@@ -25,5 +26,8 @@ public interface IPaymentService {
 
     public PaypalOrderDTO createOrders(String userId);
 
-    public PaypalCaptureOrderDTO captureOrder(String orderId);
+    public OrderDTO saveOrder(String userId, String status, String paymentMethod, String firstName,
+            String lastName, String phoneNumber, String email);
+
+    public OrderDTO captureOrder(String orderId);
 }

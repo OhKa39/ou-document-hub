@@ -7,7 +7,7 @@ const DocumentsSuggest = () => {
       <h1 className="flex w-full justify-center text-3xl font-bold lg:block" data-testid="Title">
         Tài Liệu Gợi Ý
       </h1>
-      <div className="mt-2">
+      <div className="mt-6">
         <Container />
       </div>
     </div>

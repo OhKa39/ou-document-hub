@@ -20,6 +20,18 @@ services:
       timeout: 3s
       retries: 3
 
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: my_pgadmin
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@example.com
+      PGADMIN_DEFAULT_PASSWORD: admin123
+    ports:
+      - "5050:80"
+    depends_on:
+      - db
+
   redis:
     image: redis
     ports:
@@ -42,8 +54,7 @@ services:
       - bootstrap.memory_lock=true
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
       - discovery.type=single-node
-    networks:
-      - es-net
+      - ELASTIC_PASSWORD=${ELASTIC_PASSWORD}
     ports:
       - "9300:9300"
       - "9200:9200"
@@ -56,13 +67,20 @@ services:
 
   logstash:
     image: docker.elastic.co/logstash/logstash:8.15.2
+    build: ./logstash
+    environment:
+      - ELASTIC_PASSWORD=${ELASTIC_PASSWORD}
+      - DB_URL=${DB_URL}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - LS_JAVA_OPTS=-Xms1g -Xmx1g
     ports:
       - "5000:5000"
     restart: unless-stopped
+    volumes:
+      - ./logstash/conf:/usr/share/logstash/config
     depends_on:
       - elastic_search
-    networks:
-      - es-net
 
   kibana:
     image: docker.elastic.co/kibana/kibana:8.15.2
@@ -70,17 +88,13 @@ services:
       - "5601:5601"
     environment:
       - ELASTICSEARCH_HOSTS=http://elastic_search:9200
+      - ELASTIC_PASSWORD=${ELASTIC_PASSWORD}
     restart: unless-stopped
-    networks:
-      - es-net
     depends_on:
       - elastic_search
+      - db
 
 volumes:
   db_volumes:
   redis_volumes:
   elastic_search_volumes:
-
-networks:
-  es-net:
-    driver: bridge

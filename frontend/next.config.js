@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  reactStrictMode: true,
+  // reactStrictMode: true,
   // output: 'standalone',
   async rewrites() {
     return [
@@ -26,8 +26,8 @@ const nextConfig = {
       },
       {
         protocol: 'https',
-        hostname: 'oudocumenthub-dev.s3.ap-southeast-1.amazonaws.com'
-      }
+        hostname: 'oudocumenthub-dev.s3.ap-southeast-1.amazonaws.com',
+      },
     ],
   },
 };

@@ -6,10 +6,10 @@ import Book1 from '@/public/Book1.webp';
 describe('Document Item component', () => {
   beforeEach(() => {
     const mockData = {
-      id: 4,
+      documentId: 'abc',
       name: 'Giáo trình pháp luật đại cương',
-      price: 299000,
-      image: Book1,
+      price: BigInt(299000),
+      thumbnailUrl: Book1.src,
       tag: 'New',
     };
     render(<DocumentItem {...mockData} />);

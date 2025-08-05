@@ -10,6 +10,8 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { AiOutlineLoading3Quarters } from 'react-icons/ai';
 import { GENDER } from '@/constants';
 import CustomSubmitButton from './CustomSubmitButton';
+import { editGender } from '@/actions/users';
+import { useUserStore } from '../providers/UserProvider';
 
 type SchemaProps = z.infer<typeof EditGenderSchema>;
 
@@ -18,6 +20,7 @@ type props = {
 };
 
 const EditGenderForm = ({ gender }: props) => {
+  const { setUser } = useUserStore((state) => state);
   const [errorMessage, setErrorMessage] = useState(undefined);
   const [isSuccess, setIsSuccess] = useState(false);
   const form = useForm<SchemaProps>({
@@ -29,6 +32,17 @@ const EditGenderForm = ({ gender }: props) => {
 
   async function submitForm(data: SchemaProps) {
     console.log(data);
+
+    const dataResponse = await editGender(data);
+    switch (dataResponse.statusCode) {
+      case 200:
+        setUser(dataResponse.data);
+        setIsSuccess(true);
+        break;
+      default:
+        setErrorMessage(dataResponse.message);
+        break;
+    }
     // const dataTest = await new Promise((resolve, reject) => {
     //   setTimeout(() => resolve(console.log('done')), 3000);
     // });

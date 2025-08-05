@@ -7,6 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import ohka39.oudocumenthub.backend.models.User;
 import ohka39.oudocumenthub.backend.payload.DTO.UserDTO;
+import ohka39.oudocumenthub.backend.payload.requests.EditGenderRequest;
 import ohka39.oudocumenthub.backend.payload.requests.EditNameRequest;
 import ohka39.oudocumenthub.backend.payload.requests.SignUpRequest;
 
@@ -19,6 +20,8 @@ public interface IUserService {
     public UserDTO setNameById(String userId, EditNameRequest request);
 
     public UserDTO setAvatarById(String userId, MultipartFile request) throws IOException;
+
+    public UserDTO setGenderById(String userId, EditGenderRequest request);
 
     public List<UserDTO> getUserList();
 

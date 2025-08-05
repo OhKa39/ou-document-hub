@@ -14,6 +14,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.repository.configuration.EnableRedisRepositories;
 import org.springframework.data.redis.serializer.JdkSerializationRedisSerializer;
 import org.springframework.data.redis.serializer.RedisSerializationContext;
+import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 import lombok.RequiredArgsConstructor;
 
@@ -33,16 +34,16 @@ public class RedisConfiguration {
     }
 
     @Bean
-    RedisTemplate<byte[], byte[]> redisTemplate(RedisConnectionFactory connectionFactory) {
-
-        RedisTemplate<byte[], byte[]> template = new RedisTemplate<byte[], byte[]>();
+    RedisTemplate<String, String> redisTemplate(RedisConnectionFactory connectionFactory) {
+        RedisTemplate<String, String> template = new RedisTemplate<>();
         template.setConnectionFactory(connectionFactory);
+        template.setKeySerializer(new StringRedisSerializer());
+        template.setValueSerializer(new StringRedisSerializer());
         return template;
     }
 
     @Bean
     RedisCacheManager cacheManager(RedisConnectionFactory connectionFactory) {
-
         RedisCacheConfiguration defaults = RedisCacheConfiguration.defaultCacheConfig()
                 .entryTtl(Duration.ofMinutes(60))
                 .enableTimeToIdle()
